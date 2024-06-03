@@ -25,18 +25,26 @@ var groundwaterUsageText = document.getElementById("groundwater-usage-text");
 var rainForecastText = document.getElementById("rain-forecast-text");
 var currYearText = document.getElementById("curr-year-text");
 
-var dataState = {
+var ds = {
     //levers
     carryover: 100,
     minflow: 0,
     deltaRegs: 100,
+
     //reservoirs
-    trinityLevel: 0,
-    shastaLevel: 0,
-    orovilleLevel: 0,
-    folsomLevel: 0,
-    newMelonesLevel: 0,
-    millertonLevel: 0,
+    trinityStart: 100,
+    shastaStart: 100,
+    orovilleStart: 100,
+    folsomStart: 100,
+    newMelonesStart: 100,
+    millertonStart: 100,
+
+    trinityLevel: 100,
+    shastaLevel: 100,
+    orovilleLevel: 100,
+    folsomLevel: 100,
+    newMelonesLevel: 100,
+    millertonLevel: 100,
     //demands
     citiesNOD: 0,
     citiesSOD: 0,
@@ -55,19 +63,27 @@ startNewYear();
 
 
 function startNewYear() {
-    dataState.currYear += 1;
-    currYearText.innerHTML = "Current Year: " + dataState.currYear;
+    ds.currYear += 1;
+    currYearText.innerHTML = "Current Year: " + ds.currYear;
 
-    dataState.annualRainfall = dataState.rainForecast;
-    dataState.rainForecast = Math.floor(Math.random() * 50);
-    rainForecastText.innerHTML = "Rainfall Forecast: " + dataState.rainForecast;
+    ds.annualRainfall = ds.rainForecast;
+
+    ds.rainForecast = Math.floor(Math.random() * 50);
+    rainForecastText.innerHTML = "Rainfall Forecast: " + ds.rainForecast;
+
+    ds.trinityStart = ds.trinityLevel + ds.annualRainfall;
+    ds.shastaStart = ds.shastaLevel + ds.annualRainfall;
+    ds.orovilleStart = ds.orovilleLevel + ds.annualRainfall;
+    ds.folsomStart = ds.folsomLevel + ds.annualRainfall;
+    ds.newMelonesStart = ds.newMelonesLevel + ds.annualRainfall;
+    ds.millertonStart = ds.millertonLevel + ds.annualRainfall;
 
     carryoverSlider.value = 100;
-    dataState.carryover = 100;
+    ds.carryover = 100;
     minflowSlider.value = 0;
-    dataState.minflow = 0;
+    ds.minflow = 0;
     deltaRegSlider.value = 100
-    dataState.deltaRegs = 100;
+    ds.deltaRegs = 100;
 
 
     updateState();
@@ -76,56 +92,63 @@ function startNewYear() {
 
 function updateState() {
     
-    const reservoirLevels = calculateReservoirLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
-    const demandLevels = calculateDemandLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
-    const salinityLevel = calculateSalinityLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
-    const groundwaterUsage = 100 - demandLevels - (dataState.annualRainfall * 0.1);
+    const reservoirLevels = calculateReservoirLevels(ds.carryover, ds.minflow, ds.deltaRegs);
+    const demandLevels = calculateDemandLevels(ds.carryover, ds.minflow, ds.deltaRegs);
+    const salinityLevel = calculateSalinityLevels(ds.carryover, ds.minflow, ds.deltaRegs);
+    const groundwaterUsage = 100 - demandLevels - (ds.annualRainfall * 0.1);
 
-    dataState.trinityLevel = reservoirLevels;
-    dataState.shastaLevel = reservoirLevels;
-    dataState.orovilleLevel = reservoirLevels;
-    dataState.folsomLevel = reservoirLevels;
-    dataState.newMelonesLevel = reservoirLevels;
-    dataState.millertonLevel = reservoirLevels;
+    ds.trinityLevel = Math.min(reservoirLevels.trinity, 100);
+    ds.shastaLevel = Math.min(reservoirLevels.shasta, 100);
+    ds.orovilleLevel = Math.min(reservoirLevels.oroville, 100);
+    ds.folsomLevel = Math.min(reservoirLevels.folsom, 100);
+    ds.newMelonesLevel = Math.min(reservoirLevels.newMelones, 100);
+    ds.millertonLevel = Math.min(reservoirLevels.millerton, 100);
 
-    dataState.citiesNOD = demandLevels;
-    dataState.citiesSOD = demandLevels;
-    dataState.farmsNOD = demandLevels;
-    dataState.farmsSOD = demandLevels;
-    dataState.refuges = demandLevels;
+    ds.citiesNOD = demandLevels;
+    ds.citiesSOD = demandLevels;
+    ds.farmsNOD = demandLevels;
+    ds.farmsSOD = demandLevels;
+    ds.refuges = demandLevels;
 
-    dataState.deltaSalinity = salinityLevel;
-    dataState.groundwaterUsage = groundwaterUsage;
+    ds.deltaSalinity = salinityLevel;
+    ds.groundwaterUsage = groundwaterUsage;
     updateText();
 }
 
 function updateText() {
     // reservoirs
-    trinityResText.innerHTML = "Trinity: " + dataState.trinityLevel + "%";
-    shastaResText.innerHTML = "Shasta: " + dataState.shastaLevel + "%";
-    orovilleResText.innerHTML = "Oroville: " + dataState.orovilleLevel + "%";
-    folsomResText.innerHTML = "Folsom: " + dataState.folsomLevel + "%";
-    newMelonesResText.innerHTML = "New Melones: " + dataState.newMelonesLevel + "%";
-    millertonResText.innerHTML = "Millerton: " + dataState.millertonLevel + "%";
+    trinityResText.innerHTML = "Trinity: " + (Math.round(ds.trinityLevel * 100) / 100) + "%";
+    shastaResText.innerHTML = "Shasta: " + (Math.round(ds.shastaLevel * 100) / 100) + "%";
+    orovilleResText.innerHTML = "Oroville: " + (Math.round(ds.orovilleLevel * 100) / 100) + "%";
+    folsomResText.innerHTML = "Folsom: " + (Math.round(ds.folsomLevel * 100) / 100) + "%";
+    newMelonesResText.innerHTML = "New Melones: " + (Math.round(ds.newMelonesLevel * 100) / 100) + "%";
+    millertonResText.innerHTML = "Millerton: " + (Math.round(ds.millertonLevel * 100) / 100) + "%";
     
     // demands
-    citiesNODText.innerHTML = "Cities (NOD): " + dataState.citiesNOD + "%";
-    citiesSODText.innerHTML = "Cities (SOD): " + dataState.citiesSOD + "%";
-    farmsNODText.innerHTML = "Farms (NOD): " + dataState.farmsNOD + "%";
-    farmsSODText.innerHTML = "Farms (SOD): " + dataState.farmsSOD + "%";
-    refugesText.innerHTML = "Refuges: " + dataState.refuges + "%";
+    citiesNODText.innerHTML = "Cities (NOD): " + ds.citiesNOD + "%";
+    citiesSODText.innerHTML = "Cities (SOD): " + ds.citiesSOD + "%";
+    farmsNODText.innerHTML = "Farms (NOD): " + ds.farmsNOD + "%";
+    farmsSODText.innerHTML = "Farms (SOD): " + ds.farmsSOD + "%";
+    refugesText.innerHTML = "Refuges: " + ds.refuges + "%";
 
     //misc
-    // console.log(dataState.deltaSalinity);
-    deltaSalinityText.innerHTML = "Delta Salinity: " + dataState.deltaSalinity + "%";
-    groundwaterUsageText.innerHTML = "Groundwater Usage: " + dataState.groundwaterUsage;
+    // console.log(ds.deltaSalinity);
+    deltaSalinityText.innerHTML = "Delta Salinity: " + ds.deltaSalinity + "%";
+    groundwaterUsageText.innerHTML = "Groundwater Usage: " + ds.groundwaterUsage;
 }
 
 // ----------------------------------------------------------------------------
 // Math Equations
 // ----------------------------------------------------------------------------
 function calculateReservoirLevels(carryover, minflow, deltaregs) {
-    return carryover - (minflow) + ((100 - deltaregs) *0.5) + dataState.annualRainfall;;
+    return {
+        trinity: (ds.trinityStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+        shasta: (ds.shastaStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+        oroville: (ds.orovilleStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+        folsom: (ds.folsomStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+        newMelones: (ds.newMelonesStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+        millerton: (ds.millertonStart * (carryover / 100)) - (minflow) + ((100 - deltaregs) *0.5),
+    };
 }
 
 function calculateDemandLevels(carryover, minflow, deltaregs) {
@@ -145,19 +168,19 @@ function calculateSalinityLevels(carryover, minflow, deltaregs) {
 
 function validateNewState(newCarryover, newMinflow, newDeltaRegs) {
     const newReservoirLevels = calculateReservoirLevels(newCarryover, newMinflow, newDeltaRegs);
-    const newDemandLevels = calculateDemandLevels(newCarryover, newMinflow, newDeltaRegs);;
-    return newReservoirLevels >= 0 && newReservoirLevels <= 100 && newDemandLevels >= 0 && newDemandLevels <= 100;
+    const newDemandLevels = calculateDemandLevels(newCarryover, newMinflow, newDeltaRegs);
+    return newReservoirLevels.trinity >= 0 && newReservoirLevels.trinity <= 100 && newDemandLevels >= 0 && newDemandLevels <= 100;
 }
 
 
 carryoverSlider.oninput = function() {
     // console.log("carryover: "+ this.value);
     const newCarryover = this.value;
-    if (validateNewState(newCarryover, dataState.minflow, dataState.deltaRegs)) {
-        dataState.carryover = newCarryover;
+    if (validateNewState(newCarryover, ds.minflow, ds.deltaRegs)) {
+        ds.carryover = newCarryover;
         updateState();    
     } else {
-        carryoverSlider.value = dataState.carryover;
+        carryoverSlider.value = ds.carryover;
     }
 }
 
@@ -165,11 +188,11 @@ carryoverSlider.oninput = function() {
 minflowSlider.oninput = function() {
     // console.log("min flow: "+ this.value);
     const newMinflow = this.value;
-    if (validateNewState(dataState.carryover, newMinflow, dataState.deltaRegs)) {
-        dataState.minflow = newMinflow;
+    if (validateNewState(ds.carryover, newMinflow, ds.deltaRegs)) {
+        ds.minflow = newMinflow;
         updateState();    
     } else {
-        minflowSlider.value = dataState.minflow;
+        minflowSlider.value = ds.minflow;
     }
 }
 
@@ -177,11 +200,11 @@ minflowSlider.oninput = function() {
 deltaRegSlider.oninput = function() {
     // console.log("delta regs: "+ this.value);
     const newDeltaRegs = this.value;
-    if (validateNewState(dataState.carryover, dataState.minflow, newDeltaRegs)) {
-        dataState.deltaRegs = newDeltaRegs;
+    if (validateNewState(ds.carryover, ds.minflow, newDeltaRegs)) {
+        ds.deltaRegs = newDeltaRegs;
         updateState();    
     } else {
-        deltaRegSlider.value = dataState.deltaRegs;
+        deltaRegSlider.value = ds.deltaRegs;
     }
 }
 
