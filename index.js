@@ -19,12 +19,11 @@ var farmsNODText = document.getElementById("farms-NOD-demand-text");
 var farmsSODText = document.getElementById("farms-SOD-demand-text");
 var refugesText = document.getElementById("refuges-demand-text");
 
-//misc text
+// misc text
 var deltaSalinityText = document.getElementById("delta-salinity-text");
 var groundwaterUsageText = document.getElementById("groundwater-usage-text");
 var rainForecastText = document.getElementById("rain-forecast-text");
 var currYearText = document.getElementById("curr-year-text");
-
 
 var dataState = {
     //levers
@@ -77,9 +76,9 @@ function startNewYear() {
 
 function updateState() {
     
-    const reservoirLevels = dataState.carryover - (dataState.minflow) + ((100 - dataState.deltaRegs) *0.5) + dataState.annualRainfall;
-    const demandLevels = (100 - dataState.carryover) - (dataState.minflow) + ((100 - dataState.deltaRegs) *0.5);
-    const salinityLevel = (100 - dataState.deltaRegs) - (dataState.minflow) + (dataState.carryover *0.5);
+    const reservoirLevels = calculateReservoirLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
+    const demandLevels = calculateDemandLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
+    const salinityLevel = calculateSalinityLevels(dataState.carryover, dataState.minflow, dataState.deltaRegs);
     const groundwaterUsage = 100 - demandLevels - (dataState.annualRainfall * 0.1);
 
     dataState.trinityLevel = reservoirLevels;
@@ -120,34 +119,70 @@ function updateText() {
     // console.log(dataState.deltaSalinity);
     deltaSalinityText.innerHTML = "Delta Salinity: " + dataState.deltaSalinity + "%";
     groundwaterUsageText.innerHTML = "Groundwater Usage: " + dataState.groundwaterUsage;
-
-
 }
+
+// ----------------------------------------------------------------------------
+// Math Equations
+// ----------------------------------------------------------------------------
+function calculateReservoirLevels(carryover, minflow, deltaregs) {
+    return carryover - (minflow) + ((100 - deltaregs) *0.5) + dataState.annualRainfall;;
+}
+
+function calculateDemandLevels(carryover, minflow, deltaregs) {
+
+    return (100 - carryover) - (minflow) + ((100 - deltaregs) *0.5);;
+}
+
+function calculateSalinityLevels(carryover, minflow, deltaregs) {
+
+    return (100 - deltaregs) - (minflow) + (carryover *0.5);;
+}
+
 
 // ----------------------------------------------------------------------------
 // SLIDERS AND BUTTONS
 // ----------------------------------------------------------------------------
 
+function validateNewState(newCarryover, newMinflow, newDeltaRegs) {
+    const newReservoirLevels = calculateReservoirLevels(newCarryover, newMinflow, newDeltaRegs);
+    const newDemandLevels = calculateDemandLevels(newCarryover, newMinflow, newDeltaRegs);;
+    return newReservoirLevels >= 0 && newReservoirLevels <= 100 && newDemandLevels >= 0 && newDemandLevels <= 100;
+}
+
+
 carryoverSlider.oninput = function() {
-    console.log("carryover: "+ this.value);
-    dataState.carryover = this.value
-    updateState();
+    // console.log("carryover: "+ this.value);
+    const newCarryover = this.value;
+    if (validateNewState(newCarryover, dataState.minflow, dataState.deltaRegs)) {
+        dataState.carryover = newCarryover;
+        updateState();    
+    } else {
+        carryoverSlider.value = dataState.carryover;
+    }
 }
 
 
 minflowSlider.oninput = function() {
-    console.log("min flow: "+ this.value);
-    dataState.minflow = this.value
-    updateState();
-
+    // console.log("min flow: "+ this.value);
+    const newMinflow = this.value;
+    if (validateNewState(dataState.carryover, newMinflow, dataState.deltaRegs)) {
+        dataState.minflow = newMinflow;
+        updateState();    
+    } else {
+        minflowSlider.value = dataState.minflow;
+    }
 }
 
 
 deltaRegSlider.oninput = function() {
-    console.log("delta regs: "+ this.value);
-    dataState.deltaRegs = this.value
-    updateState();
-
+    // console.log("delta regs: "+ this.value);
+    const newDeltaRegs = this.value;
+    if (validateNewState(dataState.carryover, dataState.minflow, newDeltaRegs)) {
+        dataState.deltaRegs = newDeltaRegs;
+        updateState();    
+    } else {
+        deltaRegSlider.value = dataState.deltaRegs;
+    }
 }
 
 submitButton.onclick = function() {
