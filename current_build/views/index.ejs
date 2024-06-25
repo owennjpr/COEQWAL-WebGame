@@ -3,82 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/main.css">
     <title>COEQWAL WEBGAME</title>
 </head>
 <body>
-    <form action="/submit" method="POST">
+    <div class="container">
         <div>
-            <p>Agriculture Demands</p>
-            <input type="radio" id="demands-1" name="demands" value="1.0" required>
-            <label for="1.0">1.0</label>
-            <input type="radio" id="demands-0-9" name="demands" value="0.9" required>
-            <label for="0.9">0.9</label>
-            <input type="radio" id="demands-0-8" name="demands" value="0.8" required>
-            <label for="0.8">0.8</label>
-            <input type="radio" id="demands-0-7" name="demands" value="0.7" required>
-            <label for="0.7">0.7</label>
-            <input type="radio" id="demands-0-6" name="demands" value="0.6" required>
-            <label for="0.6">0.6</label>
+            <form action="/submit" method="POST">
+                <div>
+                    <p>Agriculture Demands</p>
+                    <input type="radio" id="demands-1" name="demands" value="1.0" required>
+                    <label for="1.0">1.0</label>
+                    <input type="radio" id="demands-0-9" name="demands" value="0.9" required>
+                    <label for="0.9">0.9</label>
+                    <input type="radio" id="demands-0-8" name="demands" value="0.8" required>
+                    <label for="0.8">0.8</label>
+                    <input type="radio" id="demands-0-7" name="demands" value="0.7" required>
+                    <label for="0.7">0.7</label>
+                    <input type="radio" id="demands-0-6" name="demands" value="0.6" required>
+                    <label for="0.6">0.6</label>
+                </div>
+
+                <div>
+                    <p>Carryover</p>
+                    <input type="radio" id="carryover-1" name="carryover" value="1.0" required>
+                    <label for="1.0">1.0</label>
+                    <input type="radio" id="carryover-1-1" name="carryover" value="1.1" required>
+                    <label for="1.0">1.1</label>
+                    <input type="radio" id="carryover-1-2" name="carryover" value="1.2" required>
+                    <label for="1.0">1.2</label>
+                </div>
+
+                <div>
+                    <p>Distribution Priority</p>
+                    <input type="radio" id="priority-0" name="priority" value="0" required>
+                    <label for="0">0</label>
+                    <input type="radio" id="priority-1" name="priority" value="1" required>
+                    <label for="1">1</label>
+                </div>
+
+                <div>
+                    <p>Delta Regulations</p>
+                    <input type="radio" id="delta-1" name="delta" value="1" required>
+                    <label for="1">1</label>
+                    <input type="radio" id="delta-2" name="delta" value="2" required>
+                    <label for="2">2</label>
+                    <input type="radio" id="delta-3" name="delta" value="3" required>
+                    <label for="3">3</label>
+                    <input type="radio" id="delta-4" name="delta" value="4" required>
+                    <label for="4">4</label>
+                </div>
+
+                <div>
+                    <p>Minimum Flow Requirements</p>
+                    <input type="radio" id="minflow-0" name="minflow" value="0" required>
+                    <label for="0">0</label>
+                    <input type="radio" id="minflow-0-4" name="minflow" value="0.4" required>
+                    <label for="0.4">0.4</label>
+                    <input type="radio" id="minflow-0-6" name="minflow" value="0.6" required>
+                    <label for="0.6">0.6</label>
+                    <input type="radio" id="minflow-0-7" name="minflow" value="0.7" required>
+                    <label for="0.7">0.7</label>
+                    <input type="radio" id="minflow-0-8" name="minflow" value="0.8" required>
+                    <label for="0.8">0.8</label>
+
+                </div>
+                <input type="submit" value="Submit">
+            </form>
         </div>
 
-        <div>
-            <p>Carryover</p>
-            <input type="radio" id="carryover-1" name="carryover" value="1.0" required>
-            <label for="1.0">1.0</label>
-            <input type="radio" id="carryover-1-1" name="carryover" value="1.1" required>
-            <label for="1.0">1.1</label>
-            <input type="radio" id="carryover-1-2" name="carryover" value="1.2" required>
-            <label for="1.0">1.2</label>
-        </div>
+        <% if (locals.ds) { %>
+            <div>
+                <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
+                <h3>Dry Year</h3>
+                    <p> Equity: <%= locals.ds.dry_equity %> </p>
+                    <p> NOD Ag Deliveries: <%= locals.ds.dry_del_ag_n %> </p>
+                    <p> SOD Ag Deliveries: <%= locals.ds.dry_del_ag_s %> </p>
+                    <p> NOD M&I Deliveries: <%= locals.ds.dry_del_mi_n %> </p>
+                    <p> SOD M&I Deliveries: <%= locals.ds.dry_del_mi_s %> </p>
+                    <p> Delta Salinity: <%= locals.ds.dry_x2_prv %> </p>
 
-        <div>
-            <p>Distribution Priority</p>
-            <input type="radio" id="priority-0" name="priority" value="0" required>
-            <label for="0">0</label>
-            <input type="radio" id="priority-1" name="priority" value="1" required>
-            <label for="1">1</label>
-        </div>
+                <h3>Wet Year</h3>
+                    <p> Equity: <%= locals.ds.wet_equity %> </p>
+                    <p> NOD Ag Deliveries: <%= locals.ds.wet_del_ag_n %> </p>
+                    <p> SOD Ag Deliveries: <%= locals.ds.wet_del_ag_s %> </p>
+                    <p> NOD M&I Deliveries: <%= locals.ds.wet_del_mi_n %> </p>
+                    <p> SOD M&I Deliveries: <%= locals.ds.wet_del_mi_s %> </p>
+                    <p> Delta Salinity: <%= locals.ds.wet_x2_prv %> </p>
+            </div>
+            
+            <div>
+                <h2> Reservoir Levels </h2>
+                <h3> Dry Year </h3>
+                    <p> Trinity Average Storage Level: <%= locals.ds.dry_s_trinity %>%</p>
+                    <p> Shasta Average Storage Level: <%= locals.ds.dry_s_shasta %>%</p>
+                    <p> Oroville Average Storage Level: <%= locals.ds.dry_s_oroville %>%</p>
+                    <p> Folsom Average Storage Level: <%= locals.ds.dry_s_folsom %>%</p>
+                    <p> New Melones Average Storage Level: <%= locals.ds.dry_s_newmelones %>%</p>
+                    <p> Millerton Average Storage Level: <%= locals.ds.dry_s_millerton %>%</p>
 
-        <div>
-            <p>Delta Regulations</p>
-            <input type="radio" id="delta-1" name="delta" value="1" required>
-            <label for="1">1</label>
-            <input type="radio" id="delta-2" name="delta" value="2" required>
-            <label for="2">2</label>
-            <input type="radio" id="delta-3" name="delta" value="3" required>
-            <label for="3">3</label>
-            <input type="radio" id="delta-4" name="delta" value="4" required>
-            <label for="4">4</label>
-        </div>
-
-        <div>
-            <p>Minimum Flow Requirements</p>
-            <input type="radio" id="minflow-0" name="minflow" value="0" required>
-            <label for="0">0</label>
-            <input type="radio" id="minflow-0-4" name="minflow" value="0.4" required>
-            <label for="0.4">0.4</label>
-            <input type="radio" id="minflow-0-6" name="minflow" value="0.6" required>
-            <label for="0.6">0.6</label>
-            <input type="radio" id="minflow-0-7" name="minflow" value="0.7" required>
-            <label for="0.7">0.7</label>
-            <input type="radio" id="minflow-0-8" name="minflow" value="0.8" required>
-            <label for="0.8">0.8</label>
-
-        </div>
-        <input type="submit" value="Submit">
-    </form>
-
-    <% if (locals.scenario && locals.s_trinity && locals.s_shasta 
-            && locals.s_folsom && locals.s_oroville && locals.s_newmelones 
-            && locals.s_millerton) { %>
-        <p> Displaying results from scenario <%= locals.scenario %>.</p>
-        <p> Trinity Average Storage Level: <%= locals.s_trinity %></p>
-        <p> Shasta Average Storage Level: <%= locals.s_shasta %></p>
-        <p> Oroville Average Storage Level: <%= locals.s_oroville %></p>
-        <p> Folsom Average Storage Level: <%= locals.s_folsom %></p>
-        <p> New Melones Average Storage Level: <%= locals.s_newmelones %></p>
-        <p> Millerton Average Storage Level: <%= locals.s_millerton %></p>
-
-    <% } %>
+                <h3> Wet Year </h3>
+                    <p> Trinity Average Storage Level: <%= locals.ds.wet_s_trinity %>%</p>
+                    <p> Shasta Average Storage Level: <%= locals.ds.wet_s_shasta %>%</p>
+                    <p> Oroville Average Storage Level: <%= locals.ds.wet_s_oroville %>%</p>
+                    <p> Folsom Average Storage Level: <%= locals.ds.wet_s_folsom %>%</p>
+                    <p> New Melones Average Storage Level: <%= locals.ds.wet_s_newmelones %>%</p>
+                    <p> Millerton Average Storage Level: <%= locals.ds.wet_s_millerton %>%</p>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>
