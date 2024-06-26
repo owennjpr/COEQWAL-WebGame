@@ -26,6 +26,11 @@ const folsom_capacity = 977;
 const newmelones_capacity = 2420;
 const millerton_capacity = 520;
 
+const ag_n_maximum = 4585.4586;
+const ag_s_maximum = 9168.7748;
+const mi_n_maximum = 462.13282;
+const mi_s_maximum = 7268.1163;
+
 const prev_runs = [];
 var ds = {
     // Scenario
@@ -76,9 +81,18 @@ app.get("/", (req, res) => {
     res.render("index.ejs");
 })
 
+// SELECT expl0000 / total_rows AS divided_value
+// FROM del_cvp_pag_n, (SELECT COUNT(*) AS total_rows FROM del_cvp_pag_n WHERE wyt = 'wet') AS row_count
+// WHERE wyt = 'wet';
 const tableQuery = async (scenario, wyt, tableName) => {
     const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}'`);
     return result.rows[0].avg;
+}
+
+const tableExceedanceQuery = async (scenario, wyt, tableName) => {
+    console.log(scenario + ", " + wyt + ", " + tableName);
+    const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario})`);
+    console.log(result.rows);
 }
 
 
@@ -130,48 +144,56 @@ app.post("/submit", async (req, res) => {
 
     // AG DELIVERIES
     // north
-    const dry_del_cvp_pag_n = await tableQuery(ds.scenario, "dry", "del_cvp_pag_n");
-    const dry_del_swp_pag_n = await tableQuery(ds.scenario, "dry", "del_swp_pag_n");
-    ds.dry_del_ag_n = dry_del_cvp_pag_n + dry_del_swp_pag_n;
+    // const dry_del_cvp_pag_n = await tableQuery(ds.scenario, "dry", "del_cvp_pag_n");
+    // const dry_del_swp_pag_n = await tableQuery(ds.scenario, "dry", "del_swp_pag_n");
+    // ds.dry_del_ag_n = (dry_del_cvp_pag_n + dry_del_swp_pag_n) / ag_n_maximum;
+    ds.dry_del_ag_n = (await tableQuery(ds.scenario, "dry", "aggregated_ag_n")) / ag_n_maximum;
 
-    const wet_del_cvp_pag_n = await tableQuery(ds.scenario, "wet", "del_cvp_pag_n");
-    const wet_del_swp_pag_n = await tableQuery(ds.scenario, "wet", "del_swp_pag_n");
-    ds.wet_del_ag_n = wet_del_cvp_pag_n + wet_del_swp_pag_n;
+    // const wet_del_cvp_pag_n = await tableQuery(ds.scenario, "wet", "del_cvp_pag_n");
+    // const wet_del_swp_pag_n = await tableQuery(ds.scenario, "wet", "del_swp_pag_n");
+    // ds.wet_del_ag_n = (wet_del_cvp_pag_n + wet_del_swp_pag_n) / ag_n_maximum;
+    ds.wet_del_ag_n = (await tableQuery(ds.scenario, "wet", "aggregated_ag_n")) / ag_n_maximum;
 
-    // south
-    const dry_del_cvp_pag_s = await tableQuery(ds.scenario, "dry", "del_cvp_pag_s");
-    const dry_del_swp_pag_s = await tableQuery(ds.scenario, "dry", "del_swp_pag_s");
-    ds.dry_del_ag_s = dry_del_cvp_pag_s + dry_del_swp_pag_s;
 
-    const wet_del_cvp_pag_s = await tableQuery(ds.scenario, "wet", "del_cvp_pag_s");
-    const wet_del_swp_pag_s = await tableQuery(ds.scenario, "wet", "del_swp_pag_s");
-    ds.wet_del_ag_s = wet_del_cvp_pag_s + wet_del_swp_pag_s;
+    // // south
+    // const dry_del_cvp_pag_s = await tableQuery(ds.scenario, "dry", "del_cvp_pag_s");
+    // const dry_del_swp_pag_s = await tableQuery(ds.scenario, "dry", "del_swp_pag_s");
+    // ds.dry_del_ag_s = (dry_del_cvp_pag_s + dry_del_swp_pag_s) / ag_s_maximum;
+    ds.dry_del_ag_s = (await tableQuery(ds.scenario, "dry", "aggregated_ag_s")) / ag_s_maximum;
+
+    // const wet_del_cvp_pag_s = await tableQuery(ds.scenario, "wet", "del_cvp_pag_s");
+    // const wet_del_swp_pag_s = await tableQuery(ds.scenario, "wet", "del_swp_pag_s");
+    // ds.wet_del_ag_s = (wet_del_cvp_pag_s + wet_del_swp_pag_s) / ag_s_maximum;
+    ds.wet_del_ag_s = (await tableQuery(ds.scenario, "wet", "aggregated_ag_s")) / ag_s_maximum;
 
     // M&I DELIVERIES
     // north
+    // const dry_del_cvp_pmi_n = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_n");
+    // const dry_del_swp_pmi_n = await tableQuery(ds.scenario, "dry", "del_swp_pmi_n");
+    // ds.dry_del_mi_n = (dry_del_cvp_pmi_n + dry_del_swp_pmi_n) / mi_n_maximum;
+    ds.dry_del_mi_n = (await tableQuery(ds.scenario, "dry", "aggregated_mi_n")) / mi_n_maximum;
 
-    const dry_del_cvp_pmi_n = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_n");
-    const dry_del_swp_pmi_n = await tableQuery(ds.scenario, "dry", "del_swp_pmi_n");
-    ds.dry_del_mi_n = dry_del_cvp_pmi_n + dry_del_swp_pmi_n;
+    // const wet_del_cvp_pmi_n = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_n");
+    // const wet_del_swp_pmi_n = await tableQuery(ds.scenario, "wet", "del_swp_pmi_n");
+    // ds.wet_del_mi_n = (wet_del_cvp_pmi_n + wet_del_swp_pmi_n) / mi_n_maximum;
+    ds.wet_del_mi_n = (await tableQuery(ds.scenario, "wet", "aggregated_mi_n")) / mi_n_maximum;
 
-    const wet_del_cvp_pmi_n = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_n");
-    const wet_del_swp_pmi_n = await tableQuery(ds.scenario, "wet", "del_swp_pmi_n");
-    ds.wet_del_mi_n = wet_del_cvp_pmi_n + wet_del_swp_pmi_n;
+    // // south
 
-    // south
+    // const dry_del_cvp_pmi_s = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_s");
+    // const dry_del_swp_pmi_s = await tableQuery(ds.scenario, "dry", "del_swp_pmi_s");
+    // ds.dry_del_mi_s = (dry_del_cvp_pmi_s + dry_del_swp_pmi_s) / mi_s_maximum;
+    ds.dry_del_mi_s = (await tableQuery(ds.scenario, "dry", "aggregated_mi_s")) / mi_s_maximum;
 
-    const dry_del_cvp_pmi_s = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_s");
-    const dry_del_swp_pmi_s = await tableQuery(ds.scenario, "dry", "del_swp_pmi_s");
-    ds.dry_del_mi_s = dry_del_cvp_pmi_s + dry_del_swp_pmi_s;
-
-    const wet_del_cvp_pmi_s = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_s");
-    const wet_del_swp_pmi_s = await tableQuery(ds.scenario, "wet", "del_swp_pmi_s");
-    ds.wet_del_mi_s = wet_del_cvp_pmi_s + wet_del_swp_pmi_s;
+    // const wet_del_cvp_pmi_s = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_s");
+    // const wet_del_swp_pmi_s = await tableQuery(ds.scenario, "wet", "del_swp_pmi_s");
+    // ds.wet_del_mi_s = (wet_del_cvp_pmi_s + wet_del_swp_pmi_s) / mi_s_maximum;
+    ds.wet_del_mi_s = (await tableQuery(ds.scenario, "wet", "aggregated_mi_s")) / mi_s_maximum;
 
 
     // DELTA SALINITY
-    ds.wet_x2_prv = await tableQuery(ds.scenario, "wet", "x2_prv");
-    ds.dry_x2_prv = await tableQuery(ds.scenario, "dry", "x2_prv");
+    ds.wet_x2_prv = await tableExceedanceQuery(ds.scenario, "wet", "x2_prv");
+    ds.dry_x2_prv = await tableExceedanceQuery(ds.scenario, "dry", "x2_prv");
 
     // check previous runs here
 
