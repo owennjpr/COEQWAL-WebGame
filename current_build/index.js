@@ -44,36 +44,36 @@ var ds = {
     lev_minflow: 0,
 
     // Reservoirs
-    dry_s_trinity: 0,
-    wet_s_trinity: 0,
-    dry_s_shasta: 0,
-    wet_s_shasta: 0,
-    dry_s_oroville: 0,
-    wet_s_oroville: 0,
-    dry_s_folsom: 0,
-    wet_s_folsom: 0,
-    dry_s_newmelones: 0,
-    wet_s_newmelones: 0,
-    dry_s_millerton: 0,
-    wet_s_millerton: 0,
+    dry_s_trinity: [],
+    wet_s_trinity: [],
+    dry_s_shasta: [],
+    wet_s_shasta: [],
+    dry_s_oroville: [],
+    wet_s_oroville: [],
+    dry_s_folsom: [],
+    wet_s_folsom: [],
+    dry_s_newmelones: [],
+    wet_s_newmelones: [],
+    dry_s_millerton: [],
+    wet_s_millerton: [],
 
     // Summary Metrics
     dry_equity: 0,
     wet_equity: 0,
 
     // Deliveries
-    dry_del_ag_n: 0,
-    wet_del_ag_n: 0,
-    dry_del_ag_s: 0,
-    wet_del_ag_s: 0,
-    dry_del_mi_n: 0,
-    wet_del_mi_n: 0,
-    dry_del_mi_s: 0,
-    wet_del_mi_s: 0,
+    dry_del_ag_n: [],
+    wet_del_ag_n: [],
+    dry_del_ag_s: [],
+    wet_del_ag_s: [],
+    dry_del_mi_n: [],
+    wet_del_mi_n: [],
+    dry_del_mi_s: [],
+    wet_del_mi_s: [],
 
     // Delta Salinity
-    dry_x2_prv: 0,
-    wet_x2_prv: 0,
+    dry_x2_prv: [],
+    wet_x2_prv: [],
 }
 
 
@@ -91,8 +91,28 @@ const tableQuery = async (scenario, wyt, tableName) => {
 
 const tableExceedanceQuery = async (scenario, wyt, tableName) => {
     console.log(scenario + ", " + wyt + ", " + tableName);
-    const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario})`);
-    console.log(result.rows);
+    const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario}) DESC`);
+    const len = result.rows.length;
+    const yrly_avgs = result.rows.map((row) => {
+        return row.avg;
+    });
+    let index = 0;
+    const exceedance = yrly_avgs.map((avg) => {
+        index += 1;
+        return 100 * (index / parseFloat(len + 1.0));
+     
+    });
+
+    const mk25 = Math.floor(len / 4);
+    const mk50 = Math.floor(len / 2);
+    const mk75 = Math.floor(len * 3 / 4);
+
+    const values = [
+        {val: yrly_avgs[mk25].toFixed(2), prob: exceedance[mk25].toFixed(2)}, 
+        {val: yrly_avgs[mk50].toFixed(2), prob: exceedance[mk50].toFixed(2)},
+        {val: yrly_avgs[mk75].toFixed(2), prob: exceedance[mk75].toFixed(2)}];
+
+    return values; 
 }
 
 
@@ -117,24 +137,49 @@ app.post("/submit", async (req, res) => {
     ds.scenario = result.rows[0].Scenario;
     //RESERVOIRS
 
-    ds.dry_s_trinity = (await tableQuery(ds.scenario, "dry", "s_trinity")) / trinity_capacity;
-    ds.wet_s_trinity = (await tableQuery(ds.scenario, "wet", "s_trinity")) / trinity_capacity;
+    ds.dry_s_trinity = (await tableExceedanceQuery(ds.scenario, "dry", "s_trinity")).map((step) =>{
+        return {val: (step.val / trinity_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_trinity = (await tableExceedanceQuery(ds.scenario, "wet", "s_trinity")).map((step) =>{
+        return {val: (step.val / trinity_capacity).toFixed(3), prob: step.prob};
+    });
 
-    ds.dry_s_shasta = (await tableQuery(ds.scenario, "dry", "s_shasta")) / shasta_capacity;
-    ds.wet_s_shasta = (await tableQuery(ds.scenario, "wet", "s_shasta")) / shasta_capacity;
+    ds.dry_s_shasta = (await tableExceedanceQuery(ds.scenario, "dry", "s_shasta")).map((step) =>{
+        return {val: (step.val / shasta_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_shasta = (await tableExceedanceQuery(ds.scenario, "wet", "s_shasta")).map((step) =>{
+        return {val: (step.val / shasta_capacity).toFixed(3), prob: step.prob};
+    });
 
-    ds.dry_s_oroville = (await tableQuery(ds.scenario, "dry", "s_oroville")) / oroville_capacity;
-    ds.wet_s_oroville = (await tableQuery(ds.scenario, "wet", "s_oroville")) / oroville_capacity;
+    ds.dry_s_oroville = (await tableExceedanceQuery(ds.scenario, "dry", "s_oroville")).map((step) =>{
+        return {val: (step.val / oroville_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_oroville = (await tableExceedanceQuery(ds.scenario, "wet", "s_oroville")).map((step) =>{
+        return {val: (step.val / oroville_capacity).toFixed(3), prob: step.prob};
+    });
 
-    ds.dry_s_folsom = (await tableQuery(ds.scenario, "dry", "s_folsom")) / folsom_capacity;
-    ds.wet_s_folsom = (await tableQuery(ds.scenario, "wet", "s_folsom")) / folsom_capacity;
-
-    ds.dry_s_newmelones = (await tableQuery(ds.scenario, "dry", "s_newmelones")) / newmelones_capacity;
-    ds.wet_s_newmelones = (await tableQuery(ds.scenario, "wet", "s_newmelones")) / newmelones_capacity;
+    ds.dry_s_folsom = (await tableExceedanceQuery(ds.scenario, "dry", "s_folsom")).map((step) =>{
+        return {val: (step.val / folsom_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_folsom = (await tableExceedanceQuery(ds.scenario, "wet", "s_folsom")).map((step) =>{
+        return {val: (step.val / folsom_capacity).toFixed(3), prob: step.prob};
+    });
     
-    ds.dry_s_millerton = (await tableQuery(ds.scenario, "dry", "s_millerton")) / millerton_capacity;
-    ds.wet_s_millerton = (await tableQuery(ds.scenario, "wet", "s_millerton")) / millerton_capacity;
-    
+    ds.dry_s_newmelones = (await tableExceedanceQuery(ds.scenario, "dry", "s_newmelones")).map((step) =>{
+        return {val: (step.val / newmelones_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_newmelones = (await tableExceedanceQuery(ds.scenario, "wet", "s_newmelones")).map((step) =>{
+        return {val: (step.val / newmelones_capacity).toFixed(3), prob: step.prob};
+    });
+
+    ds.dry_s_millerton = (await tableExceedanceQuery(ds.scenario, "dry", "s_millerton")).map((step) =>{
+        return {val: (step.val / millerton_capacity).toFixed(3), prob: step.prob};
+    });
+    ds.wet_s_millerton = (await tableExceedanceQuery(ds.scenario, "wet", "s_millerton")).map((step) =>{
+        return {val: (step.val / millerton_capacity).toFixed(3), prob: step.prob};
+    });
+
+
     // EQUITY
     const dry_equity_results = await db.query("SELECT equity FROM summary_metrics_dry_6_5_24 WHERE scenario = $1;", [ds.scenario]);
     ds.dry_equity = dry_equity_results.rows[0].equity;
@@ -147,48 +192,63 @@ app.post("/submit", async (req, res) => {
     // const dry_del_cvp_pag_n = await tableQuery(ds.scenario, "dry", "del_cvp_pag_n");
     // const dry_del_swp_pag_n = await tableQuery(ds.scenario, "dry", "del_swp_pag_n");
     // ds.dry_del_ag_n = (dry_del_cvp_pag_n + dry_del_swp_pag_n) / ag_n_maximum;
-    ds.dry_del_ag_n = (await tableQuery(ds.scenario, "dry", "aggregated_ag_n")) / ag_n_maximum;
+    ds.dry_del_ag_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_n")).map((step) => {
+        return {val: (step.val / ag_n_maximum).toFixed(3), prob: step.prob};
+    });
 
     // const wet_del_cvp_pag_n = await tableQuery(ds.scenario, "wet", "del_cvp_pag_n");
     // const wet_del_swp_pag_n = await tableQuery(ds.scenario, "wet", "del_swp_pag_n");
     // ds.wet_del_ag_n = (wet_del_cvp_pag_n + wet_del_swp_pag_n) / ag_n_maximum;
-    ds.wet_del_ag_n = (await tableQuery(ds.scenario, "wet", "aggregated_ag_n")) / ag_n_maximum;
-
+    ds.wet_del_ag_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_n")).map((step) => {
+        return {val: (step.val / ag_n_maximum).toFixed(3), prob: step.prob};
+    });
 
     // // south
     // const dry_del_cvp_pag_s = await tableQuery(ds.scenario, "dry", "del_cvp_pag_s");
     // const dry_del_swp_pag_s = await tableQuery(ds.scenario, "dry", "del_swp_pag_s");
     // ds.dry_del_ag_s = (dry_del_cvp_pag_s + dry_del_swp_pag_s) / ag_s_maximum;
-    ds.dry_del_ag_s = (await tableQuery(ds.scenario, "dry", "aggregated_ag_s")) / ag_s_maximum;
+    ds.dry_del_ag_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_s")).map((step) => {
+        return {val: (step.val / ag_s_maximum).toFixed(3), prob: step.prob};
+    });
 
     // const wet_del_cvp_pag_s = await tableQuery(ds.scenario, "wet", "del_cvp_pag_s");
     // const wet_del_swp_pag_s = await tableQuery(ds.scenario, "wet", "del_swp_pag_s");
     // ds.wet_del_ag_s = (wet_del_cvp_pag_s + wet_del_swp_pag_s) / ag_s_maximum;
-    ds.wet_del_ag_s = (await tableQuery(ds.scenario, "wet", "aggregated_ag_s")) / ag_s_maximum;
+    ds.wet_del_ag_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_s")).map((step) => {
+        return {val: (step.val / ag_s_maximum).toFixed(3), prob: step.prob};
+    });
 
     // M&I DELIVERIES
     // north
     // const dry_del_cvp_pmi_n = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_n");
     // const dry_del_swp_pmi_n = await tableQuery(ds.scenario, "dry", "del_swp_pmi_n");
     // ds.dry_del_mi_n = (dry_del_cvp_pmi_n + dry_del_swp_pmi_n) / mi_n_maximum;
-    ds.dry_del_mi_n = (await tableQuery(ds.scenario, "dry", "aggregated_mi_n")) / mi_n_maximum;
+    ds.dry_del_mi_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_n")).map((step) => {
+        return {val: (step.val / mi_n_maximum).toFixed(3), prob: step.prob};
+    });
 
     // const wet_del_cvp_pmi_n = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_n");
     // const wet_del_swp_pmi_n = await tableQuery(ds.scenario, "wet", "del_swp_pmi_n");
     // ds.wet_del_mi_n = (wet_del_cvp_pmi_n + wet_del_swp_pmi_n) / mi_n_maximum;
-    ds.wet_del_mi_n = (await tableQuery(ds.scenario, "wet", "aggregated_mi_n")) / mi_n_maximum;
+    ds.wet_del_mi_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_n")).map((step) => {
+        return {val: (step.val / mi_n_maximum).toFixed(3), prob: step.prob};
+    });
 
     // // south
 
     // const dry_del_cvp_pmi_s = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_s");
     // const dry_del_swp_pmi_s = await tableQuery(ds.scenario, "dry", "del_swp_pmi_s");
     // ds.dry_del_mi_s = (dry_del_cvp_pmi_s + dry_del_swp_pmi_s) / mi_s_maximum;
-    ds.dry_del_mi_s = (await tableQuery(ds.scenario, "dry", "aggregated_mi_s")) / mi_s_maximum;
+    ds.dry_del_mi_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_s")).map((step) => {
+        return {val: (step.val / mi_s_maximum).toFixed(3), prob: step.prob};
+    });
 
     // const wet_del_cvp_pmi_s = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_s");
     // const wet_del_swp_pmi_s = await tableQuery(ds.scenario, "wet", "del_swp_pmi_s");
     // ds.wet_del_mi_s = (wet_del_cvp_pmi_s + wet_del_swp_pmi_s) / mi_s_maximum;
-    ds.wet_del_mi_s = (await tableQuery(ds.scenario, "wet", "aggregated_mi_s")) / mi_s_maximum;
+    ds.wet_del_mi_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_s")).map((step) => {
+        return {val: (step.val / mi_s_maximum).toFixed(3), prob: step.prob};
+    });
 
 
     // DELTA SALINITY
@@ -203,38 +263,6 @@ app.post("/submit", async (req, res) => {
 
     res.render("index.ejs", {
         ds: ds,
-        
-        // scenario: scenario, 
-        
-        //reservoirs
-        // dry_s_trinity: ds.dry_s_trinity,
-        // dry_s_shasta: ds.dry_s_shasta,
-        // dry_s_folsom: ds.dry_s_folsom,
-        // dry_s_oroville: ds.dry_s_oroville,
-        // dry_s_newmelones: ds.dry_s_newmelones,
-        // dry_s_millerton: ds.dry_s_millerton,
-
-        // wet_s_trinity: ds.wet_s_trinity,
-        // wet_s_shasta: ds.wet_s_shasta,
-        // wet_s_folsom: ds.wet_s_folsom,
-        // wet_s_oroville: ds.wet_s_oroville,
-        // wet_s_newmelones: ds.wet_s_newmelones,
-        // wet_s_millerton: ds.wet_s_millerton,
-
-        // //dry
-        // dry_del_ag_n: ds.dry_del_ag_n,
-        // dry_del_ag_s: ds.dry_del_ag_s,
-        // dry_del_mi_n: ds.dry_del_mi_n,
-        // dry_del_mi_s: ds.dry_del_mi_s,
-        // dry_x2_prv: ds.dry_x2_prv,
-        // dry_equity: ds.dry_equity,
-        // //wet
-        // wet_del_ag_n: ds.wet_del_ag_n,
-        // wet_del_ag_s: ds.wet_del_ag_s,
-        // wet_del_mi_n: ds.wet_del_mi_n,
-        // wet_del_mi_s: ds.wet_del_mi_s,
-        // wet_x2_prv: ds.wet_x2_prv,
-        // wet_equity: ds.wet_equity,
     });
 })
 
