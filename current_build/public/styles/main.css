@@ -6,3 +6,12 @@
     grid-template-rows: 1fr;
 }
 
+.redtext {
+    color: red;
+}
+
+.singleElementContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}

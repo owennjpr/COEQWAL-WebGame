@@ -32,6 +32,8 @@ const mi_n_maximum = 462.13282;
 const mi_s_maximum = 7268.1163;
 
 const prev_runs = [];
+var curr_run = 0;
+
 var ds = {
     // Scenario
     scenario: "",
@@ -76,6 +78,50 @@ var ds = {
     wet_x2_prv: [],
 }
 
+var prev_compare = {
+    // Scenario
+    scenario: "",
+    
+    // Levers
+    lev_demands: 0,
+    lev_carryover: 0,
+    lev_priority: 0,
+    lev_delta: 0,
+    lev_minflow: 0,
+
+    // Reservoirs
+    dry_s_trinity: 0,
+    wet_s_trinity: 0,
+    dry_s_shasta: 0,
+    wet_s_shasta: 0,
+    dry_s_oroville: 0,
+    wet_s_oroville: 0,
+    dry_s_folsom: 0,
+    wet_s_folsom: 0,
+    dry_s_newmelones: 0,
+    wet_s_newmelones: 0,
+    dry_s_millerton: 0,
+    wet_s_millerton: 0,
+
+    // Summary Metrics
+    dry_equity: 0,
+    wet_equity: 0,
+
+    // Deliveries
+    dry_del_ag_n: 0,
+    wet_del_ag_n: 0,
+    dry_del_ag_s: 0,
+    wet_del_ag_s: 0,
+    dry_del_mi_n: 0,
+    wet_del_mi_n: 0,
+    dry_del_mi_s: 0,
+    wet_del_mi_s: 0,
+
+    // Delta Salinity
+    dry_x2_prv: 0,
+    wet_x2_prv: 0,
+}
+
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -115,27 +161,8 @@ const tableExceedanceQuery = async (scenario, wyt, tableName) => {
     return values; 
 }
 
-
-app.post("/submit", async (req, res) => {
-    const levers = req.body;
-    ds.lev_demands = levers["demands"];
-    ds.lev_carryover = levers["carryover"];
-    ds.lev_priority = levers["priority"];
-    ds.lev_delta = levers["delta"];
-    ds.lev_minflow = levers["minflow"];
-
-    const result = await db.query('SELECT "Scenario" FROM "CalLite_Levers" WHERE d = $1 AND c = $2 AND p = $3 AND r = $4 AND m = $5;',
-        [
-            ds.lev_demands,
-            ds.lev_carryover,
-            ds.lev_priority,
-            ds.lev_delta,
-            ds.lev_minflow
-        ]
-    )
-
-    ds.scenario = result.rows[0].Scenario;
-    //RESERVOIRS
+const getNewDS = async (scenario) => {
+    ds.scenario = scenario;
 
     ds.dry_s_trinity = (await tableExceedanceQuery(ds.scenario, "dry", "s_trinity")).map((step) =>{
         return {val: (step.val / trinity_capacity).toFixed(3), prob: step.prob};
@@ -254,11 +281,52 @@ app.post("/submit", async (req, res) => {
     // DELTA SALINITY
     ds.wet_x2_prv = await tableExceedanceQuery(ds.scenario, "wet", "x2_prv");
     ds.dry_x2_prv = await tableExceedanceQuery(ds.scenario, "dry", "x2_prv");
+}
+
+const compareLastRun = () => {
+    const last_run = prev_runs[(prev_runs.length - 1)];
+
+    prev_compare.scenario = last_run.scenario;
+    prev_compare.lev_demands = last_run.lev_demands;
+    prev_compare.lev_carryover = last_run.lev_carryover;
+    prev_compare.lev_priority = last_run.lev_priority;
+    prev_compare.lev_delta = last_run.lev_delta;
+    prev_compare.lev_minflow = last_run.lev_minflow;
+
+
+    return last_run;
+}
+
+app.post("/submit", async (req, res) => {
+    const levers = req.body;
+    ds.lev_demands = levers["demands"];
+    ds.lev_carryover = levers["carryover"];
+    ds.lev_priority = levers["priority"];
+    ds.lev_delta = levers["delta"];
+    ds.lev_minflow = levers["minflow"];
+
+    const result = await db.query('SELECT "Scenario" FROM "CalLite_Levers" WHERE d = $1 AND c = $2 AND p = $3 AND r = $4 AND m = $5;',
+        [
+            ds.lev_demands,
+            ds.lev_carryover,
+            ds.lev_priority,
+            ds.lev_delta,
+            ds.lev_minflow
+        ]
+    )
+
+    await getNewDS(result.rows[0].Scenario);
 
     // check previous runs here
 
+    if (curr_run === 0) {
+        const last_run_comparison = prev_compare;
+    } else {
+        const last_run_comparison = compareLastRun();
+    }
     // append new run
     prev_runs.push(JSON.parse(JSON.stringify(ds)));
+    curr_run += 1;
     console.log(prev_runs);
 
     res.render("index.ejs", {
