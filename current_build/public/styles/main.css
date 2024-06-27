@@ -1,13 +1,21 @@
 .container {
     display: grid;
     height: 100vh;
-    gap: 1rem;
-    grid-template-columns: 0.6fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1fr;
     grid-template-rows: 1fr;
 }
 
+.block {
+    background-color: rgb(242, 242, 242);
+    margin: 10px;
+    padding: 20px;
+}
 .redtext {
     color: red;
+}
+
+.greentext {
+    color: green;
 }
 
 .singleElementContainer {

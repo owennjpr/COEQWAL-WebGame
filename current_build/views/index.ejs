@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div>
+        <div class="block">
             <form action="/submit" method="POST">
                 <div>
                     <p>Agriculture Demands</p>
@@ -73,43 +73,43 @@
         </div>
 
         <% if (locals.ds) { %>
-            <div>
+            <div class="block">
                 <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
                 <h3>Dry Year</h3>
-                    <p> Equity: <%= locals.ds.dry_equity %> </p>
-                    <%- include("partials/singleElement.ejs", {title: "NOD Ag Deliveries", data: locals.ds.dry_del_ag_n}) %>
-                    <%- include("partials/singleElement.ejs", {title: "SOD Ag Deliveries", data: locals.ds.dry_del_ag_s}) %>
-                    <%- include("partials/singleElement.ejs", {title: "NOD M&I Deliveries", data: locals.ds.dry_del_mi_n}) %>
-                    <%- include("partials/singleElement.ejs", {title: "SOD M&I Deliveries", data: locals.ds.dry_del_mi_s}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Delta Salinity", data: locals.ds.dry_x2_prv}) %>
+                    <%- include("partials/singleValue.ejs", {title: "Equity", data: locals.ds.dry_equity, comp: locals.prev_compare.dry_equity}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "NOD Ag Deliveries", data: locals.ds.dry_del_ag_n, comp: locals.prev_compare.dry_del_ag_n}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "SOD Ag Deliveries", data: locals.ds.dry_del_ag_s, comp: locals.prev_compare.dry_del_ag_s}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "NOD M&I Deliveries", data: locals.ds.dry_del_mi_n, comp: locals.prev_compare.dry_del_mi_n}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "SOD M&I Deliveries", data: locals.ds.dry_del_mi_s, comp: locals.prev_compare.dry_del_mi_s}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Delta Salinity", data: locals.ds.dry_x2_prv, comp: locals.prev_compare.dry_x2_prv}) %>
 
                 <h3>Wet Year</h3>
-                    <p> Equity: <%= locals.ds.wet_equity %> </p>
-                    <%- include("partials/singleElement.ejs", {title: "NOD Ag Deliveries", data: locals.ds.wet_del_ag_n}) %>
-                    <%- include("partials/singleElement.ejs", {title: "SOD Ag Deliveries", data: locals.ds.wet_del_ag_s}) %>
-                    <%- include("partials/singleElement.ejs", {title: "NOD M&I Deliveries", data: locals.ds.wet_del_mi_n}) %>
-                    <%- include("partials/singleElement.ejs", {title: "SOD M&I Deliveries", data: locals.ds.wet_del_mi_s}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Delta Salinity", data: locals.ds.wet_x2_prv}) %>
+                    <%- include("partials/singleValue.ejs", {title: "Equity", data: locals.ds.wet_equity, comp: locals.prev_compare.wet_equity}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "NOD Ag Deliveries", data: locals.ds.wet_del_ag_n, comp: locals.prev_compare.wet_del_ag_n}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "SOD Ag Deliveries", data: locals.ds.wet_del_ag_s, comp: locals.prev_compare.wet_del_ag_s}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "NOD M&I Deliveries", data: locals.ds.wet_del_mi_n, comp: locals.prev_compare.wet_del_mi_n}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "SOD M&I Deliveries", data: locals.ds.wet_del_mi_s, comp: locals.prev_compare.wet_del_mi_s}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Delta Salinity", data: locals.ds.wet_x2_prv, comp: locals.prev_compare.wet_x2_prv}) %>
 
             </div>
             
-            <div>
+            <div class="block">
                 <h2> Reservoir Levels </h2>
                 <h3> Dry Year </h3>
-                    <%- include("partials/singleElement.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom}) %>
-                    <%- include("partials/singleElement.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones}) %>
-                    <%- include("partials/singleElement.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones}) %>
+                    <%- include("partials/singleExceedance.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton}) %>
 
                 <h3> Wet Year </h3>
-                <%- include("partials/singleElement.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity}) %>
-                <%- include("partials/singleElement.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta}) %>
-                <%- include("partials/singleElement.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville}) %>
-                <%- include("partials/singleElement.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom}) %>
-                <%- include("partials/singleElement.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones}) %>
-                <%- include("partials/singleElement.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones}) %>
+                <%- include("partials/singleExceedance.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton}) %>
         </div>
         <% } %>
 

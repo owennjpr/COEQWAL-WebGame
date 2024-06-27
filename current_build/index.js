@@ -136,7 +136,6 @@ const tableQuery = async (scenario, wyt, tableName) => {
 }
 
 const tableExceedanceQuery = async (scenario, wyt, tableName) => {
-    console.log(scenario + ", " + wyt + ", " + tableName);
     const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario}) DESC`);
     const len = result.rows.length;
     const yrly_avgs = result.rows.map((row) => {
@@ -209,10 +208,10 @@ const getNewDS = async (scenario) => {
 
     // EQUITY
     const dry_equity_results = await db.query("SELECT equity FROM summary_metrics_dry_6_5_24 WHERE scenario = $1;", [ds.scenario]);
-    ds.dry_equity = dry_equity_results.rows[0].equity;
+    ds.dry_equity = dry_equity_results.rows[0].equity.toFixed(4);
 
     const wet_equity_results = await db.query("SELECT equity FROM summary_metrics_wet_6_5_24 WHERE scenario = $1;", [ds.scenario]);
-    ds.wet_equity = wet_equity_results.rows[0].equity;
+    ds.wet_equity = wet_equity_results.rows[0].equity.toFixed(4);
 
     // AG DELIVERIES
     // north
@@ -283,6 +282,20 @@ const getNewDS = async (scenario) => {
     ds.dry_x2_prv = await tableExceedanceQuery(ds.scenario, "dry", "x2_prv");
 }
 
+const compareExceedance = (curr, prev) => {
+    const currSum = curr[0].val + curr[1].val + curr[2].val;
+    const prevSum = prev[0].val + prev[1].val + prev[2].val;
+    if (currSum === prevSum) {
+        return 0;
+    } else {
+        if (currSum > prevSum) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+
 const compareLastRun = () => {
     const last_run = prev_runs[(prev_runs.length - 1)];
 
@@ -292,8 +305,40 @@ const compareLastRun = () => {
     prev_compare.lev_priority = last_run.lev_priority;
     prev_compare.lev_delta = last_run.lev_delta;
     prev_compare.lev_minflow = last_run.lev_minflow;
+    
+    prev_compare.dry_equity = (ds.dry_equity === last_run.dry_equity) ? 0 : (ds.dry_equity > last_run.dry_equity ? 1 : -1);
+    prev_compare.wet_equity = (ds.wet_equity === last_run.wet_equity) ? 0 : (ds.wet_equity > last_run.wet_equity ? 1 : -1);
 
+    prev_compare.dry_s_trinity = compareExceedance(ds.dry_s_trinity, last_run.dry_s_trinity);
+    prev_compare.wet_s_trinity = compareExceedance(ds.wet_s_trinity, last_run.wet_s_trinity);
 
+    prev_compare.dry_s_shasta = compareExceedance(ds.dry_s_shasta, last_run.dry_s_shasta);
+    prev_compare.wet_s_shasta = compareExceedance(ds.wet_s_shasta, last_run.wet_s_shasta);
+
+    prev_compare.dry_s_oroville = compareExceedance(ds.dry_s_oroville, last_run.dry_s_oroville);
+    prev_compare.wet_s_oroville = compareExceedance(ds.wet_s_oroville, last_run.wet_s_oroville);
+
+    prev_compare.dry_s_folsom = compareExceedance(ds.dry_s_folsom, last_run.dry_s_folsom);
+    prev_compare.wet_s_folsom = compareExceedance(ds.wet_s_folsom, last_run.wet_s_folsom);
+
+    prev_compare.dry_s_newmelones = compareExceedance(ds.dry_s_newmelones, last_run.dry_s_newmelones);
+    prev_compare.wet_s_newmelones = compareExceedance(ds.wet_s_newmelones, last_run.wet_s_newmelones);
+
+    prev_compare.dry_s_millerton = compareExceedance(ds.dry_s_millerton, last_run.dry_s_millerton);
+    prev_compare.wet_s_millerton = compareExceedance(ds.wet_s_millerton, last_run.wet_s_millerton);
+
+    prev_compare.dry_del_ag_n = compareExceedance(ds.dry_del_ag_n, last_run.dry_del_ag_n);
+    prev_compare.wet_del_ag_n = compareExceedance(ds.wet_del_ag_n, last_run.wet_del_ag_n);
+    prev_compare.dry_del_ag_s = compareExceedance(ds.dry_del_ag_s, last_run.dry_del_ag_s);
+    prev_compare.wet_del_ag_s = compareExceedance(ds.wet_del_ag_s, last_run.wet_del_ag_s);
+
+    prev_compare.dry_del_mi_n = compareExceedance(ds.dry_del_mi_n, last_run.dry_del_mi_n);
+    prev_compare.wet_del_mi_n = compareExceedance(ds.wet_del_mi_n, last_run.wet_del_mi_n);
+    prev_compare.dry_del_mi_s = compareExceedance(ds.dry_del_mi_s, last_run.dry_del_mi_s);
+    prev_compare.wet_del_mi_s = compareExceedance(ds.wet_del_mi_s, last_run.wet_del_mi_s);
+
+    prev_compare.dry_x2_prv = compareExceedance(last_run.dry_x2_prv, ds.dry_x2_prv);
+    prev_compare.wet_x2_prv = compareExceedance(last_run.wet_x2_prv, ds.wet_x2_prv);
     return last_run;
 }
 
@@ -318,19 +363,18 @@ app.post("/submit", async (req, res) => {
     await getNewDS(result.rows[0].Scenario);
 
     // check previous runs here
-
-    if (curr_run === 0) {
-        const last_run_comparison = prev_compare;
-    } else {
+    let last_run_comparison = prev_compare;
+    if (curr_run !== 0) {
         const last_run_comparison = compareLastRun();
     }
     // append new run
     prev_runs.push(JSON.parse(JSON.stringify(ds)));
     curr_run += 1;
-    console.log(prev_runs);
+    // console.log(prev_runs);
 
     res.render("index.ejs", {
         ds: ds,
+        prev_compare: last_run_comparison,
     });
 })
 
