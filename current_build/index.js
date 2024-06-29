@@ -164,45 +164,45 @@ const getNewDS = async (scenario) => {
     ds.scenario = scenario;
 
     ds.dry_s_trinity = (await tableExceedanceQuery(ds.scenario, "dry", "s_trinity")).map((step) =>{
-        return {val: (step.val / trinity_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / trinity_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_trinity = (await tableExceedanceQuery(ds.scenario, "wet", "s_trinity")).map((step) =>{
-        return {val: (step.val / trinity_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / trinity_capacity).toFixed(4), prob: step.prob};
     });
 
     ds.dry_s_shasta = (await tableExceedanceQuery(ds.scenario, "dry", "s_shasta")).map((step) =>{
-        return {val: (step.val / shasta_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / shasta_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_shasta = (await tableExceedanceQuery(ds.scenario, "wet", "s_shasta")).map((step) =>{
-        return {val: (step.val / shasta_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / shasta_capacity).toFixed(4), prob: step.prob};
     });
 
     ds.dry_s_oroville = (await tableExceedanceQuery(ds.scenario, "dry", "s_oroville")).map((step) =>{
-        return {val: (step.val / oroville_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / oroville_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_oroville = (await tableExceedanceQuery(ds.scenario, "wet", "s_oroville")).map((step) =>{
-        return {val: (step.val / oroville_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / oroville_capacity).toFixed(4), prob: step.prob};
     });
 
     ds.dry_s_folsom = (await tableExceedanceQuery(ds.scenario, "dry", "s_folsom")).map((step) =>{
-        return {val: (step.val / folsom_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / folsom_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_folsom = (await tableExceedanceQuery(ds.scenario, "wet", "s_folsom")).map((step) =>{
-        return {val: (step.val / folsom_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / folsom_capacity).toFixed(4), prob: step.prob};
     });
     
     ds.dry_s_newmelones = (await tableExceedanceQuery(ds.scenario, "dry", "s_newmelones")).map((step) =>{
-        return {val: (step.val / newmelones_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / newmelones_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_newmelones = (await tableExceedanceQuery(ds.scenario, "wet", "s_newmelones")).map((step) =>{
-        return {val: (step.val / newmelones_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / newmelones_capacity).toFixed(4), prob: step.prob};
     });
 
     ds.dry_s_millerton = (await tableExceedanceQuery(ds.scenario, "dry", "s_millerton")).map((step) =>{
-        return {val: (step.val / millerton_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / millerton_capacity).toFixed(4), prob: step.prob};
     });
     ds.wet_s_millerton = (await tableExceedanceQuery(ds.scenario, "wet", "s_millerton")).map((step) =>{
-        return {val: (step.val / millerton_capacity).toFixed(3), prob: step.prob};
+        return {val: (step.val / millerton_capacity).toFixed(4), prob: step.prob};
     });
 
 
@@ -219,14 +219,14 @@ const getNewDS = async (scenario) => {
     // const dry_del_swp_pag_n = await tableQuery(ds.scenario, "dry", "del_swp_pag_n");
     // ds.dry_del_ag_n = (dry_del_cvp_pag_n + dry_del_swp_pag_n) / ag_n_maximum;
     ds.dry_del_ag_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_n")).map((step) => {
-        return {val: (step.val / ag_n_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // const wet_del_cvp_pag_n = await tableQuery(ds.scenario, "wet", "del_cvp_pag_n");
     // const wet_del_swp_pag_n = await tableQuery(ds.scenario, "wet", "del_swp_pag_n");
     // ds.wet_del_ag_n = (wet_del_cvp_pag_n + wet_del_swp_pag_n) / ag_n_maximum;
     ds.wet_del_ag_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_n")).map((step) => {
-        return {val: (step.val / ag_n_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // // south
@@ -234,14 +234,14 @@ const getNewDS = async (scenario) => {
     // const dry_del_swp_pag_s = await tableQuery(ds.scenario, "dry", "del_swp_pag_s");
     // ds.dry_del_ag_s = (dry_del_cvp_pag_s + dry_del_swp_pag_s) / ag_s_maximum;
     ds.dry_del_ag_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_s")).map((step) => {
-        return {val: (step.val / ag_s_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob};
     });
 
     // const wet_del_cvp_pag_s = await tableQuery(ds.scenario, "wet", "del_cvp_pag_s");
     // const wet_del_swp_pag_s = await tableQuery(ds.scenario, "wet", "del_swp_pag_s");
     // ds.wet_del_ag_s = (wet_del_cvp_pag_s + wet_del_swp_pag_s) / ag_s_maximum;
     ds.wet_del_ag_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_s")).map((step) => {
-        return {val: (step.val / ag_s_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob};
     });
 
     // M&I DELIVERIES
@@ -250,14 +250,14 @@ const getNewDS = async (scenario) => {
     // const dry_del_swp_pmi_n = await tableQuery(ds.scenario, "dry", "del_swp_pmi_n");
     // ds.dry_del_mi_n = (dry_del_cvp_pmi_n + dry_del_swp_pmi_n) / mi_n_maximum;
     ds.dry_del_mi_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_n")).map((step) => {
-        return {val: (step.val / mi_n_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // const wet_del_cvp_pmi_n = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_n");
     // const wet_del_swp_pmi_n = await tableQuery(ds.scenario, "wet", "del_swp_pmi_n");
     // ds.wet_del_mi_n = (wet_del_cvp_pmi_n + wet_del_swp_pmi_n) / mi_n_maximum;
     ds.wet_del_mi_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_n")).map((step) => {
-        return {val: (step.val / mi_n_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // // south
@@ -266,14 +266,14 @@ const getNewDS = async (scenario) => {
     // const dry_del_swp_pmi_s = await tableQuery(ds.scenario, "dry", "del_swp_pmi_s");
     // ds.dry_del_mi_s = (dry_del_cvp_pmi_s + dry_del_swp_pmi_s) / mi_s_maximum;
     ds.dry_del_mi_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_s")).map((step) => {
-        return {val: (step.val / mi_s_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob};
     });
 
     // const wet_del_cvp_pmi_s = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_s");
     // const wet_del_swp_pmi_s = await tableQuery(ds.scenario, "wet", "del_swp_pmi_s");
     // ds.wet_del_mi_s = (wet_del_cvp_pmi_s + wet_del_swp_pmi_s) / mi_s_maximum;
     ds.wet_del_mi_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_s")).map((step) => {
-        return {val: (step.val / mi_s_maximum).toFixed(3), prob: step.prob};
+        return {val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob};
     });
 
 

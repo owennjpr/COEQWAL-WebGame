@@ -1,0 +1,19 @@
+<div class="singleElementContainer"> 
+    <% if (comp === 1) { %>
+        <p class="greentext"> ⬆️ <%= title %>: </p>
+    <% } else if (comp === -1) { %>
+        <p class="redtext"> ⬇️ <%= title %>: </p>
+    <% } else { %>
+        <p> ⏺️ <%= title %>: </p>
+    <% } %>
+    <!-- <p> <%= data[0].prob %>%:  <%= data[0].val %> </p>
+    <p> <%= data[1].prob %>%:  <%= data[1].val %> </p>
+    <p> <%= data[2].prob %>%:  <%= data[2].val %> </p> -->
+
+    <div style="display: grid; height: 100px; width: 100px; grid-template-columns: 1fr; grid-template-rows:  <%= String(1 - data[2].val) + 'fr' %> <%= String(data[1].val - data[2].val) + 'fr' %> <%= String(data[0].val - data[1].val) + 'fr' %> <%= String(data[0].val) + 'fr' %>;">
+        <div id="topbucket"></div>
+        <div id="lightbucket"></div>
+        <div id="mediumbucket"></div>
+        <div id="darkbucket"></div>
+    </div>
+</div>

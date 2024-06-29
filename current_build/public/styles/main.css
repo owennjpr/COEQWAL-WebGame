@@ -23,3 +23,19 @@
     flex-flow: row wrap;
     justify-content: space-around;
 }
+
+#topbucket{
+    background-color: white;
+}
+
+#lightbucket{
+    background-color: rgb(118, 118, 255);
+}
+
+#mediumbucket{
+    background-color: rgb(0, 0, 255);
+}
+
+#darkbucket{
+    background-color: rgb(0, 0, 125);
+}
