@@ -105,7 +105,9 @@ var prev_compare = {
 
     // Summary Metrics
     dry_equity: 0,
+    dry_equity_value: 0,
     wet_equity: 0,
+    wet_equity_value: 0,
 
     // Deliveries
     dry_del_ag_n: 0,
@@ -136,26 +138,40 @@ const tableQuery = async (scenario, wyt, tableName) => {
 }
 
 const tableExceedanceQuery = async (scenario, wyt, tableName) => {
+    // const result = await db.query(`SELECT SUM(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY SUM(${scenario}) DESC`);
     const result = await db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario}) DESC`);
     const len = result.rows.length;
     const yrly_avgs = result.rows.map((row) => {
+        // console.log(row.sum);
         return row.avg;
     });
     let index = 0;
     const exceedance = yrly_avgs.map((avg) => {
         index += 1;
+
+        // console.log(100 * (index / parseFloat(len + 1.0)));
         return 100 * (index / parseFloat(len + 1.0));
      
     });
 
-    const mk25 = Math.floor(len / 4);
+    const mk10 = Math.floor(len / 10);
+    const mk30 = Math.floor(len * 3 / 10);
     const mk50 = Math.floor(len / 2);
-    const mk75 = Math.floor(len * 3 / 4);
+    const mk70 = Math.floor(len * 7 / 10);
+    const mk90 = Math.floor(len * 9 / 10);
+
+    // console.log(yrly_avgs[mk10].toFixed(2));
+    // console.log(yrly_avgs[mk30].toFixed(2));
+    // console.log(yrly_avgs[mk50].toFixed(2));
+    // console.log(yrly_avgs[mk70].toFixed(2));
+    // console.log(yrly_avgs[mk90].toFixed(2));
 
     const values = [
-        {val: yrly_avgs[mk25].toFixed(2), prob: exceedance[mk25].toFixed(2)}, 
+        {val: yrly_avgs[mk10].toFixed(2), prob: exceedance[mk10].toFixed(2)}, 
+        {val: yrly_avgs[mk30].toFixed(2), prob: exceedance[mk30].toFixed(2)}, 
         {val: yrly_avgs[mk50].toFixed(2), prob: exceedance[mk50].toFixed(2)},
-        {val: yrly_avgs[mk75].toFixed(2), prob: exceedance[mk75].toFixed(2)}];
+        {val: yrly_avgs[mk70].toFixed(2), prob: exceedance[mk70].toFixed(2)},
+        {val: yrly_avgs[mk90].toFixed(2), prob: exceedance[mk90].toFixed(2)}];
 
     return values; 
 }
@@ -308,6 +324,8 @@ const compareLastRun = () => {
     
     prev_compare.dry_equity = (ds.dry_equity === last_run.dry_equity) ? 0 : (ds.dry_equity > last_run.dry_equity ? 1 : -1);
     prev_compare.wet_equity = (ds.wet_equity === last_run.wet_equity) ? 0 : (ds.wet_equity > last_run.wet_equity ? 1 : -1);
+    prev_compare.dry_equity_value = last_run.dry_equity;
+    prev_compare.wet_equity_value = last_run.wet_equity;
 
     prev_compare.dry_s_trinity = compareExceedance(ds.dry_s_trinity, last_run.dry_s_trinity);
     prev_compare.wet_s_trinity = compareExceedance(ds.wet_s_trinity, last_run.wet_s_trinity);
@@ -370,7 +388,6 @@ app.post("/submit", async (req, res) => {
     // append new run
     prev_runs.push(JSON.parse(JSON.stringify(ds)));
     curr_run += 1;
-    // console.log(prev_runs);
 
     res.render("index.ejs", {
         ds: ds,

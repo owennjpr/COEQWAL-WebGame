@@ -1,0 +1,28 @@
+<div class="equityBarContainer"> 
+    <% if (comp === 1) { %>
+        <p class="greentext"> ⬆️ <%= title %>: </p>
+    <% } else if (comp === -1) { %>
+        <p class="redtext"> ⬇️ <%= title %>: </p>
+    <% } else { %>
+        <p> ⏺️ <%= title %>: </p>
+    <% } %>
+
+    <!-- <p> <%= data %> </p> -->
+    <div style="display: flex; flex-direction: row; align-items: center;">
+        <div class="measureText"> less equitable </div>
+        <div class="equityBar">
+            <% if (comp === 1) { %>
+                <div style="height: 100%; width: 5px; background-color: rgb(255, 101, 101); margin-left: <%= String(prev * 2 * 100) + 'px '%>;"></div>
+                <div style="height: 100%; width: 5px; background-color: black; margin-left: <%= String((data * 2 * 100) - (prev * 2 * 100)) + 'px '%>;"></div>
+                <% } else if (comp === -1) { %>
+                <div style="height: 100%; width: 5px; background-color: black; margin-left: <%= String(data * 2 * 100) + 'px '%>;"></div>
+                <div style="height: 100%; width: 5px; background-color: rgb(155, 255, 155); margin-left: <%= String((prev * 2 * 100) - (data * 2 * 100)) + 'px '%>;"></div>
+                <% } else { %>
+                <div style="height: 100%; width: 5px; background-color: black; margin-left: <%= String(data * 2 * 100) + 'px '%>;"></div>
+            <% } %>
+        </div>
+        <div class="measureText"> more equitable </div>
+
+    </div>
+
+</div>

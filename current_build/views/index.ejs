@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/main.css">
     <title>COEQWAL WEBGAME</title>
+    <script>
+        const toggleWYT = () => {
+            var wyt = document.querySelector('input[name="wytToggle"]:checked').value;
+            var dryYearData = document.getElementsByClassName('dryYear');
+            var wetYearData = document.getElementsByClassName('wetYear');
+
+            // console.log(dryYearData);
+            // console.log(wetYearData);
+            if (wyt === 'dry') {
+                for (let i = 0; i < dryYearData.length; i++) {
+                    dryYearData.item(i).style.display = 'block';
+                    wetYearData.item(i).style.display = 'none';
+                }
+            } else {
+                for (let i = 0; i < wetYearData.length; i++) {
+                    dryYearData.item(i).style.display = 'none';
+                    wetYearData.item(i).style.display = 'block';
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -13,104 +34,146 @@
                 <div>
                     <p>Agriculture Demands</p>
                     <input type="radio" id="demands-1" name="demands" value="1.0" required>
-                    <label for="1.0">1.0</label>
+                    <label for="1.0">Baseline</label> <br>
                     <input type="radio" id="demands-0-9" name="demands" value="0.9" required>
-                    <label for="0.9">0.9</label>
+                    <label for="0.9">90% of baseline</label> <br>
                     <input type="radio" id="demands-0-8" name="demands" value="0.8" required>
-                    <label for="0.8">0.8</label>
+                    <label for="0.8">80% of baseline</label> <br>
                     <input type="radio" id="demands-0-7" name="demands" value="0.7" required>
-                    <label for="0.7">0.7</label>
+                    <label for="0.7">70% of baseline</label> <br>
                     <input type="radio" id="demands-0-6" name="demands" value="0.6" required>
-                    <label for="0.6">0.6</label>
+                    <label for="0.6">60% of baseline</label>
                 </div>
 
                 <div>
                     <p>Carryover</p>
                     <input type="radio" id="carryover-1" name="carryover" value="1.0" required>
-                    <label for="1.0">1.0</label>
+                    <label for="1.0">Baseline</label> <br>
                     <input type="radio" id="carryover-1-1" name="carryover" value="1.1" required>
-                    <label for="1.0">1.1</label>
+                    <label for="1.0">10% increase in target</label> <br>
                     <input type="radio" id="carryover-1-2" name="carryover" value="1.2" required>
-                    <label for="1.0">1.2</label>
+                    <label for="1.0">20% increase in target</label>
                 </div>
 
                 <div>
                     <p>Distribution Priority</p>
                     <input type="radio" id="priority-0" name="priority" value="0" required>
-                    <label for="0">0</label>
+                    <label for="0">Baseline using existing tiers for allocation cuts</label> <br>
                     <input type="radio" id="priority-1" name="priority" value="1" required>
-                    <label for="1">1</label>
+                    <label for="1">shortages are shared equally across contract types</label>
                 </div>
 
                 <div>
                     <p>Delta Regulations</p>
                     <input type="radio" id="delta-1" name="delta" value="1" required>
-                    <label for="1">1</label>
+                    <label for="1">Baseline, all D1641 regulations in place</label> <br>
                     <input type="radio" id="delta-2" name="delta" value="2" required>
-                    <label for="2">2</label>
+                    <label for="2">No flow reqt, NDO and Rio Vista flows turned off</label> <br>
                     <input type="radio" id="delta-3" name="delta" value="3" required>
-                    <label for="3">3</label>
+                    <label for="3">No salinity reqt, station salinity & X2 requirements off</label> <br>
                     <input type="radio" id="delta-4" name="delta" value="4" required>
-                    <label for="4">4</label>
+                    <label for="4">No D1641 flow or salinity requirements</label>
                 </div>
 
                 <div>
                     <p>Minimum Flow Requirements</p>
                     <input type="radio" id="minflow-0" name="minflow" value="0" required>
-                    <label for="0">0</label>
+                    <label for="0">Baseline, all pre-existing minimum flow requirements in place</label> <br>
                     <input type="radio" id="minflow-0-4" name="minflow" value="0.4" required>
-                    <label for="0.4">0.4</label>
+                    <label for="0.4">40% of unimpaired flow requirement takes place of existing minimum flows</label> <br>
                     <input type="radio" id="minflow-0-6" name="minflow" value="0.6" required>
-                    <label for="0.6">0.6</label>
+                    <label for="0.6">60% of unimpaired flow</label> <br>
                     <input type="radio" id="minflow-0-7" name="minflow" value="0.7" required>
-                    <label for="0.7">0.7</label>
+                    <label for="0.7">70% of unimpaired flow</label> <br>
                     <input type="radio" id="minflow-0-8" name="minflow" value="0.8" required>
-                    <label for="0.8">0.8</label>
+                    <label for="0.8">80% of unimpaired flow</label>
 
                 </div>
                 <input type="submit" value="Submit">
             </form>
+            <% if (locals.ds) { %>
+                <form>
+                    <p>Display Year Type: </p>
+                    <input type="radio" id="year-dry" name="wytToggle" value="dry" checked onclick="toggleWYT()">
+                    <label for="year-dry">Dry Year</label>
+                    <input type="radio" id="year-wet" name="wytToggle" value="wet" onclick="toggleWYT()">
+                    <label for="year-wet">Wet Year</label>
+                </form>
+            <% } %>
         </div>
 
         <% if (locals.ds) { %>
-            <div class="block">
-                <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
-                <h3>Dry Year</h3>
-                    <%- include("partials/singleValue.ejs", {title: "Equity", data: locals.ds.dry_equity, comp: locals.prev_compare.dry_equity}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.dry_del_ag_n, comp: locals.prev_compare.dry_del_ag_n}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD Ag Deliveries", data: locals.ds.dry_del_ag_s, comp: locals.prev_compare.dry_del_ag_s}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD M&I Deliveries", data: locals.ds.dry_del_mi_n, comp: locals.prev_compare.dry_del_mi_n}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD M&I Deliveries", data: locals.ds.dry_del_mi_s, comp: locals.prev_compare.dry_del_mi_s}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Delta Salinity", data: locals.ds.dry_x2_prv, comp: locals.prev_compare.dry_x2_prv}) %>
 
-                <h3>Wet Year</h3>
-                    <%- include("partials/singleValue.ejs", {title: "Equity", data: locals.ds.wet_equity, comp: locals.prev_compare.wet_equity}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.wet_del_ag_n, comp: locals.prev_compare.wet_del_ag_n}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD Ag Deliveries", data: locals.ds.wet_del_ag_s, comp: locals.prev_compare.wet_del_ag_s}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD M&I Deliveries", data: locals.ds.wet_del_mi_n, comp: locals.prev_compare.wet_del_mi_n}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD M&I Deliveries", data: locals.ds.wet_del_mi_s, comp: locals.prev_compare.wet_del_mi_s}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Delta Salinity", data: locals.ds.wet_x2_prv, comp: locals.prev_compare.wet_x2_prv}) %>
+            <div class="block dryYear" style="display: block;">
+                <h2> Dry Year Reservoir Levels </h2>
+                    <img src="Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
 
-            </div>
-            
-            <div class="block">
-                <h2> Reservoir Levels </h2>
-                <h3> Dry Year </h3>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity}) %>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta}) %>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville}) %>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom}) %>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones}) %>
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton}) %>
+            </div>
 
-                <h3> Wet Year </h3>
+            <div class="block dryYear" style="display: block;">
+                <h2> Displaying results from scenario <%= locals.ds.scenario %> during dry years.</h2>
+                <h4> North of Delta Deliveries </h4>
+                <div class="deliverybox" >
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.dry_del_ag_n, comp: locals.prev_compare.dry_del_ag_n}) %>
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD M&I Deliveries", data: locals.ds.dry_del_mi_n, comp: locals.prev_compare.dry_del_mi_n}) %>
+                </div>
+
+                <div class="deltabox">
+                    <%- include("partials/deltaSalinityBar.ejs", {title: "Delta Salinity", data: locals.ds.dry_x2_prv, comp: locals.prev_compare.dry_x2_prv}) %>
+                </div>
+
+                <h4> South of Delta Deliveries </h4>
+                <div class="deliverybox">
+
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD Ag Deliveries", data: locals.ds.dry_del_ag_s, comp: locals.prev_compare.dry_del_ag_s}) %>
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD M&I Deliveries", data: locals.ds.dry_del_mi_s, comp: locals.prev_compare.dry_del_mi_s}) %>
+                </div>
+
+                <div class="equitybox">
+                    <%- include("partials/equityBar.ejs", {title: "Equity", data: locals.ds.dry_equity, comp: locals.prev_compare.dry_equity, prev: locals.prev_compare.dry_equity_value}) %>
+                </div>
+            </div>
+            
+            <div class="block wetYear" style="display: none;">
+                <h2> Wet Year Reservoir Levels </h2>
+                <img src="Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity}) %>
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta}) %>
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville}) %>
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom}) %>
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones}) %>
                 <%- include("partials/percentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton}) %>
-        </div>
+            </div>
+
+            <div class="block wetYear" style="display: none;">
+                <h2> Displaying results from scenario <%= locals.ds.scenario %> during wet years.</h2>
+                <h4> North of Delta Deliveries </h4>
+                <div class="deliverybox" >
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.wet_del_ag_n, comp: locals.prev_compare.wet_del_ag_n}) %>
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD M&I Deliveries", data: locals.ds.wet_del_mi_n, comp: locals.prev_compare.wet_del_mi_n}) %>
+                </div>
+
+                <div class="deltabox">
+                    <%- include("partials/deltaSalinityBar.ejs", {title: "Delta Salinity", data: locals.ds.wet_x2_prv, comp: locals.prev_compare.wet_x2_prv}) %>
+                </div>
+
+                <h4> South of Delta Deliveries </h4>
+                <div class="deliverybox">
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD Ag Deliveries", data: locals.ds.wet_del_ag_s, comp: locals.prev_compare.wet_del_ag_s}) %>
+                    <%- include("partials/percentExceedanceBucket.ejs", {title: "SOD M&I Deliveries", data: locals.ds.wet_del_mi_s, comp: locals.prev_compare.wet_del_mi_s}) %>
+                </div>
+
+                <div class="equitybox">
+                    <%- include("partials/equityBar.ejs", {title: "Equity", data: locals.ds.wet_equity, comp: locals.prev_compare.wet_equity, prev: locals.prev_compare.wet_equity_value}) %>
+                </div>
+
+            </div>
         <% } %>
 
     </div>
