@@ -1,15 +1,21 @@
 .container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 0.5fr 1fr 0.75fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 0.75fr 0.65fr;
+    grid-template-rows: 0.5fr 0.1fr 1fr;
 }
 
 .block {
     background-color: rgb(242, 242, 242);
-    margin: 10px;
-    padding: 20px;
+    margin: 5px;
+    padding: 10px;
 }
+
+.map {
+    width: 100%;
+    grid-row: 1 / -1;
+}
+
 .redtext {
     color: red;
 }
@@ -21,22 +27,35 @@
 
 h4 {
      text-align: center;
+     margin: 10px;
      /* background-color: chocolate; */
     
 }
 
+h5 {
+    font-size: 8px;
+    font-weight: lighter;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+.reservoirContainer {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
 
 .deliverybox {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     /* background-color: chartreuse; */
-    height: 15%;
+    height: 20%;
 }
 
 .deltabox {
     /* background-color: aqua; */
-    height: 20%;
+    height: 25%;
 }
 
 .equitybox {
@@ -52,6 +71,14 @@ h4 {
     align-items: center;
     margin-bottom: 30px;
 }
+
+.reservoirPercentExceedanceBucket {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
 .deltaSalinityBar {
     display: flex;
     flex-flow: column;

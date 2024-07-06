@@ -29,8 +29,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="block">
-            <form action="/submit" method="POST">
+        <div class="block" style="grid-column: 1 / -1;">
+            <form style="display: flex; flex-direction: row; gap: 1rem;" action="/submit" method="POST">
                 <div>
                     <p>Agriculture Demands</p>
                     <input type="radio" id="demands-1" name="demands" value="1.0" required>
@@ -91,7 +91,11 @@
                 </div>
                 <input type="submit" value="Submit">
             </form>
+        </div>
+
+        <div class="block" style="grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between;"> 
             <% if (locals.ds) { %>
+                <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
                 <form>
                     <p>Display Year Type: </p>
                     <input type="radio" id="year-dry" name="wytToggle" value="dry" checked onclick="toggleWYT()">
@@ -105,19 +109,20 @@
         <% if (locals.ds) { %>
 
             <div class="block dryYear" style="display: block;">
-                <h2> Dry Year Reservoir Levels </h2>
-                    <img src="Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
+                <h2> Reservoir Levels </h2>
+                    <div class="reservoirContainer">
+                        <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
 
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones}) %>
-                    <%- include("partials/percentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton}) %>
+                    </div>
             </div>
 
             <div class="block dryYear" style="display: block;">
-                <h2> Displaying results from scenario <%= locals.ds.scenario %> during dry years.</h2>
                 <h4> North of Delta Deliveries </h4>
                 <div class="deliverybox" >
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.dry_del_ag_n, comp: locals.prev_compare.dry_del_ag_n}) %>
@@ -141,18 +146,19 @@
             </div>
             
             <div class="block wetYear" style="display: none;">
-                <h2> Wet Year Reservoir Levels </h2>
-                <img src="Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity}) %>
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta}) %>
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville}) %>
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom}) %>
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones}) %>
-                <%- include("partials/percentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton}) %>
+                <h2> Reservoir Levels </h2>
+                <div class="reservoirContainer">
+                    <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton}) %>
+                </div>
             </div>
 
             <div class="block wetYear" style="display: none;">
-                <h2> Displaying results from scenario <%= locals.ds.scenario %> during wet years.</h2>
                 <h4> North of Delta Deliveries </h4>
                 <div class="deliverybox" >
                     <%- include("partials/percentExceedanceBucket.ejs", {title: "NOD Ag Deliveries", data: locals.ds.wet_del_ag_n, comp: locals.prev_compare.wet_del_ag_n}) %>
@@ -173,6 +179,10 @@
                     <%- include("partials/equityBar.ejs", {title: "Equity", data: locals.ds.wet_equity, comp: locals.prev_compare.wet_equity, prev: locals.prev_compare.wet_equity_value}) %>
                 </div>
 
+            </div>
+
+            <div class="block">
+                <h2> Warnings</h2>
             </div>
         <% } %>
 

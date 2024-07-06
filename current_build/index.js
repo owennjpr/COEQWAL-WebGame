@@ -124,6 +124,21 @@ var prev_compare = {
     wet_x2_prv: 0,
 }
 
+var warnings = {
+    deltaAlertWet: false,
+    deltaAlertDry: false,
+    deltaCriticalWet: false,
+    deltaCriticalDry: false,
+    deliveriesNODWet: false,
+    deliveriesNODDry: false,
+    deliveriesSODWet: false,
+    deliveriesSODDry: false,
+    equityWet: false,
+    equityDry: false,
+    reservoirsWet: false,
+    reservoirsDry: false,
+}
+
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -231,67 +246,41 @@ const getNewDS = async (scenario) => {
 
     // AG DELIVERIES
     // north
-    // const dry_del_cvp_pag_n = await tableQuery(ds.scenario, "dry", "del_cvp_pag_n");
-    // const dry_del_swp_pag_n = await tableQuery(ds.scenario, "dry", "del_swp_pag_n");
-    // ds.dry_del_ag_n = (dry_del_cvp_pag_n + dry_del_swp_pag_n) / ag_n_maximum;
     ds.dry_del_ag_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_n")).map((step) => {
         return {val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob};
     });
 
-    // const wet_del_cvp_pag_n = await tableQuery(ds.scenario, "wet", "del_cvp_pag_n");
-    // const wet_del_swp_pag_n = await tableQuery(ds.scenario, "wet", "del_swp_pag_n");
-    // ds.wet_del_ag_n = (wet_del_cvp_pag_n + wet_del_swp_pag_n) / ag_n_maximum;
     ds.wet_del_ag_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_n")).map((step) => {
         return {val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // // south
-    // const dry_del_cvp_pag_s = await tableQuery(ds.scenario, "dry", "del_cvp_pag_s");
-    // const dry_del_swp_pag_s = await tableQuery(ds.scenario, "dry", "del_swp_pag_s");
-    // ds.dry_del_ag_s = (dry_del_cvp_pag_s + dry_del_swp_pag_s) / ag_s_maximum;
     ds.dry_del_ag_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_ag_s")).map((step) => {
         return {val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob};
     });
 
-    // const wet_del_cvp_pag_s = await tableQuery(ds.scenario, "wet", "del_cvp_pag_s");
-    // const wet_del_swp_pag_s = await tableQuery(ds.scenario, "wet", "del_swp_pag_s");
-    // ds.wet_del_ag_s = (wet_del_cvp_pag_s + wet_del_swp_pag_s) / ag_s_maximum;
     ds.wet_del_ag_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_ag_s")).map((step) => {
         return {val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob};
     });
 
     // M&I DELIVERIES
     // north
-    // const dry_del_cvp_pmi_n = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_n");
-    // const dry_del_swp_pmi_n = await tableQuery(ds.scenario, "dry", "del_swp_pmi_n");
-    // ds.dry_del_mi_n = (dry_del_cvp_pmi_n + dry_del_swp_pmi_n) / mi_n_maximum;
     ds.dry_del_mi_n = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_n")).map((step) => {
         return {val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob};
     });
 
-    // const wet_del_cvp_pmi_n = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_n");
-    // const wet_del_swp_pmi_n = await tableQuery(ds.scenario, "wet", "del_swp_pmi_n");
-    // ds.wet_del_mi_n = (wet_del_cvp_pmi_n + wet_del_swp_pmi_n) / mi_n_maximum;
     ds.wet_del_mi_n = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_n")).map((step) => {
         return {val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob};
     });
 
     // // south
-
-    // const dry_del_cvp_pmi_s = await tableQuery(ds.scenario, "dry", "del_cvp_pmi_s");
-    // const dry_del_swp_pmi_s = await tableQuery(ds.scenario, "dry", "del_swp_pmi_s");
-    // ds.dry_del_mi_s = (dry_del_cvp_pmi_s + dry_del_swp_pmi_s) / mi_s_maximum;
     ds.dry_del_mi_s = (await tableExceedanceQuery(ds.scenario, "dry", "aggregated_mi_s")).map((step) => {
         return {val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob};
     });
 
-    // const wet_del_cvp_pmi_s = await tableQuery(ds.scenario, "wet", "del_cvp_pmi_s");
-    // const wet_del_swp_pmi_s = await tableQuery(ds.scenario, "wet", "del_swp_pmi_s");
-    // ds.wet_del_mi_s = (wet_del_cvp_pmi_s + wet_del_swp_pmi_s) / mi_s_maximum;
     ds.wet_del_mi_s = (await tableExceedanceQuery(ds.scenario, "wet", "aggregated_mi_s")).map((step) => {
         return {val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob};
     });
-
 
     // DELTA SALINITY
     ds.wet_x2_prv = await tableExceedanceQuery(ds.scenario, "wet", "x2_prv");
@@ -299,8 +288,8 @@ const getNewDS = async (scenario) => {
 }
 
 const compareExceedance = (curr, prev) => {
-    const currSum = curr[0].val + curr[1].val + curr[2].val;
-    const prevSum = prev[0].val + prev[1].val + prev[2].val;
+    const currSum = curr[0].val + curr[1].val + curr[2].val + curr[3].val + curr[4].val;
+    const prevSum = prev[0].val + prev[1].val + prev[2].val + prev[3].val + prev[4].val;
     if (currSum === prevSum) {
         return 0;
     } else {
@@ -360,6 +349,22 @@ const compareLastRun = () => {
     return last_run;
 }
 
+const checkWarnings = () => {
+    warnings.deliveriesNODDry = false;
+    warnings.deliveriesNODWet = false;
+    warnings.deliveriesSODDry = false;
+    warnings.deliveriesSODWet = false;
+    warnings.deltaAlertDry = false;
+    warnings.deltaAlertWet = false;
+    warnings.deltaCriticalDry = false;
+    warnings.deltaCriticalWet = false;
+    warnings.equityDry = (ds.dry_equity < 0.6);
+    warnings.equityWet = (ds.wet_equity < 0.6);
+    warnings.reservoirsDry = false;
+    warnings.reservoirsWet = false;
+
+}
+
 app.post("/submit", async (req, res) => {
     const levers = req.body;
     ds.lev_demands = levers["demands"];
@@ -380,6 +385,7 @@ app.post("/submit", async (req, res) => {
 
     await getNewDS(result.rows[0].Scenario);
 
+    checkWarnings();
     // check previous runs here
     let last_run_comparison = prev_compare;
     if (curr_run !== 0) {
@@ -392,6 +398,7 @@ app.post("/submit", async (req, res) => {
     res.render("index.ejs", {
         ds: ds,
         prev_compare: last_run_comparison,
+        warnings: warnings,
     });
 })
 
