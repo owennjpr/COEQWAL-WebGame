@@ -7,9 +7,9 @@
     <title>COEQWAL WEBGAME</title>
     <script>
         const toggleWYT = () => {
-            var wyt = document.querySelector('input[name="wytToggle"]:checked').value;
-            var dryYearData = document.getElementsByClassName('dryYear');
-            var wetYearData = document.getElementsByClassName('wetYear');
+            let wyt = document.querySelector('input[name="wytToggle"]:checked').value;
+            let dryYearData = document.getElementsByClassName('dryYear');
+            let wetYearData = document.getElementsByClassName('wetYear');
 
             // console.log(dryYearData);
             // console.log(wetYearData);
@@ -24,6 +24,22 @@
                     wetYearData.item(i).style.display = 'block';
                 }
             }
+        }
+
+        var compareWithBaseline = true;
+
+        const toggleCompareType = () => {
+            let compType = document.querySelector('input[name="compare-toggle"]:checked').value;
+            if (compType == 'baseline') {
+                compareWithBaseline = true;
+            } else {
+                compareWithBaseline = false;
+            }
+            console.log(compareWithBaseline);
+        }
+
+        const compType = () => {
+            return compareWithBaseline;
         }
     </script>
 </head>
@@ -96,12 +112,29 @@
         <div class="block" style="grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between;"> 
             <% if (locals.ds) { %>
                 <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
+                <form action="/compare" method="POST">
+                    <p>Comparison Type</p>
+                    <% if (locals.baseline) { %>
+                        <input type="radio" id="compare-prev" name="compare-toggle" value="prev">
+                        <label for="compare-baseline">Compare With Previous Run</label>
+                        <input type="radio" id="compare-baseline" name="compare-toggle" checked value="baseline">
+                        <label for="compare-baseline">Compare With Baseline</label>
+                    <% } else { %>
+                        <input type="radio" id="compare-prev" name="compare-toggle" checked value="prev">
+                        <label for="compare-baseline">Compare With Previous Run</label>
+                        <input type="radio" id="compare-baseline" name="compare-toggle" value="baseline">
+                        <label for="compare-baseline">Compare With Baseline</label>
+                    <% } %>
+                    <input type="submit" value="Compare">
+
+                </form>
                 <form>
+                    
                     <p>Display Year Type: </p>
                     <input type="radio" id="year-dry" name="wytToggle" value="dry" checked onclick="toggleWYT()">
-                    <label for="year-dry">Dry Year</label>
+                    <label for="year-dry">Dry Years</label>
                     <input type="radio" id="year-wet" name="wytToggle" value="wet" onclick="toggleWYT()">
-                    <label for="year-wet">Wet Year</label>
+                    <label for="year-wet">Wet Years</label>
                 </form>
             <% } %>
         </div>
@@ -113,12 +146,12 @@
                     <div class="reservoirContainer">
                         <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
 
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity}) %>
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta}) %>
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville}) %>
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom}) %>
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones}) %>
-                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity, cap: caps.trinity}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta, cap: caps.shasta}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.dry_s_oroville, comp: locals.prev_compare.dry_s_oroville, cap: caps.oroville}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.dry_s_folsom, comp: locals.prev_compare.dry_s_folsom, cap: caps.folsom}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.dry_s_newmelones, comp: locals.prev_compare.dry_s_newmelones, cap: caps.newmelones}) %>
+                        <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.dry_s_millerton, comp: locals.prev_compare.dry_s_millerton, cap: caps.millerton}) %>
                     </div>
             </div>
 
@@ -149,12 +182,12 @@
                 <h2> Reservoir Levels </h2>
                 <div class="reservoirContainer">
                     <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity}) %>
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta}) %>
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville}) %>
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom}) %>
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones}) %>
-                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity, cap: caps.trinity}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta, cap: caps.shasta}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville, cap: caps.oroville}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Folsom Storage Level", data: locals.ds.wet_s_folsom, comp: locals.prev_compare.wet_s_folsom, cap: caps.folsom}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "New Melones Storage Level", data: locals.ds.wet_s_newmelones, comp: locals.prev_compare.wet_s_newmelones, cap: caps.newmelones}) %>
+                    <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Millerton Storage Level", data: locals.ds.wet_s_millerton, comp: locals.prev_compare.wet_s_millerton, cap: caps.millerton}) %>
                 </div>
             </div>
 
@@ -183,6 +216,7 @@
 
             <div class="block">
                 <h2> Warnings</h2>
+                <%- include("partials/warnings.ejs", {warnings: locals.warnings}) %>
             </div>
         <% } %>
 

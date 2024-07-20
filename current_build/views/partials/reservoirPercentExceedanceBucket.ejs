@@ -10,7 +10,7 @@
     <p> <%= data[1].prob %>%:  <%= data[1].val %> </p>
     <p> <%= data[2].prob %>%:  <%= data[2].val %> </p> -->
 
-    <div class="bucketElementContainer">
+    <div class="reservoirBucketElementContainer">
         <div style="grid-row: 1 / -1; margin-top: 5px;">
             <div style="display: grid; height: 50px; width: 50px; border: 2px solid black; grid-template-columns: 1fr; grid-template-rows:  
             <%= String(1 - data[4].val) + 'fr' %> 
@@ -28,13 +28,13 @@
             </div>
         </div>
         <div class="measureBar"> </div>
-        <div class="measureText"> 100% </div>
+        <div class="measureText"> <%= Math.round(cap) %>AF </div>
         <div class="measureBar"> </div>
-        <div class="measureText"> 75% </div>
+        <div class="measureText"> <%= Math.round(cap * 3 / 4) %>AF </div>
         <div class="measureBar"> </div>
-        <div class="measureText"> 50%</div>
+        <div class="measureText"> <%= Math.round(cap / 2) %>AF </div>
         <div class="measureBar"></div>
-        <div class="measureText"> 25% </div>
+        <div class="measureText"> <%= Math.round(cap / 4) %>AF </div>
     
     </div>
 
