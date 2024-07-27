@@ -5,15 +5,23 @@ import pg from "pg";
 const app = express();
 const port =  process.env.PORT || 3000;
 
+// const db = new pg.Client({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "COEQWAL",
+//     password: "gr3pw()rd!",
+//     port: 5432,
+//   });
+//   db.connect();
+
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "COEQWAL",
-    password: "gr3pw()rd!",
-    port: 5432,
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
   });
-  db.connect();
-  
+db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
