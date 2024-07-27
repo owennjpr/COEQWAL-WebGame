@@ -5,6 +5,22 @@ import pg from "pg";
 const app = express();
 const port =  process.env.PORT || 3000;
 
+
+const db = new pg.Client({
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+  });
+db.connect()
+    .then(() => console.log("successfully connected to the db"))
+    .catch(err => console.error("db connection failed: ", err.stack));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+
 // const db = new pg.Client({
 //     user: "postgres",
 //     host: "localhost",
@@ -14,17 +30,6 @@ const port =  process.env.PORT || 3000;
 //   });
 //   db.connect();
 
-const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-  });
-db.connect();
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 
 const trinity_capacity = 2447.7;
