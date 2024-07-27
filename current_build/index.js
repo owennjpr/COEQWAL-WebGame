@@ -5,6 +5,15 @@ import pg from "pg";
 const app = express();
 const port =  process.env.PORT || 3000;
 
+console.log('Database connection details:');
+console.log({
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  port: process.env.PG_PORT,
+  ssl: process.env.PG_SSL
+});
+
 
 const db = new pg.Client({
     user: process.env.PG_USER,
