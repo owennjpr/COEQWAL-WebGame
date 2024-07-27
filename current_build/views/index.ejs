@@ -144,7 +144,13 @@
             <div class="block dryYear" style="display: block;">
                 <h2> Reservoir Levels </h2>
                     <div class="reservoirContainer">
-                        <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
+                        <% if (locals.warnings.deltaCriticalDry) { %>
+                            <img class="map" src="images/california_red_arrow.png" alt="A map of california showing an outline of the state with a red arrow pointed into the delta">
+                        <% } else if (locals.warnings.deltaAlertDry) { %>
+                            <img class="map" src="images/california_yellow_arrow.png" alt="A map of california showing an outline of the state with a yellow arrow pointed into the delta">
+                        <% } else { %>
+                            <img class="map" src="images/california_green_arrow.png" alt="A map of california showing an outline of the state with a green arrow pointed into the delta">
+                        <% } %>
 
                         <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.dry_s_trinity, comp: locals.prev_compare.dry_s_trinity, cap: caps.trinity}) %>
                         <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.dry_s_shasta, comp: locals.prev_compare.dry_s_shasta, cap: caps.shasta}) %>
@@ -181,7 +187,15 @@
             <div class="block wetYear" style="display: none;">
                 <h2> Reservoir Levels </h2>
                 <div class="reservoirContainer">
-                    <img class="map" src="images/Map_of_California_outline_small.png" alt="A map of california showing an outline of the state">
+
+                    <% if (locals.warnings.deltaCriticalWet) { %>
+                        <img class="map" src="images/california_red_arrow.png" alt="A map of california showing an outline of the state with a red arrow pointed into the delta">
+                    <% } else if (locals.warnings.deltaAlertWet) { %>
+                        <img class="map" src="images/california_yellow_arrow.png" alt="A map of california showing an outline of the state with a yellow arrow pointed into the delta">
+                    <% } else { %>
+                        <img class="map" src="images/california_green_arrow.png" alt="A map of california showing an outline of the state with a green arrow pointed into the delta">
+                    <% } %>
+                    
                     <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Trinity Storage Level", data: locals.ds.wet_s_trinity, comp: locals.prev_compare.wet_s_trinity, cap: caps.trinity}) %>
                     <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Shasta Storage Level", data: locals.ds.wet_s_shasta, comp: locals.prev_compare.wet_s_shasta, cap: caps.shasta}) %>
                     <%- include("partials/reservoirPercentExceedanceBucket.ejs", {title: "Oroville Storage Level", data: locals.ds.wet_s_oroville, comp: locals.prev_compare.wet_s_oroville, cap: caps.oroville}) %>
