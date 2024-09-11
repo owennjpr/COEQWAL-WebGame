@@ -45,6 +45,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- LEVERS -->
         <div class="block" style="grid-column: 1 / -1;">
             <form style="display: flex; flex-direction: row; gap: 1rem;" action="/submit" method="POST">
                 <div>
@@ -109,6 +110,7 @@
             </form>
         </div>
 
+        <!-- TOGGLES -->
         <div class="block" style="grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between;"> 
             <% if (locals.ds) { %>
                 <h2> Displaying results from scenario <%= locals.ds.scenario %>.</h2>
@@ -116,12 +118,12 @@
                     <p>Comparison Type</p>
                     <% if (locals.baseline) { %>
                         <input type="radio" id="compare-prev" name="compare-toggle" value="prev">
-                        <label for="compare-baseline">Compare With Previous Run</label>
+                        <label for="compare-prev">Compare With Previous Run</label>
                         <input type="radio" id="compare-baseline" name="compare-toggle" checked value="baseline">
                         <label for="compare-baseline">Compare With Baseline</label>
                     <% } else { %>
                         <input type="radio" id="compare-prev" name="compare-toggle" checked value="prev">
-                        <label for="compare-baseline">Compare With Previous Run</label>
+                        <label for="compare-prev">Compare With Previous Run</label>
                         <input type="radio" id="compare-baseline" name="compare-toggle" value="baseline">
                         <label for="compare-baseline">Compare With Baseline</label>
                     <% } %>

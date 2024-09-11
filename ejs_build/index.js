@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
-import 'dotenv/config';
+// import 'dotenv/config';
 
 const app = express();
 const port =  process.env.PORT || 3000;
@@ -9,30 +9,31 @@ const port =  process.env.PORT || 3000;
 console.log('Database connection details:');
 
 
-const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-    ssl: true,
-  });
-db.connect()
-    .then(() => console.log("successfully connected to the db"))
-    .catch(err => console.error("db connection failed: ", err.stack));
+// const db = new pg.Client({
+//     user: process.env.PG_USER,
+//     host: process.env.PG_HOST,
+//     database: process.env.PG_DATABASE,
+//     password: process.env.PG_PASSWORD,
+//     port: process.env.PG_PORT,
+//     ssl: true,
+//   });
+// db.connect()
+//     .then(() => console.log("successfully connected to the db"))
+//     .catch(err => console.error("db connection failed: ", err.stack));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-// const db = new pg.Client({
-//     user: "postgres",
-//     host: "localhost",
-//     database: "COEQWAL",
-//     password: "gr3pw()rd!",
-//     port: 5432,
-//   });
-//   db.connect();
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "COEQWAL",
+    password: "gr3pw()rd!",
+    port: 5432,
+  });
+
+db.connect();
 
 
 
