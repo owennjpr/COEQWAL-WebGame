@@ -1,5 +1,5 @@
 import express from "express"
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 import pg from "pg";
 import { caps, 
          trinity_capacity, 
@@ -30,7 +30,8 @@ const port =  process.env.PORT || 8080;
 //     .catch(err => console.error("db connection failed: ", err.stack));
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // local db connection
 const db = new pg.Client({
@@ -498,42 +499,45 @@ app.get("/api", (req, res) => {
     res.json({"data": [1, 2, 3]})
 })
 
-app.get("/submit", async (req, res) => {
-    const levers = req.body;
-    ds.lev_demands = levers["demands"];
-    ds.lev_carryover = levers["carryover"];
-    ds.lev_priority = levers["priority"];
-    ds.lev_delta = levers["delta"];
-    ds.lev_minflow = levers["minflow"];
-
-    const result = await db.query('SELECT "Scenario" FROM "CalLite_Levers" WHERE d = $1 AND c = $2 AND p = $3 AND r = $4 AND m = $5;',
-        [
-            ds.lev_demands,
-            ds.lev_carryover,
-            ds.lev_priority,
-            ds.lev_delta,
-            ds.lev_minflow
-        ]
-    )
-
-    ds = await getNewDS(result.rows[0].Scenario);
-
-    checkWarnings();
-    // check previous runs here
-    if (curr_run !== 0) {
-        prev_compare = compareRun(prev_runs[(prev_runs.length - 1)]);
-    }
+app.post("/submit", async (req, res) => {
+    try {
+        const levers = req.body;
+        ds.lev_demands = levers["demands"];
+        ds.lev_carryover = levers["carryover"];
+        ds.lev_priority = levers["priority"];
+        ds.lev_delta = levers["delta"];
+        ds.lev_minflow = levers["minflow"];
     
-    // append new run
-    prev_runs.push(JSON.parse(JSON.stringify(ds)));
-    curr_run += 1;
+        const result = await db.query('SELECT "Scenario" FROM "CalLite_Levers" WHERE d = $1 AND c = $2 AND p = $3 AND r = $4 AND m = $5;',
+            [
+                ds.lev_demands,
+                ds.lev_carryover,
+                ds.lev_priority,
+                ds.lev_delta,
+                ds.lev_minflow
+            ]
+        )
 
-    res.json({
-        ds: ds,
-        prev_compare: prev_compare,
-        warnings: warnings,
-        caps: caps,
-    });
+        ds = await getNewDS(result.rows[0].Scenario);
+    
+        checkWarnings();
+        // check previous runs here
+        if (curr_run !== 0) {
+            prev_compare = compareRun(prev_runs[(prev_runs.length - 1)]);
+        }
+        
+        // append new run
+        prev_runs.push(JSON.parse(JSON.stringify(ds)));
+        curr_run += 1;
+
+        res.json({
+            ds: ds,
+            prev_compare: prev_compare,
+            warnings: warnings,
+        });
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 app.listen(port, () => {

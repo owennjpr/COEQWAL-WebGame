@@ -45,7 +45,8 @@ function LeverForm(props) {
 
     return (
         <div class="block" style={{gridColumn: "1 / -1"}}>
-            <form style={{display: "flex", flexDirection: "row", gap: "1rem",}} onSubmit={submission}>
+            <div style={{display: "flex", flexDirection: "row", gap: "1rem",}}>
+            {/* <form style={{display: "flex", flexDirection: "row", gap: "1rem",}} onSubmit={submission}> */}
                 <div>
                     <p>Agriculture Demands</p>
                     <input type="radio" id="demands-1" name="demands" value="1.0" onChange={handleChange} required />
@@ -104,8 +105,9 @@ function LeverForm(props) {
                     <label for="0.8">80% of unimpaired flow</label>
 
                 </div>
-                <input type="submit" value="Submit"/>
-            </form>
+                <button onClick={submission}>Submit</button>
+            {/* </form> */}
+            </div>
         </div>
   )
 }
