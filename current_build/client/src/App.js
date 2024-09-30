@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import LeverForm from './LeverForm'
 import axios from 'axios'
 import { caps } from './constants'
+import MetricsBlock from './MetricsBlock'
+
 
 const App = () => {
   // const [backendData, setBackendData] = useState([{}])
@@ -9,6 +11,7 @@ const App = () => {
   const [dataState, setDataState] = useState({})
   const [prevState, setPrevState] = useState({})
   const [warnings, setWarnings] = useState({})
+  const [waterYearType, setWaterYearType] = useState("dry")
 
   // const []
 
@@ -17,6 +20,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    console.log(levers);
     const fetchData = async () => {
       if (levers) {
         const data = await axios.post("/submit", levers)
@@ -33,10 +37,11 @@ const App = () => {
     <div>
       <LeverForm handleSubmit={handleSubmit}></LeverForm>
 
-      {(typeof dataState === 'undefined') ? (
+      {(!dataState.scenario) ? (
         <p>nothing yet</p>
       ) : (
-          <p>{dataState.scenario}</p>
+        <MetricsBlock wyt={waterYearType} ds={dataState} compare={prevState}></MetricsBlock>
+
       )}
     </div>
   )

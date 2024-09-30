@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 
-function LeverForm(props) {
+function LeverForm({handleSubmit}) {
     const [demands, setDemands] = useState("1.0");
     const [carryover, setCarryover] = useState("1.0");
     const [priority, setPriority] = useState("0");
@@ -17,7 +17,7 @@ function LeverForm(props) {
             minflow: minflow
         };
         
-        props.handleSubmit(levers);
+        handleSubmit(levers);
     }
 
     const handleChange = (event) => {
