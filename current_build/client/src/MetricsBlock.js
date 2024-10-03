@@ -7,7 +7,6 @@ function MetricsBlock({wyt, ds, compare}) {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gridTemplateRows: "1fr",
-            height: "20%",
         },
         coreblock: {
             backgroundColor: "rgb(240, 240, 250)",
@@ -40,12 +39,12 @@ function MetricsBlock({wyt, ds, compare}) {
     } else {
         return (
             <div style={styles.coreblock}>
-                <h4>North of Delta Deliveries</h4>
+                <p style={styles.headerText}>North of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
                     <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_n} compare={compare.wet_del_ag_n}></ExceedanceBucket>
                     <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_n} compare={compare.wet_del_mi_n}></ExceedanceBucket>
                 </div>
-                <h4>South of Delta Deliveries</h4>
+                <p style={styles.headerText}>North of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
                     <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_s} compare={compare.wet_del_ag_s}></ExceedanceBucket>
                     <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_s} compare={compare.wet_del_mi_s}></ExceedanceBucket>

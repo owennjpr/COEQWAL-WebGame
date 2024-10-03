@@ -52,6 +52,7 @@ function LeverForm({handleSubmit}) {
             display: "flex", 
             flexDirection: "row", 
             gap: "1rem",
+            gridColumn: "1 / -1",
         },
         miniHeader: {
             fontWeight: "bold",
