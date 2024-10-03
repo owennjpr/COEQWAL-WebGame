@@ -64,17 +64,14 @@ function ExceedanceBucket({title, data, compare}) {
         let heights = ""
         for (let i = 4; i >= -1; i--) {
             if (i === 4) {
-                // console.log("1 - 4")
                 heights += String(1 - data[i].val) + "fr "
             } else if (i === -1) {
-                // console.log("0")
                 heights += String(data[0].val) + "fr "
             } else {
-                // console.log(i + " - " + (i + 1))
                 heights += String(data[i].val - data[i+1].val) + "fr "
             }
         }
-        // console.log(heights);
+
         setBarHeights(heights)
 
         if (compare === 1) {

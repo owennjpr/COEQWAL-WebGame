@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import LeverForm from './LeverForm'
 import axios from 'axios'
-import { caps } from './constants'
 import MetricsBlock from './MetricsBlock'
 
 
@@ -38,7 +37,7 @@ const App = () => {
       <LeverForm handleSubmit={handleSubmit}></LeverForm>
 
       {(!dataState.scenario) ? (
-        <p>nothing yet</p>
+        <p>No data to display</p>
       ) : (
         <MetricsBlock wyt={waterYearType} ds={dataState} compare={prevState}></MetricsBlock>
 
