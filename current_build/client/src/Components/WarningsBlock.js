@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import WarningSymbol from './svgs/WarningSymbol';
+import WarningSymbol from '../svgs/WarningSymbol';
 
 
 function WarningsBlock({warnings}) {

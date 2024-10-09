@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import LeverForm from './LeverForm'
+import LeverForm from './Components/LeverForm'
 import axios from 'axios'
-import MetricsBlock from './MetricsBlock'
-import WarningsBlock from './WarningsBlock'
+import MetricsBlock from './Components/MetricsBlock'
+import WarningsBlock from './Components/WarningsBlock'
+import ReservoirBlock from './Components/ReservoirBlock'
 
 
 const App = () => {
@@ -19,7 +20,6 @@ const App = () => {
       gridTemplateColumns: "1fr 0.75fr 0.65fr",
       gridTemplateRows: "0.1fr 1fr",
   }
-  
   }
 
 
@@ -50,7 +50,7 @@ const App = () => {
       ) : (
         <div style={styles.container}>
           <div style={{gridColumn: "1 / -1", backgroundColor: "rgb(240, 240, 250)", margin: "5px"}}> selection block </ div>
-          <div style={{backgroundColor: "rgb(240, 240, 250)", margin: "5px"}}>Reservoir block</ div>
+          <ReservoirBlock wyt={waterYearType} ds={dataState} compare={prevState}></ReservoirBlock>
           <MetricsBlock wyt={waterYearType} ds={dataState} compare={prevState}></MetricsBlock>
           <WarningsBlock warnings={warnings}></WarningsBlock>
         </div>

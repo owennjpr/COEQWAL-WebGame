@@ -26,13 +26,13 @@ function MetricsBlock({wyt, ds, compare}) {
             <div style={styles.coreblock}>
                 <p style={styles.headerText}>North of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
-                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.dry_del_ag_n} compare={compare.dry_del_ag_n}></ExceedanceBucket>
-                    <ExceedanceBucket title="City Deliveries" data={ds.dry_del_mi_n} compare={compare.dry_del_mi_n}></ExceedanceBucket>
+                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.dry_del_ag_n} compare={compare.dry_del_ag_n} w={100} h={100}></ExceedanceBucket>
+                    <ExceedanceBucket title="City Deliveries" data={ds.dry_del_mi_n} compare={compare.dry_del_mi_n} w={100} h={100}></ExceedanceBucket>
                 </div>
                 <p style={styles.headerText}>South of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
-                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.dry_del_ag_s} compare={compare.dry_del_ag_s}></ExceedanceBucket>
-                    <ExceedanceBucket title="City Deliveries" data={ds.dry_del_mi_s} compare={compare.dry_del_mi_s}></ExceedanceBucket>
+                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.dry_del_ag_s} compare={compare.dry_del_ag_s} w={100} h={100}></ExceedanceBucket>
+                    <ExceedanceBucket title="City Deliveries" data={ds.dry_del_mi_s} compare={compare.dry_del_mi_s} w={100} h={100}></ExceedanceBucket>
                 </div>           
             </div>
         )    
@@ -41,13 +41,13 @@ function MetricsBlock({wyt, ds, compare}) {
             <div style={styles.coreblock}>
                 <p style={styles.headerText}>North of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
-                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_n} compare={compare.wet_del_ag_n}></ExceedanceBucket>
-                    <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_n} compare={compare.wet_del_mi_n}></ExceedanceBucket>
+                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_n} compare={compare.wet_del_ag_n} w={100} h={100}></ExceedanceBucket>
+                    <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_n} compare={compare.wet_del_mi_n} w={100} h={100}></ExceedanceBucket>
                 </div>
                 <p style={styles.headerText}>North of Delta Deliveries</p>
                 <div style={styles.deliverybox}>
-                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_s} compare={compare.wet_del_ag_s}></ExceedanceBucket>
-                    <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_s} compare={compare.wet_del_mi_s}></ExceedanceBucket>
+                    <ExceedanceBucket title="Agriculture Deliveries" data={ds.wet_del_ag_s} compare={compare.wet_del_ag_s} w={100} h={100}></ExceedanceBucket>
+                    <ExceedanceBucket title="City Deliveries" data={ds.wet_del_mi_s} compare={compare.wet_del_mi_s} w={100} h={100}></ExceedanceBucket>
                 </div>
             </div>
 

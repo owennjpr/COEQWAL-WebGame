@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import DownArrowSVG from './svgs/DownArrowSVG';
-import UpArrowSVG from './svgs/UpArrowSVG';
-import EmptyCircle from './svgs/EmptyCircle';
+import DownArrowSVG from '../svgs/DownArrowSVG';
+import UpArrowSVG from '../svgs/UpArrowSVG';
+import EmptyCircle from '../svgs/EmptyCircle';
 
 
-function ExceedanceBucket({title, data, compare}) {
+function ExceedanceBucket({title, data, compare, w, h}) {
     const styles = {
         percentExceedanceBucket: {
             display: "flex",
@@ -99,7 +99,7 @@ function ExceedanceBucket({title, data, compare}) {
 
         <div style={styles.bucketContainer}>
             <div style={styles.barContainer}>
-                <div style={{display: "grid", height: "100px", width: "100px", border: "2px solid black", gridTemplateColumns: "1fr", gridTemplateRows: barHeights}}>
+                <div style={{display: "grid", height: h, width: w, border: "2px solid black", gridTemplateColumns: "1fr", gridTemplateRows: barHeights}}>
                     <div style={styles.p0bucket}></div>
                     <div style={styles.p10bucket}></div>
                     <div style={styles.p30bucket}></div>
