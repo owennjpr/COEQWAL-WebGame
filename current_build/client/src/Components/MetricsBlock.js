@@ -33,7 +33,7 @@ function MetricsBlock({wyt, ds, compare}) {
                 <div style={styles.deliverybox}>
                     <ExceedanceBucket title="Agriculture Deliveries" data={ds.dry_del_ag_s} compare={compare.dry_del_ag_s} w={100} h={100}></ExceedanceBucket>
                     <ExceedanceBucket title="City Deliveries" data={ds.dry_del_mi_s} compare={compare.dry_del_mi_s} w={100} h={100}></ExceedanceBucket>
-                </div>           
+                </div>
             </div>
         )    
     } else {

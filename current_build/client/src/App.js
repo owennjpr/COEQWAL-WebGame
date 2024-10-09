@@ -7,7 +7,6 @@ import ReservoirBlock from './Components/ReservoirBlock'
 
 
 const App = () => {
-  // const [backendData, setBackendData] = useState([{}])
   const [levers, setLevers] = useState({})
   const [dataState, setDataState] = useState({})
   const [prevState, setPrevState] = useState({})
