@@ -3,7 +3,7 @@ import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
 
-function DeltaSalinityBar({ title, data, compare, w, h }) {
+function DeltaSalinityVisual({ title, data, compare, w, h }) {
   const [barHeights, setBarHeights] = useState("1fr");
   const [titleColor, setTitleColor] = useState("black");
   const [arrowComponent, setArrowComponent] = useState(<div></div>);
@@ -86,7 +86,7 @@ function DeltaSalinityBar({ title, data, compare, w, h }) {
         style={{
           ...styles.gradientBox,
           background:
-            "linear-gradient(60deg, rgba(255,0,0,1) 0%, rgba(246,246,8,1) 50%, rgba(59,255,0,1) 100%)",
+            "linear-gradient(60deg, #ff0000 0%, #ff4600 20%, #ff7900 20%, #ff9c00, 40%, #ffc200 40%, #ffdc00 60%, #fffe00 60%, #e8eb00 80%, #17db03 80%, #00c900 100%)",
         }}
         alt="map of california delta"
       />
@@ -157,4 +157,4 @@ const styles = {
   },
 };
 
-export default DeltaSalinityBar;
+export default DeltaSalinityVisual;
