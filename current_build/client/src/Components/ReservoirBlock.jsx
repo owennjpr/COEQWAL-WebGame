@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ExceedanceBucket from "./ExceedanceBucket";
 
 function ReservoirBlock({ wyt, ds, compare }) {
@@ -91,7 +91,7 @@ function ReservoirBlock({ wyt, ds, compare }) {
               title="Agriculture Deliveries"
               data={ds.dry_del_ag_n}
               compare={compare.dry_del_ag_n}
-              w={100}
+              w={75}
               h={100}
             ></ExceedanceBucket>
           </div>
@@ -100,7 +100,7 @@ function ReservoirBlock({ wyt, ds, compare }) {
               title="City Deliveries"
               data={ds.dry_del_mi_n}
               compare={compare.dry_del_mi_n}
-              w={100}
+              w={75}
               h={100}
             ></ExceedanceBucket>
           </div>
@@ -109,7 +109,7 @@ function ReservoirBlock({ wyt, ds, compare }) {
               title="Agriculture Deliveries"
               data={ds.dry_del_ag_s}
               compare={compare.dry_del_ag_s}
-              w={100}
+              w={75}
               h={100}
             ></ExceedanceBucket>
           </div>
@@ -118,7 +118,7 @@ function ReservoirBlock({ wyt, ds, compare }) {
               title="City Deliveries"
               data={ds.dry_del_mi_s}
               compare={compare.dry_del_mi_s}
-              w={100}
+              w={75}
               h={100}
             ></ExceedanceBucket>
           </div>
@@ -188,6 +188,43 @@ function ReservoirBlock({ wyt, ds, compare }) {
               compare={compare.wet_s_millerton}
               w={75}
               h={75}
+            ></ExceedanceBucket>
+          </div>
+
+          <div style={{ position: "absolute", top: 10, left: 50 }}>
+            <ExceedanceBucket
+              title="Agriculture Deliveries"
+              data={ds.wet_del_ag_n}
+              compare={compare.wet_del_ag_n}
+              w={75}
+              h={100}
+            ></ExceedanceBucket>
+          </div>
+          <div style={{ position: "absolute", top: 175, left: 120 }}>
+            <ExceedanceBucket
+              title="City Deliveries"
+              data={ds.wet_del_mi_n}
+              compare={compare.wet_del_mi_n}
+              w={75}
+              h={100}
+            ></ExceedanceBucket>
+          </div>
+          <div style={{ position: "absolute", top: 350, left: 200 }}>
+            <ExceedanceBucket
+              title="Agriculture Deliveries"
+              data={ds.wet_del_ag_s}
+              compare={compare.wet_del_ag_s}
+              w={75}
+              h={100}
+            ></ExceedanceBucket>
+          </div>
+          <div style={{ position: "absolute", top: 475, left: 350 }}>
+            <ExceedanceBucket
+              title="City Deliveries"
+              data={ds.wet_del_mi_s}
+              compare={compare.wet_del_mi_s}
+              w={75}
+              h={100}
             ></ExceedanceBucket>
           </div>
         </div>

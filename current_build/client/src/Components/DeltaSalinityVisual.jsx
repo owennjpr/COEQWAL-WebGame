@@ -5,6 +5,7 @@ import EmptyCircle from "../svgs/EmptyCircle";
 
 function DeltaSalinityVisual({ title, data, compare, w, h }) {
   const [barHeights, setBarHeights] = useState("1fr");
+  const [tiers, setTiers] = useState("white");
   const [titleColor, setTitleColor] = useState("black");
   const [arrowComponent, setArrowComponent] = useState(<div></div>);
 
@@ -22,6 +23,31 @@ function DeltaSalinityVisual({ title, data, compare, w, h }) {
 
     setBarHeights(heights);
 
+    console.log(data[0].val);
+    console.log(data[1].val);
+    console.log(data[2].val);
+    console.log(data[3].val);
+    console.log(data[4].val);
+
+    // 66
+    const scalar = 0.66;
+    let tier = "linear-gradient(45deg, #ff0000 0%, ";
+    tier += `#ff4600 ${String(data[4].val * scalar + 14)}%, #ff7900 ${String(
+      data[4].val * scalar + 14
+    )}%, `;
+    tier += `#ff9c00, ${String(data[3].val * scalar + 14)}%, #ffc200 ${String(
+      data[3].val * scalar + 14
+    )}%, `;
+    tier += `#ffdc00 ${String(data[2].val * scalar + 14)}%, #fffe00 ${String(
+      data[2].val * scalar + 14
+    )}%, `;
+    tier += `#e8eb00 ${String(data[1].val * scalar + 14)}%, #17db03 ${String(
+      data[1].val * scalar + 14
+    )}%, #00c900 100%)`;
+
+    console.log(tier);
+    setTiers(tier);
+
     if (compare === -1) {
       setTitleColor("red");
       setArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
@@ -36,60 +62,70 @@ function DeltaSalinityVisual({ title, data, compare, w, h }) {
 
   return (
     <div
-      style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <div style={styles.deltaSalinityBar}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 5,
+        }}
+      >
+        {arrowComponent}
+        <p style={{ color: titleColor, fontWeight: "bold" }}>{title}</p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 5,
+            ...styles.gradientBox,
+            background: tiers,
+            marginTop: "5px",
           }}
         >
-          {arrowComponent}
-          <p style={{ color: titleColor, fontWeight: "bold" }}>{title}</p>
+          <img
+            src="/NewDeltaOutline.png"
+            style={styles.image}
+            alt="map of california delta"
+          />
         </div>
-        <div style={styles.salinityContainer}>
-          <div style={styles.barContainer}>
-            <div
-              style={{
-                display: "grid",
-                height: h,
-                width: w,
-                border: "2px solid black",
-                gridTemplateColumns: "1fr",
-                gridTemplateRows: barHeights,
-              }}
-            >
-              <div style={styles.p0delta}></div>
-              <div style={styles.p10delta}></div>
-              <div style={styles.p30delta}></div>
-              <div style={styles.p50delta}></div>
-              <div style={styles.p70delta}></div>
-              <div style={styles.p90delta}></div>
+        <div style={styles.deltaSalinityBar}>
+          <div style={styles.salinityContainer}>
+            <div style={styles.barContainer}>
+              <div
+                style={{
+                  display: "grid",
+                  height: h,
+                  width: w,
+                  border: "2px solid black",
+                  gridTemplateColumns: "1fr",
+                  gridTemplateRows: barHeights,
+                }}
+              >
+                <div style={styles.p0delta}></div>
+                <div style={styles.p10delta}></div>
+                <div style={styles.p30delta}></div>
+                <div style={styles.p50delta}></div>
+                <div style={styles.p70delta}></div>
+                <div style={styles.p90delta}></div>
+              </div>
             </div>
+            <div style={styles.measureBar}> </div>
+            <div style={styles.measureText}> 100km </div>
+            <div style={styles.measureBar}> </div>
+            <div style={styles.measureText}> 90km </div>
+            <div style={styles.measureBar}> </div>
+            <div style={styles.measureText}> 80km </div>
+            <div style={styles.measureBar}> </div>
+            <div style={styles.measureText}> 70km </div>
           </div>
-          <div style={styles.measureBar}> </div>
-          <div style={styles.measureText}> 100km </div>
-          <div style={styles.measureBar}> </div>
-          <div style={styles.measureText}> 90km </div>
-          <div style={styles.measureBar}> </div>
-          <div style={styles.measureText}> 80km </div>
-          <div style={styles.measureBar}> </div>
-          <div style={styles.measureText}> 70km </div>
         </div>
       </div>
-      {/* <img style={styles.gradientBox}></div> */}
-      <img
-        src="/NewDeltaOutline.png"
-        style={{
-          ...styles.gradientBox,
-          background:
-            "linear-gradient(60deg, #ff0000 0%, #ff4600 20%, #ff7900 20%, #ff9c00, 40%, #ffc200 40%, #ffdc00 60%, #fffe00 60%, #e8eb00 80%, #17db03 80%, #00c900 100%)",
-        }}
-        alt="map of california delta"
-      />
     </div>
   );
 }
@@ -121,27 +157,27 @@ const styles = {
     marginTop: "5px",
   },
   p0delta: {
-    backgroundColor: "white",
+    backgroundColor: "#00c900",
   },
 
   p10delta: {
-    backgroundColor: "rgb(255, 213, 0)",
+    backgroundColor: "#00c900",
   },
 
   p30delta: {
-    backgroundColor: "rgb(255, 255, 0)",
+    backgroundColor: "#e8eb00",
   },
 
   p50delta: {
-    backgroundColor: "rgb(187, 255, 0)",
+    backgroundColor: "#ffdc00",
   },
 
   p70delta: {
-    backgroundColor: "rgb(120, 255, 0)",
+    backgroundColor: "#ff9c00",
   },
 
   p90delta: {
-    backgroundColor: "rgb(0, 255, 0)",
+    backgroundColor: "#ff4600",
   },
   downArrow: {
     color: "green",
@@ -154,6 +190,11 @@ const styles = {
     height: 400,
     border: "2px solid black",
     background: "rgb(255,0,0)",
+  },
+  image: {
+    width: 600,
+    height: 400,
+    opacity: 0.9,
   },
 };
 

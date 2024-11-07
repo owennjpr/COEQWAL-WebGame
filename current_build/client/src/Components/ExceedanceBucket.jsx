@@ -50,7 +50,6 @@ function ExceedanceBucket({ title, data, compare, w, h }) {
             color: titleColor,
             fontWeight: "bold",
             fontSize: w / 6,
-            backgroundColor: "rgb(240, 240, 250)",
           }}
         >
           {title}
