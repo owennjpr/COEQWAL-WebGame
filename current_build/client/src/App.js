@@ -17,7 +17,7 @@ const App = () => {
   const styles = {
     container: {
       display: "grid",
-      gridTemplateColumns: "1fr 0.75fr 0.65fr",
+      gridTemplateColumns: "1fr 1.4fr",
       gridTemplateRows: "0.1fr 1fr",
     },
   };
@@ -62,6 +62,7 @@ const App = () => {
             setCompareType={setCompareType}
             handleWYT={handleWYT}
             handleCompareType={handleCompareType}
+            warnings={warnings}
           />
           <ReservoirBlock
             wyt={waterYearType}
@@ -73,7 +74,7 @@ const App = () => {
             ds={dataState}
             compare={compareState}
           />
-          <WarningsBlock warnings={warnings} />
+          {/* <WarningsBlock warnings={warnings} /> */}
         </div>
       )}
     </div>

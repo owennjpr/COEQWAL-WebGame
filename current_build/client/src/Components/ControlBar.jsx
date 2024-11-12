@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import WarningsPopup from "./WarningsPopup";
 
 function ControlBar({
   scenario,
@@ -6,6 +7,7 @@ function ControlBar({
   setCompareType,
   handleWYT,
   handleCompareType,
+  warnings,
 }) {
   const [wyt, setWyt] = useState("dry");
 
@@ -82,6 +84,7 @@ function ControlBar({
             <p style={styles.buttonText}>Wet Years</p>
           </button>
         </div>
+        <WarningsPopup warnings={warnings} />
       </div>
     );
   }
