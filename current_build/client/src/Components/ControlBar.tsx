@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import WarningsPopup from "./WarningsPopup";
+import { Warnings } from "../../../types";
 
-function ControlBar({
-  scenario,
-  compareType,
-  setCompareType,
-  handleWYT,
-  handleCompareType,
-  warnings,
-}) {
-  const [wyt, setWyt] = useState("dry");
+interface ControlBarProps {
+  scenario: string;
+  compareType: string;
+  setCompareType: (arg0: string) => null;
+  handleWYT: (arg0: string) => null;
+  handleCompareType: (arg0: string) => null;
+  warnings: Warnings;
+}
+
+function ControlBar(props: ControlBarProps) {
+  const {
+    scenario,
+    compareType,
+    setCompareType,
+    handleWYT,
+    handleCompareType,
+    warnings,
+  } = props;
+  const [wyt, setWyt] = useState<string>("dry");
 
   const toggleWYT = () => {
     if (wyt === "dry") {

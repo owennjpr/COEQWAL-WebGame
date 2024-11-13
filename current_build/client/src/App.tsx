@@ -2,17 +2,25 @@ import React, { useEffect, useState } from "react";
 import LeverForm from "./Components/LeverForm";
 import axios from "axios";
 import MetricsBlock from "./Components/MetricsBlock";
-import WarningsBlock from "./Components/WarningsBlock";
 import ReservoirBlock from "./Components/ReservoirBlock";
 import ControlBar from "./Components/ControlBar";
+import {
+  DataState,
+  CompareState,
+  Warnings,
+  nullWarnings,
+  neutralCompare,
+  emptyDataState,
+} from "../../types";
 
 const App = () => {
   const [levers, setLevers] = useState({});
-  const [dataState, setDataState] = useState({});
-  const [compareState, setCompareState] = useState({});
-  const [warnings, setWarnings] = useState({});
-  const [waterYearType, setWaterYearType] = useState("dry");
-  const [compareType, setCompareType] = useState("previous");
+  const [dataState, setDataState] = useState<DataState>(emptyDataState);
+  const [compareState, setCompareState] =
+    useState<CompareState>(neutralCompare);
+  const [warnings, setWarnings] = useState<Warnings>(nullWarnings);
+  const [waterYearType, setWaterYearType] = useState<string>("dry");
+  const [compareType, setCompareType] = useState<string>("previous");
 
   const styles = {
     container: {
@@ -30,7 +38,7 @@ const App = () => {
     setWaterYearType(wyt);
   };
 
-  const handleCompareType = async (compare) => {
+  const handleCompareType = async (compare: CompareState) => {
     const data = await axios.post("/compare", { compare: compare });
     setCompareState(data.data.compare);
   };
@@ -74,7 +82,6 @@ const App = () => {
             ds={dataState}
             compare={compareState}
           />
-          {/* <WarningsBlock warnings={warnings} /> */}
         </div>
       )}
     </div>

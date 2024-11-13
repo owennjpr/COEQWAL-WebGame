@@ -14,6 +14,12 @@ import {
   mi_n_maximum,
   mi_s_maximum,
 } from "./constants.js";
+import {
+  DataState,
+  emptyDataState,
+  neutralCompare,
+  nullWarnings,
+} from "../types.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -44,117 +50,22 @@ const db = new pg.Client({
 
 db.connect();
 
-const prev_runs = [];
+const prev_runs: DataState[] = [];
 var curr_run = 0;
 
-var ds = {
-  // Scenario
-  scenario: "",
+var ds = emptyDataState;
 
-  // Levers
-  lev_demands: 0,
-  lev_carryover: 0,
-  lev_priority: 0,
-  lev_delta: 0,
-  lev_minflow: 0,
-
-  // Reservoirs
-  dry_s_trinity: [],
-  wet_s_trinity: [],
-  dry_s_shasta: [],
-  wet_s_shasta: [],
-  dry_s_oroville: [],
-  wet_s_oroville: [],
-  dry_s_folsom: [],
-  wet_s_folsom: [],
-  dry_s_newmelones: [],
-  wet_s_newmelones: [],
-  dry_s_millerton: [],
-  wet_s_millerton: [],
-
-  // Summary Metrics
-  dry_equity: 0,
-  wet_equity: 0,
-
-  // Deliveries
-  dry_del_ag_n: [],
-  wet_del_ag_n: [],
-  dry_del_ag_s: [],
-  wet_del_ag_s: [],
-  dry_del_mi_n: [],
-  wet_del_mi_n: [],
-  dry_del_mi_s: [],
-  wet_del_mi_s: [],
-
-  // Delta Salinity
-  dry_x2_prv: [],
-  wet_x2_prv: [],
-};
-
-var prev_compare = {
-  // Scenario
-  scenario: "",
-
-  // Levers
-  lev_demands: 0,
-  lev_carryover: 0,
-  lev_priority: 0,
-  lev_delta: 0,
-  lev_minflow: 0,
-
-  // Reservoirs
-  dry_s_trinity: 0,
-  wet_s_trinity: 0,
-  dry_s_shasta: 0,
-  wet_s_shasta: 0,
-  dry_s_oroville: 0,
-  wet_s_oroville: 0,
-  dry_s_folsom: 0,
-  wet_s_folsom: 0,
-  dry_s_newmelones: 0,
-  wet_s_newmelones: 0,
-  dry_s_millerton: 0,
-  wet_s_millerton: 0,
-
-  // Summary Metrics
-  dry_equity: 0,
-  dry_equity_value: 0,
-  wet_equity: 0,
-  wet_equity_value: 0,
-
-  // Deliveries
-  dry_del_ag_n: 0,
-  wet_del_ag_n: 0,
-  dry_del_ag_s: 0,
-  wet_del_ag_s: 0,
-  dry_del_mi_n: 0,
-  wet_del_mi_n: 0,
-  dry_del_mi_s: 0,
-  wet_del_mi_s: 0,
-
-  // Delta Salinity
-  dry_x2_prv: 0,
-  wet_x2_prv: 0,
-};
+var prev_compare = neutralCompare;
 
 var comp_baseline;
 
-var warnings = {
-  deltaAlertWet: false,
-  deltaAlertDry: false,
-  deltaCriticalWet: false,
-  deltaCriticalDry: false,
-  deliveriesNODWet: false,
-  deliveriesNODDry: false,
-  deliveriesSODWet: false,
-  deliveriesSODDry: false,
-  equityWet: false,
-  equityDry: false,
-  reservoirsWet: false,
-  reservoirsDry: false,
-};
+var warnings = nullWarnings;
 
-const tableExceedanceQuery = async (scenario, wyt, tableName) => {
+const tableExceedanceQuery = async (
+  scenario: string,
+  wyt: string,
+  tableName: string
+) => {
   // const result = await db.query(`SELECT SUM(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY SUM(${scenario}) DESC`);
   const result = await db.query(
     `SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario}) DESC`
@@ -195,102 +106,84 @@ const tableExceedanceQuery = async (scenario, wyt, tableName) => {
   return values;
 };
 
-const getNewDS = async (scenario) => {
-  let new_ds = {
-    // Scenario
-    scenario: "",
-
-    // Levers
-    lev_demands: 0,
-    lev_carryover: 0,
-    lev_priority: 0,
-    lev_delta: 0,
-    lev_minflow: 0,
-
-    // Reservoirs
-    dry_s_trinity: [],
-    wet_s_trinity: [],
-    dry_s_shasta: [],
-    wet_s_shasta: [],
-    dry_s_oroville: [],
-    wet_s_oroville: [],
-    dry_s_folsom: [],
-    wet_s_folsom: [],
-    dry_s_newmelones: [],
-    wet_s_newmelones: [],
-    dry_s_millerton: [],
-    wet_s_millerton: [],
-
-    // Summary Metrics
-    dry_equity: 0,
-    wet_equity: 0,
-
-    // Deliveries
-    dry_del_ag_n: [],
-    wet_del_ag_n: [],
-    dry_del_ag_s: [],
-    wet_del_ag_s: [],
-    dry_del_mi_n: [],
-    wet_del_mi_n: [],
-    dry_del_mi_s: [],
-    wet_del_mi_s: [],
-
-    // Delta Salinity
-    dry_x2_prv: [],
-    wet_x2_prv: [],
-  };
+const getNewDS = async (scenario: string) => {
+  let new_ds = emptyDataState;
 
   new_ds.scenario = scenario;
 
   new_ds.dry_s_trinity = (
     await tableExceedanceQuery(scenario, "dry", "s_trinity")
   ).map((step) => {
-    return { val: (step.val / trinity_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / trinity_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
   new_ds.wet_s_trinity = (
     await tableExceedanceQuery(scenario, "wet", "s_trinity")
   ).map((step) => {
-    return { val: (step.val / trinity_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / trinity_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.dry_s_shasta = (
     await tableExceedanceQuery(scenario, "dry", "s_shasta")
   ).map((step) => {
-    return { val: (step.val / shasta_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / shasta_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
   new_ds.wet_s_shasta = (
     await tableExceedanceQuery(scenario, "wet", "s_shasta")
   ).map((step) => {
-    return { val: (step.val / shasta_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / shasta_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.dry_s_oroville = (
     await tableExceedanceQuery(scenario, "dry", "s_oroville")
   ).map((step) => {
-    return { val: (step.val / oroville_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / oroville_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
   new_ds.wet_s_oroville = (
     await tableExceedanceQuery(scenario, "wet", "s_oroville")
   ).map((step) => {
-    return { val: (step.val / oroville_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / oroville_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.dry_s_folsom = (
     await tableExceedanceQuery(scenario, "dry", "s_folsom")
   ).map((step) => {
-    return { val: (step.val / folsom_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / folsom_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
   new_ds.wet_s_folsom = (
     await tableExceedanceQuery(scenario, "wet", "s_folsom")
   ).map((step) => {
-    return { val: (step.val / folsom_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / folsom_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.dry_s_newmelones = (
     await tableExceedanceQuery(scenario, "dry", "s_newmelones")
   ).map((step) => {
     return {
-      val: (step.val / newmelones_capacity).toFixed(4),
+      val: parseFloat((step.val / newmelones_capacity).toFixed(4)),
       prob: step.prob,
     };
   });
@@ -298,7 +191,7 @@ const getNewDS = async (scenario) => {
     await tableExceedanceQuery(scenario, "wet", "s_newmelones")
   ).map((step) => {
     return {
-      val: (step.val / newmelones_capacity).toFixed(4),
+      val: parseFloat((step.val / newmelones_capacity).toFixed(4)),
       prob: step.prob,
     };
   });
@@ -306,12 +199,18 @@ const getNewDS = async (scenario) => {
   new_ds.dry_s_millerton = (
     await tableExceedanceQuery(scenario, "dry", "s_millerton")
   ).map((step) => {
-    return { val: (step.val / millerton_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / millerton_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
   new_ds.wet_s_millerton = (
     await tableExceedanceQuery(scenario, "wet", "s_millerton")
   ).map((step) => {
-    return { val: (step.val / millerton_capacity).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / millerton_capacity).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   // EQUITY
@@ -332,26 +231,38 @@ const getNewDS = async (scenario) => {
   new_ds.dry_del_ag_n = (
     await tableExceedanceQuery(scenario, "dry", "aggregated_ag_n")
   ).map((step) => {
-    return { val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / ag_n_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.wet_del_ag_n = (
     await tableExceedanceQuery(scenario, "wet", "aggregated_ag_n")
   ).map((step) => {
-    return { val: (step.val / ag_n_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / ag_n_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   // // south
   new_ds.dry_del_ag_s = (
     await tableExceedanceQuery(scenario, "dry", "aggregated_ag_s")
   ).map((step) => {
-    return { val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / ag_s_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.wet_del_ag_s = (
     await tableExceedanceQuery(scenario, "wet", "aggregated_ag_s")
   ).map((step) => {
-    return { val: (step.val / ag_s_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / ag_s_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   // M&I DELIVERIES
@@ -359,26 +270,38 @@ const getNewDS = async (scenario) => {
   new_ds.dry_del_mi_n = (
     await tableExceedanceQuery(scenario, "dry", "aggregated_mi_n")
   ).map((step) => {
-    return { val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / mi_n_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.wet_del_mi_n = (
     await tableExceedanceQuery(scenario, "wet", "aggregated_mi_n")
   ).map((step) => {
-    return { val: (step.val / mi_n_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / mi_n_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   // // south
   new_ds.dry_del_mi_s = (
     await tableExceedanceQuery(scenario, "dry", "aggregated_mi_s")
   ).map((step) => {
-    return { val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / mi_s_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   new_ds.wet_del_mi_s = (
     await tableExceedanceQuery(scenario, "wet", "aggregated_mi_s")
   ).map((step) => {
-    return { val: (step.val / mi_s_maximum).toFixed(4), prob: step.prob };
+    return {
+      val: parseFloat((step.val / mi_s_maximum).toFixed(4)),
+      prob: step.prob,
+    };
   });
 
   // DELTA SALINITY
@@ -388,7 +311,10 @@ const getNewDS = async (scenario) => {
   return new_ds;
 };
 
-const compareExceedance = (curr, prev) => {
+const compareExceedance = (
+  curr: { val: number; prob: number }[],
+  prev: { val: number; prob: number }[]
+) => {
   const currSum =
     curr[0].val + curr[1].val + curr[2].val + curr[3].val + curr[4].val;
   const prevSum =
@@ -404,54 +330,10 @@ const compareExceedance = (curr, prev) => {
   }
 };
 
-const compareRun = (runToCompare) => {
+const compareRun = (runToCompare: DataState) => {
   const last_run = runToCompare;
 
-  let compare = {
-    // Scenario
-    scenario: "",
-
-    // Levers
-    lev_demands: 0,
-    lev_carryover: 0,
-    lev_priority: 0,
-    lev_delta: 0,
-    lev_minflow: 0,
-
-    // Reservoirs
-    dry_s_trinity: 0,
-    wet_s_trinity: 0,
-    dry_s_shasta: 0,
-    wet_s_shasta: 0,
-    dry_s_oroville: 0,
-    wet_s_oroville: 0,
-    dry_s_folsom: 0,
-    wet_s_folsom: 0,
-    dry_s_newmelones: 0,
-    wet_s_newmelones: 0,
-    dry_s_millerton: 0,
-    wet_s_millerton: 0,
-
-    // Summary Metrics
-    dry_equity: 0,
-    dry_equity_value: 0,
-    wet_equity: 0,
-    wet_equity_value: 0,
-
-    // Deliveries
-    dry_del_ag_n: 0,
-    wet_del_ag_n: 0,
-    dry_del_ag_s: 0,
-    wet_del_ag_s: 0,
-    dry_del_mi_n: 0,
-    wet_del_mi_n: 0,
-    dry_del_mi_s: 0,
-    wet_del_mi_s: 0,
-
-    // Delta Salinity
-    dry_x2_prv: 0,
-    wet_x2_prv: 0,
-  };
+  let compare = neutralCompare;
 
   compare.scenario = last_run.scenario;
   compare.lev_demands = last_run.lev_demands;
@@ -615,7 +497,15 @@ const checkWarnings = () => {
   );
 };
 
-const checkReservoirsWarning = (res1, res2, res3, res4, res5, res6, target) => {
+const checkReservoirsWarning = (
+  res1: { val: number; prob: number }[],
+  res2: { val: number; prob: number }[],
+  res3: { val: number; prob: number }[],
+  res4: { val: number; prob: number }[],
+  res5: { val: number; prob: number }[],
+  res6: { val: number; prob: number }[],
+  target: number
+) => {
   const avg =
     (res1[2].val +
       res2[2].val +
@@ -627,12 +517,19 @@ const checkReservoirsWarning = (res1, res2, res3, res4, res5, res6, target) => {
   return !(avg >= target);
 };
 
-const checkAgMiWarningMiddle = (value1, value2, target) => {
+const checkAgMiWarningMiddle = (
+  value1: { val: number; prob: number }[],
+  value2: { val: number; prob: number }[],
+  target: number
+) => {
   const avg = (value1[2].val + value2[2].val) / 2;
   return !(avg >= target);
 };
 
-const checkDeltaWarningMiddle = (value, target) => {
+const checkDeltaWarningMiddle = (
+  value: { val: number; prob: number }[],
+  target: number
+) => {
   return value[2].val >= target;
 };
 

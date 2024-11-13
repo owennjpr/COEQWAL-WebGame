@@ -3,7 +3,16 @@ import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
 
-function DeltaSalinityVisual({ title, data, compare, w, h }) {
+interface DeltaSalinityProps {
+  title: string;
+  data: { val: number; prob: number }[];
+  compare: number;
+  w: number;
+  h: number;
+}
+
+function DeltaSalinityVisual(props: DeltaSalinityProps) {
+  const { title, data, compare, w, h } = props;
   const [barHeights, setBarHeights] = useState("1fr");
   const [tiers, setTiers] = useState("white");
   const [titleColor, setTitleColor] = useState("black");

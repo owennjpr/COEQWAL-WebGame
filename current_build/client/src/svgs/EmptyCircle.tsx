@@ -1,5 +1,5 @@
-import React from "react"
-const EmptyCircle = (props) => (
+import React from "react";
+const EmptyCircle = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={16}
@@ -10,5 +10,5 @@ const EmptyCircle = (props) => (
   >
     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
   </svg>
-)
-export default EmptyCircle
+);
+export default EmptyCircle;
