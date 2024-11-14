@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
 
-function EquityBar({ data, compare }) {
-  const [compareColor, setCompareColor] = useState("rgb(240, 240, 250)");
-  const [titleColor, setTitleColor] = useState("black");
-  const [currPos, setCurrPos] = useState("0px");
-  const [compPos, setCompPos] = useState("0px");
+type Style = CSSProperties;
+
+interface EquityBarProps {
+  data: number;
+  compare: number;
+}
+
+function EquityBar(props: EquityBarProps) {
+  const { data, compare } = props;
+  const [compareColor, setCompareColor] =
+    useState<string>("rgb(240, 240, 250)");
+  const [titleColor, setTitleColor] = useState<string>("black");
+  const [currPos, setCurrPos] = useState<string>("0px");
+  const [compPos, setCompPos] = useState<string>("0px");
   const [arrowComponent, setArrowComponent] = useState(<div></div>);
 
   useEffect(() => {
@@ -78,7 +87,7 @@ const styles = {
     flexFlow: "column",
     justifyContent: "center",
     alignItems: "center",
-  },
+  } as Style,
   equityBar: {
     display: "flex",
     flexDirection: "row",
@@ -88,15 +97,15 @@ const styles = {
     marginLeft: "1rem",
     marginRight: "1rem",
     position: "relative",
-  },
+  } as Style,
   barContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-  },
+  } as Style,
   equityMark: {
     height: "100%",
     width: 5,
     position: "absolute",
-  },
+  } as Style,
 };

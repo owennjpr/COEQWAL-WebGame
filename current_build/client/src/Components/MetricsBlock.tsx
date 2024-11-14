@@ -1,8 +1,16 @@
 import React from "react";
 import DeltaSalinityVisual from "./DeltaSalinityVisual";
 import EquityBar from "./EquityBar";
+import { CompareState, DataState } from "../../../types";
 
-function MetricsBlock({ wyt, ds, compare }) {
+interface MetricsBlockProps {
+  wyt: string;
+  ds: DataState;
+  compare: CompareState;
+}
+
+function MetricsBlock(props: MetricsBlockProps) {
+  const { wyt, ds, compare } = props;
   const styles = {
     deliverybox: {
       display: "grid",

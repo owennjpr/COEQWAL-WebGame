@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import WarningsPopup from "./WarningsPopup";
 import { Warnings } from "../../../types";
+
+type Style = CSSProperties;
 
 interface ControlBarProps {
   scenario: string;
   compareType: string;
-  setCompareType: (arg0: string) => null;
-  handleWYT: (arg0: string) => null;
-  handleCompareType: (arg0: string) => null;
+  setCompareType: (arg0: string) => void;
+  handleWYT: (arg0: string) => void;
+  handleCompareType: (arg0: string) => void;
   warnings: Warnings;
 }
 
@@ -113,25 +115,25 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
+  } as Style,
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     gap: "0.5rem",
-  },
+  } as Style,
   buttonActive: {
     padding: "5px",
     border: "2px solid black",
     backgroundColor: "rgb(180, 255, 180)",
-  },
+  } as Style,
   buttonInactive: {
     padding: "5px",
     border: "2px solid black",
     backgroundColor: "white",
-  },
+  } as Style,
   buttonText: {
     fontSize: 14,
     fontWeight: 600,
-  },
+  } as Style,
 };

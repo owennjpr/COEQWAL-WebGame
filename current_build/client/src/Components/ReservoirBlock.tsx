@@ -1,20 +1,17 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import ExceedanceBucket from "./ExceedanceBucket";
+import { CompareState, DataState } from "../../../types";
 
-function ReservoirBlock({ wyt, ds, compare }) {
-  const styles = {
-    coreblock: {
-      backgroundColor: "rgb(240, 240, 250)",
-      marginTop: "5px",
-      marginBottom: "5px",
-      padding: "10px",
-      display: "block",
-      position: "relative",
-    },
-    map: {
-      width: "100%",
-    },
-  };
+type Style = CSSProperties;
+
+interface ReservoirBlockProps {
+  wyt: string;
+  ds: DataState;
+  compare: CompareState;
+}
+
+function ReservoirBlock(props: ReservoirBlockProps) {
+  const { wyt, ds, compare } = props;
 
   if (ds === undefined || compare === undefined) {
     return <div style={styles.coreblock} />;
@@ -234,3 +231,16 @@ function ReservoirBlock({ wyt, ds, compare }) {
 }
 
 export default ReservoirBlock;
+const styles = {
+  coreblock: {
+    backgroundColor: "rgb(240, 240, 250)",
+    marginTop: "5px",
+    marginBottom: "5px",
+    padding: "10px",
+    display: "block",
+    position: "relative",
+  } as Style,
+  map: {
+    width: "100%",
+  } as Style,
+};

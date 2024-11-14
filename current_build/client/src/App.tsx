@@ -34,11 +34,11 @@ const App = () => {
     setLevers(res);
   };
 
-  const handleWYT = (wyt) => {
+  const handleWYT = (wyt: string) => {
     setWaterYearType(wyt);
   };
 
-  const handleCompareType = async (compare: CompareState) => {
+  const handleCompareType = async (compare: string) => {
     const data = await axios.post("/compare", { compare: compare });
     setCompareState(data.data.compare);
   };

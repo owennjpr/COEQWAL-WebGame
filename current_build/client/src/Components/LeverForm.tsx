@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 
-function LeverForm({ handleSubmit }) {
-  const [demands, setDemands] = useState(100);
-  const [carryover, setCarryover] = useState("0");
-  const [priority, setPriority] = useState("0");
-  const [delta, setDelta] = useState("1");
-  const [minflow, setMinflow] = useState("0");
+type Style = CSSProperties;
 
-  const [minimized, setMinimized] = useState(false);
+interface LeverFormProps {
+  handleSubmit: (arg0: {}) => void;
+}
+
+function LeverForm(props: LeverFormProps) {
+  const { handleSubmit } = props;
+  const [demands, setDemands] = useState<number>(100);
+  const [carryover, setCarryover] = useState<string>("0");
+  const [priority, setPriority] = useState<string>("0");
+  const [delta, setDelta] = useState<string>("1");
+  const [minflow, setMinflow] = useState<string>("0");
+
+  const [minimized, setMinimized] = useState<boolean>(false);
 
   const submission = () => {
     const levers = {
       demands: String(demands / 100.0),
-      carryover: String(1 + carryover / 100.0),
+      carryover: String(1 + parseInt(carryover) / 100.0),
       priority: priority,
       delta: delta,
       minflow: minflow,
@@ -48,32 +55,6 @@ function LeverForm({ handleSubmit }) {
     }
   };
 
-  const styles = {
-    coreblock: {
-      backgroundColor: "rgb(240, 240, 250)",
-      margin: "5px",
-      padding: "10px",
-      display: "flex",
-      flexDirection: "row",
-      gap: "1rem",
-      gridColumn: "1 / -1",
-    },
-    coreblockMin: {
-      backgroundColor: "rgb(240, 240, 250)",
-      margin: "5px",
-      padding: "0px 10px 0px 10px",
-      display: "flex",
-      flexDirection: "row",
-      gap: "1rem",
-      gridColumn: "1 / -1",
-      justifyContent: "space-between",
-    },
-
-    miniHeader: {
-      fontWeight: "bold",
-    },
-  };
-
   if (minimized) {
     return (
       <div style={styles.coreblockMin}>
@@ -99,7 +80,7 @@ function LeverForm({ handleSubmit }) {
             defaultValue={100}
             onChange={handleChange}
           />
-          <label for="demands">{demands}% of Baseline</label> <br />
+          <label htmlFor="demands">{demands}% of Baseline</label> <br />
         </div>
 
         <div>
@@ -114,9 +95,9 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
           />
           {carryover === "0" ? (
-            <label for="carryover">Baseline</label>
+            <label htmlFor="carryover">Baseline</label>
           ) : (
-            <label for="carryover">{carryover}% Increase</label>
+            <label htmlFor="carryover">{carryover}% Increase</label>
           )}
           <br />
         </div>
@@ -132,7 +113,7 @@ function LeverForm({ handleSubmit }) {
             defaultChecked
             required
           />
-          <label for="0">
+          <label htmlFor="0">
             Baseline using existing tiers for allocation cuts
           </label>{" "}
           <br />
@@ -144,7 +125,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="1">
+          <label htmlFor="1">
             shortages are shared equally across contract types
           </label>
         </div>
@@ -160,7 +141,8 @@ function LeverForm({ handleSubmit }) {
             defaultChecked
             required
           />
-          <label for="1">Baseline, all D1641 regulations in place</label> <br />
+          <label htmlFor="1">Baseline, all D1641 regulations in place</label>{" "}
+          <br />
           <input
             type="radio"
             id="delta-2"
@@ -169,7 +151,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="2">
+          <label htmlFor="2">
             No flow reqt, NDO and Rio Vista flows turned off
           </label>{" "}
           <br />
@@ -181,7 +163,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="3">
+          <label htmlFor="3">
             No salinity reqt, station salinity & X2 requirements off
           </label>{" "}
           <br />
@@ -193,7 +175,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="4">No D1641 flow or salinity requirements</label>
+          <label htmlFor="4">No D1641 flow or salinity requirements</label>
         </div>
 
         <div>
@@ -207,7 +189,7 @@ function LeverForm({ handleSubmit }) {
             defaultChecked
             required
           />
-          <label for="0">
+          <label htmlFor="0">
             Baseline, all pre-existing minimum flow requirements in place
           </label>{" "}
           <br />
@@ -219,7 +201,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="0.4">
+          <label htmlFor="0.4">
             40% of unimpaired flow requirement takes place of existing minimum
             flows
           </label>{" "}
@@ -232,7 +214,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="0.6">60% of unimpaired flow</label> <br />
+          <label htmlFor="0.6">60% of unimpaired flow</label> <br />
           <input
             type="radio"
             id="minflow-0-7"
@@ -241,7 +223,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="0.7">70% of unimpaired flow</label> <br />
+          <label htmlFor="0.7">70% of unimpaired flow</label> <br />
           <input
             type="radio"
             id="minflow-0-8"
@@ -250,7 +232,7 @@ function LeverForm({ handleSubmit }) {
             onChange={handleChange}
             required
           />
-          <label for="0.8">80% of unimpaired flow</label>
+          <label htmlFor="0.8">80% of unimpaired flow</label>
         </div>
         <button onClick={submission}>Submit</button>
         <button onClick={toggleMinimized}>minimize</button>
@@ -260,3 +242,29 @@ function LeverForm({ handleSubmit }) {
 }
 
 export default LeverForm;
+
+const styles = {
+  coreblock: {
+    backgroundColor: "rgb(240, 240, 250)",
+    margin: "5px",
+    padding: "10px",
+    display: "flex",
+    flexDirection: "row",
+    gap: "1rem",
+    gridColumn: "1 / -1",
+  } as Style,
+  coreblockMin: {
+    backgroundColor: "rgb(240, 240, 250)",
+    margin: "5px",
+    padding: "0px 10px 0px 10px",
+    display: "flex",
+    flexDirection: "row",
+    gap: "1rem",
+    gridColumn: "1 / -1",
+    justifyContent: "space-between",
+  } as Style,
+
+  miniHeader: {
+    fontWeight: "bold",
+  } as Style,
+};

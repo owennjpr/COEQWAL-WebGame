@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import XIcon from "../svgs/XSVG";
 import WarningSymbol from "../svgs/WarningSymbol";
+import { Warnings } from "../../../types";
 
-function WarningsPopup({ warnings }) {
-  const [visible, setVisible] = useState(false);
-  const [warningList, setWarningList] = useState([]);
+interface WarningsPopupProps {
+  warnings: Warnings;
+}
+
+function WarningsPopup(props: WarningsPopupProps) {
+  const { warnings } = props;
+  const [visible, setVisible] = useState<boolean>(false);
+  const [warningList, setWarningList] = useState<string[]>([]);
 
   useEffect(() => {
     let warn_iter = [];
@@ -110,6 +116,8 @@ function WarningsPopup({ warnings }) {
   );
 }
 
+export default WarningsPopup;
+
 const styles = {
   buttonInactive: {
     padding: "5px",
@@ -147,5 +155,3 @@ const styles = {
     color: "rgb(220, 190, 0)",
   },
 };
-
-export default WarningsPopup;

@@ -3,7 +3,16 @@ import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
 
-function ExceedanceBucket({ title, data, compare, w, h }) {
+interface ExceedanceBucketProps {
+  title: string;
+  data: { val: number; prob: number }[];
+  compare: number;
+  w: number;
+  h: number;
+}
+
+function ExceedanceBucket(props: ExceedanceBucketProps) {
+  const { title, data, compare, w, h } = props;
   const [barHeights, setBarHeights] = useState("1fr");
   const [titleColor, setTitleColor] = useState("black");
   const [arrowComponent, setArrowComponent] = useState(<div></div>);
