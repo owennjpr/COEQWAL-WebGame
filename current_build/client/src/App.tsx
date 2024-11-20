@@ -11,10 +11,11 @@ import {
   nullWarnings,
   neutralCompare,
   emptyDataState,
+  Levers,
 } from "../../types";
 
 const App = () => {
-  const [levers, setLevers] = useState({});
+  const [levers, setLevers] = useState<Levers>(null);
   const [dataState, setDataState] = useState<DataState>(emptyDataState);
   const [compareState, setCompareState] =
     useState<CompareState>(neutralCompare);
@@ -30,7 +31,7 @@ const App = () => {
     },
   };
 
-  const handleSubmit = (res) => {
+  const handleSubmit = (res: Levers) => {
     setLevers(res);
   };
 

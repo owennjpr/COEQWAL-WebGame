@@ -5,7 +5,7 @@ import EmptyCircle from "../svgs/EmptyCircle";
 
 interface ExceedanceBucketProps {
   title: string;
-  data: { val: number; prob: number }[];
+  data: { val: number; prob: string }[];
   compare: number;
   w: number;
   h: number;

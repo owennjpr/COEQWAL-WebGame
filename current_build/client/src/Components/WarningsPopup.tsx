@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import ReactModal from "react-modal";
 import XIcon from "../svgs/XSVG";
 import WarningSymbol from "../svgs/WarningSymbol";
 import { Warnings } from "../../../types";
+
+type Style = CSSProperties;
 
 interface WarningsPopupProps {
   warnings: Warnings;
@@ -14,7 +16,7 @@ function WarningsPopup(props: WarningsPopupProps) {
   const [warningList, setWarningList] = useState<string[]>([]);
 
   useEffect(() => {
-    let warn_iter = [];
+    let warn_iter: string[] = [];
     if (warnings.deliveriesNODDry) {
       warn_iter.push("warning dry year deliveries north");
     }
@@ -127,20 +129,20 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-  },
+  } as Style,
   buttonText: {
     fontSize: 14,
     fontWeight: 600,
-  },
+  } as Style,
   warningNum: {
     fontSize: 14,
     fontWeight: 800,
     color: "red",
-  },
+  } as Style,
   titleText: {
     fontSize: 24,
     fontWeight: 600,
-  },
+  } as Style,
   warningBox: {
     display: "flex",
     flexDirection: "row",
@@ -150,8 +152,8 @@ const styles = {
     marginTop: 10,
     marginBottom: 10,
     paddingLeft: 10,
-  },
+  } as Style,
   warnSymbol: {
     color: "rgb(220, 190, 0)",
-  },
+  } as Style,
 };

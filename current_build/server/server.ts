@@ -13,13 +13,13 @@ import {
   ag_s_maximum,
   mi_n_maximum,
   mi_s_maximum,
-} from "./constants.js";
+} from "./constants";
 import {
   DataState,
   emptyDataState,
   neutralCompare,
   nullWarnings,
-} from "../types.js";
+} from "../types";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -80,7 +80,7 @@ const tableExceedanceQuery = async (
     index += 1;
 
     // console.log(100 * (index / parseFloat(len + 1.0)));
-    return 100 * (index / parseFloat(len + 1.0));
+    return 100 * (index / len + 1.0);
   });
 
   const mk10 = Math.floor(len / 10);
@@ -312,8 +312,8 @@ const getNewDS = async (scenario: string) => {
 };
 
 const compareExceedance = (
-  curr: { val: number; prob: number }[],
-  prev: { val: number; prob: number }[]
+  curr: { val: number; prob: string }[],
+  prev: { val: number; prob: string }[]
 ) => {
   const currSum =
     curr[0].val + curr[1].val + curr[2].val + curr[3].val + curr[4].val;
@@ -498,12 +498,12 @@ const checkWarnings = () => {
 };
 
 const checkReservoirsWarning = (
-  res1: { val: number; prob: number }[],
-  res2: { val: number; prob: number }[],
-  res3: { val: number; prob: number }[],
-  res4: { val: number; prob: number }[],
-  res5: { val: number; prob: number }[],
-  res6: { val: number; prob: number }[],
+  res1: { val: number; prob: string }[],
+  res2: { val: number; prob: string }[],
+  res3: { val: number; prob: string }[],
+  res4: { val: number; prob: string }[],
+  res5: { val: number; prob: string }[],
+  res6: { val: number; prob: string }[],
   target: number
 ) => {
   const avg =
@@ -518,8 +518,8 @@ const checkReservoirsWarning = (
 };
 
 const checkAgMiWarningMiddle = (
-  value1: { val: number; prob: number }[],
-  value2: { val: number; prob: number }[],
+  value1: { val: number; prob: string }[],
+  value2: { val: number; prob: string }[],
   target: number
 ) => {
   const avg = (value1[2].val + value2[2].val) / 2;
@@ -527,7 +527,7 @@ const checkAgMiWarningMiddle = (
 };
 
 const checkDeltaWarningMiddle = (
-  value: { val: number; prob: number }[],
+  value: { val: number; prob: string }[],
   target: number
 ) => {
   return value[2].val >= target;

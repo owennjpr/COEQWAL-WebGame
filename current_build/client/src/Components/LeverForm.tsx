@@ -1,9 +1,10 @@
 import React, { CSSProperties, useState } from "react";
+import { Levers } from "../../../types";
 
 type Style = CSSProperties;
 
 interface LeverFormProps {
-  handleSubmit: (arg0: {}) => void;
+  handleSubmit: (arg0: Levers) => void;
 }
 
 function LeverForm(props: LeverFormProps) {
@@ -17,7 +18,7 @@ function LeverForm(props: LeverFormProps) {
   const [minimized, setMinimized] = useState<boolean>(false);
 
   const submission = () => {
-    const levers = {
+    const levers: Levers = {
       demands: String(demands / 100.0),
       carryover: String(1 + parseInt(carryover) / 100.0),
       priority: priority,
@@ -32,23 +33,25 @@ function LeverForm(props: LeverFormProps) {
     setMinimized(!minimized);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(typeof(event.target.value));
-    switch (event.target.name) {
+    const { name, value } = event.target;
+
+    switch (name) {
       case "demands":
-        setDemands(event.target.value);
+        setDemands(parseInt(value));
         break;
       case "carryover":
-        setCarryover(event.target.value);
+        setCarryover(value);
         break;
       case "priority":
-        setPriority(event.target.value);
+        setPriority(value);
         break;
       case "delta":
-        setDelta(event.target.value);
+        setDelta(value);
         break;
       case "minflow":
-        setMinflow(event.target.value);
+        setMinflow(value);
         break;
       default:
         break;

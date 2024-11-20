@@ -8,36 +8,36 @@ export type DataState = {
   lev_minflow: number;
 
   // Reservoirs
-  dry_s_trinity: { val: number; prob: number }[];
-  wet_s_trinity: { val: number; prob: number }[];
-  dry_s_shasta: { val: number; prob: number }[];
-  wet_s_shasta: { val: number; prob: number }[];
-  dry_s_oroville: { val: number; prob: number }[];
-  wet_s_oroville: { val: number; prob: number }[];
-  dry_s_folsom: { val: number; prob: number }[];
-  wet_s_folsom: { val: number; prob: number }[];
-  dry_s_newmelones: { val: number; prob: number }[];
-  wet_s_newmelones: { val: number; prob: number }[];
-  dry_s_millerton: { val: number; prob: number }[];
-  wet_s_millerton: { val: number; prob: number }[];
+  dry_s_trinity: { val: number; prob: string }[];
+  wet_s_trinity: { val: number; prob: string }[];
+  dry_s_shasta: { val: number; prob: string }[];
+  wet_s_shasta: { val: number; prob: string }[];
+  dry_s_oroville: { val: number; prob: string }[];
+  wet_s_oroville: { val: number; prob: string }[];
+  dry_s_folsom: { val: number; prob: string }[];
+  wet_s_folsom: { val: number; prob: string }[];
+  dry_s_newmelones: { val: number; prob: string }[];
+  wet_s_newmelones: { val: number; prob: string }[];
+  dry_s_millerton: { val: number; prob: string }[];
+  wet_s_millerton: { val: number; prob: string }[];
 
   // Summary Metrics
   dry_equity: number;
   wet_equity: number;
 
   // Deliveries
-  dry_del_ag_n: { val: number; prob: number }[];
-  wet_del_ag_n: { val: number; prob: number }[];
-  dry_del_ag_s: { val: number; prob: number }[];
-  wet_del_ag_s: { val: number; prob: number }[];
-  dry_del_mi_n: { val: number; prob: number }[];
-  wet_del_mi_n: { val: number; prob: number }[];
-  dry_del_mi_s: { val: number; prob: number }[];
-  wet_del_mi_s: { val: number; prob: number }[];
+  dry_del_ag_n: { val: number; prob: string }[];
+  wet_del_ag_n: { val: number; prob: string }[];
+  dry_del_ag_s: { val: number; prob: string }[];
+  wet_del_ag_s: { val: number; prob: string }[];
+  dry_del_mi_n: { val: number; prob: string }[];
+  wet_del_mi_n: { val: number; prob: string }[];
+  dry_del_mi_s: { val: number; prob: string }[];
+  wet_del_mi_s: { val: number; prob: string }[];
 
   // Delta Salinity
-  dry_x2_prv: { val: number; prob: number }[];
-  wet_x2_prv: { val: number; prob: number }[];
+  dry_x2_prv: { val: number; prob: string }[];
+  wet_x2_prv: { val: number; prob: string }[];
 };
 
 export const emptyDataState: DataState = {
@@ -205,3 +205,11 @@ export const nullWarnings: Warnings = {
   reservoirsWet: false,
   reservoirsDry: false,
 };
+
+export type Levers = {
+  demands: string;
+  carryover: string;
+  priority: string;
+  delta: string;
+  minflow: string;
+} | null;
