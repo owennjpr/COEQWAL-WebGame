@@ -2,7 +2,7 @@ import React, { useState, useEffect, CSSProperties } from "react";
 import ReactModal from "react-modal";
 import XIcon from "../svgs/XSVG";
 import WarningSymbol from "../svgs/WarningSymbol";
-import { Warnings } from "../../../types";
+import { Warnings } from "../types";
 
 type Style = CSSProperties;
 

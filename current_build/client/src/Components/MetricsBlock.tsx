@@ -1,7 +1,7 @@
 import React from "react";
 import DeltaSalinityVisual from "./DeltaSalinityVisual";
 import EquityBar from "./EquityBar";
-import { CompareState, DataState } from "../../../types";
+import { CompareState, DataState } from "../types";
 
 interface MetricsBlockProps {
   wyt: string;

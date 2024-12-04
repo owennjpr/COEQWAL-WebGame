@@ -12,7 +12,7 @@ import {
   neutralCompare,
   emptyDataState,
   Levers,
-} from "../../types";
+} from "./types";
 
 const App = () => {
   const [levers, setLevers] = useState<Levers>(null);

@@ -1,5 +1,5 @@
 import React, { CSSProperties, useState } from "react";
-import { Levers } from "../../../types";
+import { Levers } from "../types";
 
 type Style = CSSProperties;
 

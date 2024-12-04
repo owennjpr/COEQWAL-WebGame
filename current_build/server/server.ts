@@ -19,7 +19,7 @@ import {
   emptyDataState,
   neutralCompare,
   nullWarnings,
-} from "../types";
+} from "./types";
 
 const app = express();
 const port = process.env.PORT || 8080;

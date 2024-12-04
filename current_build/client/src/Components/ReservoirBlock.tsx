@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import ExceedanceBucket from "./ExceedanceBucket";
-import { CompareState, DataState } from "../../../types";
+import { CompareState, DataState } from "../types";
 
 type Style = CSSProperties;
 

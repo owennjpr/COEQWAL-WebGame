@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import WarningsPopup from "./WarningsPopup";
-import { Warnings } from "../../../types";
+import { Warnings } from "../types";
 
 type Style = CSSProperties;
 
