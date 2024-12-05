@@ -1,0 +1,5 @@
+run server with:
+cd server --> npx tsx server.ts
+
+run app with:
+cd client --> npm run start
