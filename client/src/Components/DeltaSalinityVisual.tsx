@@ -38,21 +38,31 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
     console.log(data[3].val);
     console.log(data[4].val);
 
-    // 66
-    const scalar = 0.66;
-    let tier = "linear-gradient(45deg, #ff0000 0%, ";
-    tier += `#ff4600 ${String(data[4].val * scalar + 14)}%, #ff7900 ${String(
-      data[4].val * scalar + 14
-    )}%, `;
-    tier += `#ff9c00, ${String(data[3].val * scalar + 14)}%, #ffc200 ${String(
-      data[3].val * scalar + 14
-    )}%, `;
-    tier += `#ffdc00 ${String(data[2].val * scalar + 14)}%, #fffe00 ${String(
-      data[2].val * scalar + 14
-    )}%, `;
-    tier += `#e8eb00 ${String(data[1].val * scalar + 14)}%, #17db03 ${String(
-      data[1].val * scalar + 14
-    )}%, #00c900 100%)`;
+    const scalar = 0.6;
+    const adj = 21;
+    const scaledValues = [
+      data[4].val * scalar + adj,
+      data[3].val * scalar + adj,
+      data[2].val * scalar + adj,
+      data[1].val * scalar + adj,
+    ];
+
+    // 70: 64.46
+    // 80: 80.10
+    //~89: 91.37
+
+    console.log(scaledValues);
+
+    let tier = "linear-gradient(90deg, #ff0000 0%, ";
+    tier += `#ff4600 ${String(scaledValues[0])}%,
+           #ff7900 ${String(scaledValues[0])}%, `;
+    tier += `#ff9c00, ${String(scaledValues[1])}%,
+           #ffc200 ${String(scaledValues[1])}%, `;
+    tier += `#ffdc00 ${String(scaledValues[2])}%, 
+           #fffe00 ${String(scaledValues[2])}%, `;
+    tier += `#e8eb00 ${String(scaledValues[3])}%, 
+           #17db03 ${String(scaledValues[3])}%,
+           #00c900 100%)`;
 
     console.log(tier);
     setTiers(tier);
@@ -98,7 +108,7 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
           }}
         >
           <img
-            src="/NewDeltaOutline.png"
+            src="/NumberedDeltaOutline.png"
             style={styles.image}
             alt="map of california delta"
           />
@@ -203,7 +213,7 @@ const styles = {
   image: {
     width: 600,
     height: 400,
-    opacity: 0.9,
+    opacity: 0.6,
   },
 };
 
