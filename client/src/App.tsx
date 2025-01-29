@@ -4,6 +4,8 @@ import axios from "axios";
 import MetricsBlock from "./Components/MetricsBlock";
 import ReservoirBlock from "./Components/ReservoirBlock";
 import ControlBar from "./Components/ControlBar";
+import TutorialPopUp from "./Components/TutorialPopUp";
+
 import {
   DataState,
   CompareState,
@@ -59,6 +61,7 @@ const App = () => {
   }, [levers]);
   return (
     <div>
+      <TutorialPopUp />
       <LeverForm handleSubmit={handleSubmit}></LeverForm>
 
       {!dataState.scenario ? (

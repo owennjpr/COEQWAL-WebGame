@@ -213,7 +213,7 @@ const styles = {
   image: {
     width: 600,
     height: 400,
-    opacity: 0.6,
+    opacity: 0.98,
   },
 };
 
