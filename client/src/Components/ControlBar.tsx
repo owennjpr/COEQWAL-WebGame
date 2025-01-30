@@ -1,6 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import WarningsPopup from "./WarningsPopup";
 import { Warnings } from "../types";
+import QButton from "./QButton";
 
 type Style = CSSProperties;
 
@@ -80,6 +81,10 @@ function ControlBar(props: ControlBarProps) {
           >
             <p style={styles.buttonText}>Baseline</p>
           </button>
+          <QButton
+            headerText="Changing Comparison Type:"
+            bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
+          />
         </div>
         <div style={styles.buttonContainer}>
           <button
@@ -96,6 +101,10 @@ function ControlBar(props: ControlBarProps) {
           >
             <p style={styles.buttonText}>Wet Years</p>
           </button>
+          <QButton
+            headerText="Water Year Type:"
+            bodyText="We can classify years into dry or wet, depending on how much rainfall occurs. Toggle between them to understand the year over year variation that will occur in your scenario."
+          />
         </div>
         <WarningsPopup warnings={warnings} />
       </div>
