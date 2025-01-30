@@ -1,5 +1,6 @@
 import React, { CSSProperties, useState } from "react";
 import { Levers } from "../types";
+import QButton from "./QButton";
 
 type Style = CSSProperties;
 
@@ -73,7 +74,13 @@ function LeverForm(props: LeverFormProps) {
     return (
       <div style={styles.coreblock}>
         <div>
-          <p style={styles.miniHeader}>Agriculture Demands</p>
+          <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Agriculture Demands</p>
+            <QButton
+              headerText="Agriculture Demands"
+              bodyText="this is an explanation of agriculture demands"
+            />
+          </div>
           <input
             type="range"
             name="demands"
@@ -87,7 +94,13 @@ function LeverForm(props: LeverFormProps) {
         </div>
 
         <div>
-          <p style={styles.miniHeader}>Carryover</p>
+          <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Carryover</p>
+            <QButton
+              headerText="Carryover"
+              bodyText="this is an explanation of carryover"
+            />
+          </div>
           <input
             type="range"
             name="carryover"
@@ -106,7 +119,13 @@ function LeverForm(props: LeverFormProps) {
         </div>
 
         <div>
-          <p style={styles.miniHeader}>Distribution Priority</p>
+          <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Distribution Priority</p>
+            <QButton
+              headerText="Distribution Priority"
+              bodyText="this is an explanation of distribution priority"
+            />
+          </div>
           <input
             type="radio"
             id="priority-0"
@@ -134,7 +153,13 @@ function LeverForm(props: LeverFormProps) {
         </div>
 
         <div>
-          <p style={styles.miniHeader}>Delta Regulations</p>
+          <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Delta Regulations</p>
+            <QButton
+              headerText="Delta Regulations"
+              bodyText="this is an explanation of delta regulations"
+            />
+          </div>
           <input
             type="radio"
             id="delta-1"
@@ -182,7 +207,13 @@ function LeverForm(props: LeverFormProps) {
         </div>
 
         <div>
-          <p style={styles.miniHeader}>Minimum Flow Requirements</p>
+          <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Minimum Flow Requirements</p>
+            <QButton
+              headerText="Minimum Flow Requirements"
+              bodyText="this is an explanation of minimum flow requirements"
+            />
+          </div>
           <input
             type="radio"
             id="minflow-0"
@@ -269,5 +300,11 @@ const styles = {
 
   miniHeader: {
     fontWeight: "bold",
+  } as Style,
+  titleQPair: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: "0.5rem",
   } as Style,
 };

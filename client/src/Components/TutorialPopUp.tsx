@@ -159,5 +159,4 @@ const TutorialPopUp = () => {
   );
 };
 
-const styles = {};
 export default TutorialPopUp;
