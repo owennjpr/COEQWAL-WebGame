@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "COEQWAL Webapp updated with react frontend",
   "main": "server.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
-    "build": "npx tsx server.ts",
+    "build": "tsc",
     "dev": "nodemon server"
   },
   "author": "",
