@@ -22,6 +22,7 @@ import {
 } from "./types";
 
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -35,6 +36,14 @@ const db = new pg.Client({
   // port: process.env.PG_PORT,
   ssl: true,
 });
+
+app.use(
+  cors({
+    origin: "https://coeqwal-web-game.vercel.app/", // Change this to your actual frontend URL
+    credentials: true,
+  })
+);
+
 db.connect()
   .then(() => console.log("successfully connected to the db"))
   .catch((err) => console.error("db connection failed: ", err.stack));

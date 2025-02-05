@@ -18,6 +18,7 @@ const pg_1 = __importDefault(require("pg"));
 const constants_1 = require("./constants");
 const types_1 = require("./types");
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8080;
@@ -29,6 +30,10 @@ const db = new pg_1.default.Client({
     // port: process.env.PG_PORT,
     ssl: true,
 });
+app.use((0, cors_1.default)({
+    origin: "https://coeqwal-web-game.vercel.app/", // Change this to your actual frontend URL
+    credentials: true,
+}));
 db.connect()
     .then(() => console.log("successfully connected to the db"))
     .catch((err) => console.error("db connection failed: ", err.stack));
