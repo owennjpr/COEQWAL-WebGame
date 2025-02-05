@@ -603,6 +603,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend is working!" });
 });
 
-app.listen(port, () => {
-  console.log("server started on port " + port);
-});
+// app.listen(port, () => {
+//   console.log("server started on port " + port);
+// });
+
+export default app;

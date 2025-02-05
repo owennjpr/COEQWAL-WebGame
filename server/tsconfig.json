@@ -8,6 +8,6 @@
       "esModuleInterop": true,
       "resolveJsonModule": true
     },
-    "include": ["server.ts", "types.ts"]
+    "include": ["server.ts", "types.ts", "constants.ts", "index.ts"]
   }
   
