@@ -27,7 +27,6 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8080;
-
 const db = new pg.Client({
   user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST,
