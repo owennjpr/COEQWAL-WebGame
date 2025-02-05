@@ -37,9 +37,20 @@ const db = new pg.Client({
   ssl: true,
 });
 
+const allowedOrigins = [
+  "https://coeqwal-web-game.vercel.app",
+  "http://localhost:8081",
+];
+
 app.use(
   cors({
-    origin: "https://coeqwal-web-game.vercel.app/", // Change this to your actual frontend URL
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
