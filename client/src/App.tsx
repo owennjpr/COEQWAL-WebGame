@@ -42,10 +42,9 @@ const App = () => {
   };
 
   const handleCompareType = async (compare: string) => {
-    const data = await axios.post(
-      "https://coeqwal-web-backend.vercel.app/compare",
-      { compare: compare }
-    );
+    const data = await axios.post(`${process.env.REACT_APP_API_URL}/compare`, {
+      compare: compare,
+    });
     setCompareState(data.data.compare);
   };
 
@@ -53,7 +52,7 @@ const App = () => {
     const fetchData = async () => {
       if (levers) {
         const data = await axios.post(
-          "https://coeqwal-web-backend.vercel.app/submit",
+          `${process.env.REACT_APP_API_URL}/submit`,
           levers
         );
 
