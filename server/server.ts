@@ -26,14 +26,12 @@ import cors from "cors";
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 8080;
-const db = new pg.Client({
-  user: process.env.POSTGRES_USER,
-  host: process.env.POSTGRES_HOST,
-  database: process.env.POSTGRES_DATABASE,
-  password: process.env.POSTGRES_PASSWORD,
-  // port: process.env.PG_PORT,
-  ssl: true,
+// const port = process.env.PORT || 8080;
+
+// Debugging: Log incoming request origins
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
 });
 
 const allowedOrigins = [
@@ -70,10 +68,15 @@ app.options("*", (req, res) => {
   }
 });
 
-// Debugging: Log incoming request origins
-app.use((req, res, next) => {
-  console.log("Request Origin:", req.headers.origin);
-  next();
+app.use(express.json());
+
+const db = new pg.Client({
+  user: process.env.POSTGRES_USER,
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DATABASE,
+  password: process.env.POSTGRES_PASSWORD,
+  // port: process.env.PG_PORT,
+  ssl: true,
 });
 
 db.connect()
@@ -81,7 +84,6 @@ db.connect()
   .catch((err) => console.error("db connection failed: ", err.stack));
 
 // app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
 
 // local db connection
 // const db = new pg.Client({
