@@ -25,7 +25,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 dotenv.config();
-
+console.log("in the server");
 const app = express();
 const port = process.env.PORT || 8080;
 const db = new pg.Client({
@@ -35,6 +35,14 @@ const db = new pg.Client({
   password: process.env.POSTGRES_PASSWORD,
   // port: process.env.PG_PORT,
   ssl: true,
+});
+
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(204);
 });
 
 const allowedOrigins = [
@@ -48,8 +56,10 @@ app.use(
     origin: (origin, callback) => {
       console.log("Request Origin: ", origin);
       if (!origin || allowedOrigins.includes(origin)) {
+        console.log("yippeee");
         callback(null, origin);
       } else {
+        console.log("uh oh");
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -74,14 +84,6 @@ app.use(express.json());
 // });
 
 // db.connect();
-
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(204);
-});
 
 const prev_runs: DataState[] = [];
 var curr_run = 0;
