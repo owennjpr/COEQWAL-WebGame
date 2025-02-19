@@ -25,7 +25,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 dotenv.config();
-console.log("in the server");
 const app = express();
 const port = process.env.PORT || 8080;
 const db = new pg.Client({
@@ -38,11 +37,16 @@ const db = new pg.Client({
 });
 
 app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(204);
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.sendStatus(204); // No content response for preflight
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 const allowedOrigins = [
@@ -54,16 +58,12 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("Request Origin: ", origin);
       if (!origin || allowedOrigins.includes(origin)) {
-        console.log("yippeee");
         callback(null, origin);
       } else {
-        console.log("uh oh");
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
   })
 );
 
@@ -84,6 +84,11 @@ app.use(express.json());
 // });
 
 // db.connect();
+
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
+});
 
 const prev_runs: DataState[] = [];
 var curr_run = 0;
@@ -107,14 +112,12 @@ const tableExceedanceQuery = async (
   );
   const len = result.rows.length;
   const yrly_avgs = result.rows.map((row) => {
-    // console.log(row.sum);
     return row.avg;
   });
   let index = 0;
   const exceedance = yrly_avgs.map((avg) => {
     index += 1;
 
-    // console.log(100 * (index / parseFloat(len + 1.0)));
     return 100 * (index / len + 1.0);
   });
 
@@ -123,12 +126,6 @@ const tableExceedanceQuery = async (
   const mk50 = Math.floor(len / 2);
   const mk70 = Math.floor((len * 7) / 10);
   const mk90 = Math.floor((len * 9) / 10);
-
-  // console.log(yrly_avgs[mk10].toFixed(2));
-  // console.log(yrly_avgs[mk30].toFixed(2));
-  // console.log(yrly_avgs[mk50].toFixed(2));
-  // console.log(yrly_avgs[mk70].toFixed(2));
-  // console.log(yrly_avgs[mk90].toFixed(2));
 
   const values = [
     { val: yrly_avgs[mk10].toFixed(2), prob: exceedance[mk10].toFixed(2) },

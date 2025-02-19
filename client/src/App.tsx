@@ -42,13 +42,9 @@ const App = () => {
   };
 
   const handleCompareType = async (compare: string) => {
-    const data = await axios.post(
-      `${process.env.REACT_APP_API_URL}/compare`,
-      {
-        compare: compare,
-      },
-      { withCredentials: true }
-    );
+    const data = await axios.post(`${process.env.REACT_APP_API_URL}/compare`, {
+      compare: compare,
+    });
     setCompareState(data.data.compare);
   };
 
@@ -57,8 +53,7 @@ const App = () => {
       if (levers) {
         const data = await axios.post(
           `${process.env.REACT_APP_API_URL}/submit`,
-          levers,
-          { withCredentials: true }
+          levers
         );
 
         setDataState(data.data.ds);
