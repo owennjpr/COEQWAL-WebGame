@@ -40,6 +40,7 @@ const db = new pg.Client({
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
   "http://localhost:8081",
+  "http://localhost:3000",
 ];
 
 app.use(
