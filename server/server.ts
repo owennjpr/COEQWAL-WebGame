@@ -36,19 +36,6 @@ const db = new pg.Client({
   ssl: true,
 });
 
-app.options("*", (req, res) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.sendStatus(204); // No content response for preflight
-  } else {
-    res.sendStatus(403);
-  }
-});
-
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
   "http://localhost:8081",
@@ -64,8 +51,30 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    methods: "GET, POST, OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
   })
 );
+
+// Ensure OPTIONS requests return proper CORS headers
+app.options("*", (req, res) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.sendStatus(204);
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+// Debugging: Log incoming request origins
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
+});
 
 db.connect()
   .then(() => console.log("successfully connected to the db"))
@@ -84,11 +93,6 @@ app.use(express.json());
 // });
 
 // db.connect();
-
-app.use((req, res, next) => {
-  console.log("Request Origin:", req.headers.origin);
-  next();
-});
 
 const prev_runs: DataState[] = [];
 var curr_run = 0;
