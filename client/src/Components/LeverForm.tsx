@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { Levers } from "../types";
 import QButton from "./QButton";
 
@@ -14,17 +14,36 @@ function LeverForm(props: LeverFormProps) {
   const [carryover, setCarryover] = useState<string>("0");
   const [priority, setPriority] = useState<string>("0");
   const [delta, setDelta] = useState<string>("1");
-  const [minflow, setMinflow] = useState<string>("0");
+  const [minflow, setMinflow] = useState<number>(0);
 
   const [minimized, setMinimized] = useState<boolean>(false);
 
   const submission = () => {
+    let adjustedMinflow = "0";
+    switch (minflow) {
+      case 1:
+        adjustedMinflow = "0";
+        break;
+      case 2:
+        adjustedMinflow = "0.4";
+        break;
+      case 3:
+        adjustedMinflow = "0.6";
+        break;
+      case 4:
+        adjustedMinflow = "0.7";
+        break;
+      case 5:
+        adjustedMinflow = "0.8";
+        break;
+    }
+
     const levers: Levers = {
       demands: String(demands / 100.0),
       carryover: String(1 + parseInt(carryover) / 100.0),
       priority: priority,
       delta: delta,
-      minflow: minflow,
+      minflow: adjustedMinflow,
     };
 
     handleSubmit(levers);
@@ -33,6 +52,10 @@ function LeverForm(props: LeverFormProps) {
   const toggleMinimized = () => {
     setMinimized(!minimized);
   };
+
+  useEffect(() => {
+    console.log(minflow);
+  }, [minflow]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(typeof(event.target.value));
@@ -52,10 +75,25 @@ function LeverForm(props: LeverFormProps) {
         setDelta(value);
         break;
       case "minflow":
-        setMinflow(value);
+        setMinflow(parseInt(value));
         break;
       default:
         break;
+    }
+  };
+
+  const minflowSwitch = () => {
+    switch (minflow) {
+      case 2:
+        return "40%";
+      case 3:
+        return "60%";
+      case 4:
+        return "70%";
+      case 5:
+        return "80%";
+      default:
+        return "Baseline";
     }
   };
 
@@ -66,7 +104,9 @@ function LeverForm(props: LeverFormProps) {
         <p style={styles.miniHeader}>Carryover: {carryover}</p>
         <p style={styles.miniHeader}>Distribution Priority: {priority}</p>
         <p style={styles.miniHeader}>Delta Regulations: {delta}</p>
-        <p style={styles.miniHeader}>Minimum Flow Requirements: {minflow}</p>
+        <p style={styles.miniHeader}>
+          Minimum Flow Requirements: {minflowSwitch()}
+        </p>
         <button onClick={toggleMinimized}>minimize</button>
       </div>
     );
@@ -87,7 +127,7 @@ function LeverForm(props: LeverFormProps) {
             min={60}
             max={100}
             step={10}
-            defaultValue={100}
+            defaultValue={demands}
             onChange={handleChange}
           />
           <label htmlFor="demands">{demands}% of Baseline</label> <br />
@@ -108,6 +148,7 @@ function LeverForm(props: LeverFormProps) {
             max={20}
             step={10}
             value={carryover}
+            defaultValue={carryover}
             onChange={handleChange}
           />
           {carryover === "0" ? (
@@ -135,10 +176,7 @@ function LeverForm(props: LeverFormProps) {
             defaultChecked
             required
           />
-          <label htmlFor="0">
-            Baseline using existing tiers for allocation cuts
-          </label>{" "}
-          <br />
+          <label htmlFor="0">existing tiers for allocation cuts</label> <br />
           <input
             type="radio"
             id="priority-1"
@@ -147,9 +185,7 @@ function LeverForm(props: LeverFormProps) {
             onChange={handleChange}
             required
           />
-          <label htmlFor="1">
-            shortages are shared equally across contract types
-          </label>
+          <label htmlFor="1">shortages shared equally</label>
         </div>
 
         <div>
@@ -215,59 +251,18 @@ function LeverForm(props: LeverFormProps) {
             />
           </div>
           <input
-            type="radio"
-            id="minflow-0"
+            type="range"
             name="minflow"
-            value="0"
+            min={1}
+            max={5}
+            step={1}
+            value={minflow}
+            defaultValue={minflow}
             onChange={handleChange}
-            defaultChecked
-            required
           />
-          <label htmlFor="0">
-            Baseline, all pre-existing minimum flow requirements in place
-          </label>{" "}
-          <br />
-          <input
-            type="radio"
-            id="minflow-0-4"
-            name="minflow"
-            value="0.4"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="0.4">
-            40% of unimpaired flow requirement takes place of existing minimum
-            flows
-          </label>{" "}
-          <br />
-          <input
-            type="radio"
-            id="minflow-0-6"
-            name="minflow"
-            value="0.6"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="0.6">60% of unimpaired flow</label> <br />
-          <input
-            type="radio"
-            id="minflow-0-7"
-            name="minflow"
-            value="0.7"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="0.7">70% of unimpaired flow</label> <br />
-          <input
-            type="radio"
-            id="minflow-0-8"
-            name="minflow"
-            value="0.8"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="0.8">80% of unimpaired flow</label>
+          <div>{minflowSwitch()} unimpaired flow requirement</div>
         </div>
+
         <button onClick={submission}>Submit</button>
         <button onClick={toggleMinimized}>minimize</button>
       </div>
@@ -281,9 +276,10 @@ const styles = {
   coreblock: {
     backgroundColor: "rgb(240, 240, 250)",
     margin: "5px",
-    padding: "10px",
+    padding: "5px",
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
     gap: "1rem",
     gridColumn: "1 / -1",
   } as Style,
@@ -300,6 +296,7 @@ const styles = {
 
   miniHeader: {
     fontWeight: "bold",
+    lineHeight: "15px",
   } as Style,
   titleQPair: {
     display: "flex",

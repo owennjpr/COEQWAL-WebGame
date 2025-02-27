@@ -7,8 +7,8 @@ interface ExceedanceBucketProps {
   title: string;
   data: { val: number; prob: string }[];
   compare: number;
-  w: number;
-  h: number;
+  w: string;
+  h: string;
 }
 
 function ExceedanceBucket(props: ExceedanceBucketProps) {
@@ -58,7 +58,7 @@ function ExceedanceBucket(props: ExceedanceBucketProps) {
           style={{
             color: titleColor,
             fontWeight: "bold",
-            fontSize: w / 6,
+            fontSize: 12,
           }}
         >
           {title}
@@ -102,8 +102,7 @@ const styles = {
   percentExceedanceBucket: {
     display: "flex",
     flexFlow: "column",
-    alignItems: "center",
-    marginBottom: "30px",
+    alignItems: "start",
   },
   bucketContainer: {
     display: "grid",
@@ -117,7 +116,7 @@ const styles = {
     marginRight: "2px",
   },
   measureText: {
-    fontSize: "10px",
+    fontSize: "12px",
   },
   barContainer: {
     gridRow: "1 / -1",

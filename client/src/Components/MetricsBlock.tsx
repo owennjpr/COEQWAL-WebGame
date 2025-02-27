@@ -43,8 +43,8 @@ function MetricsBlock(props: MetricsBlockProps) {
             title="Delta Salinity"
             data={ds.dry_x2_prv}
             compare={compare.dry_x2_prv}
-            w={40}
-            h={400}
+            w={"5vmin%"}
+            h={"40vmin"}
           />
         </div>
       );
@@ -57,8 +57,8 @@ function MetricsBlock(props: MetricsBlockProps) {
             title="Delta Salinity"
             data={ds.wet_x2_prv}
             compare={compare.wet_x2_prv}
-            w={40}
-            h={400}
+            w={"5vmin"}
+            h={"40vmin"}
           />
         </div>
       );

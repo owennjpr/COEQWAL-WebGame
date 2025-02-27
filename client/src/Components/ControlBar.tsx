@@ -144,5 +144,6 @@ const styles = {
   buttonText: {
     fontSize: 14,
     fontWeight: 600,
+    lineHeight: 0,
   } as Style,
 };

@@ -7,8 +7,8 @@ interface DeltaSalinityProps {
   title: string;
   data: { val: number; prob: string }[];
   compare: number;
-  w: number;
-  h: number;
+  w: string;
+  h: string;
 }
 
 function DeltaSalinityVisual(props: DeltaSalinityProps) {
@@ -154,7 +154,6 @@ const styles = {
     display: "flex",
     flexFlow: "column",
     alignItems: "center",
-    marginBottom: "30px",
   },
 
   salinityContainer: {
@@ -176,27 +175,27 @@ const styles = {
     marginTop: "5px",
   },
   p0delta: {
-    backgroundColor: "#00c900",
+    backgroundColor: "#88c988",
   },
 
   p10delta: {
-    backgroundColor: "#00c900",
+    backgroundColor: "#88c988",
   },
 
   p30delta: {
-    backgroundColor: "#e8eb00",
+    backgroundColor: "#e8eb66",
   },
 
   p50delta: {
-    backgroundColor: "#ffdc00",
+    backgroundColor: "#ffdc66",
   },
 
   p70delta: {
-    backgroundColor: "#ff9c00",
+    backgroundColor: "#ffad66",
   },
 
   p90delta: {
-    backgroundColor: "#ff4600",
+    backgroundColor: "#ff6666",
   },
   downArrow: {
     color: "green",
@@ -205,14 +204,14 @@ const styles = {
     color: "red",
   },
   gradientBox: {
-    width: 600,
-    height: 400,
+    width: "60vmin",
+    height: "40vmin",
     border: "2px solid black",
     background: "rgb(255,0,0)",
   },
   image: {
-    width: 600,
-    height: 400,
+    width: "60vmin",
+    height: "40vmin",
     opacity: 0.98,
   },
 };

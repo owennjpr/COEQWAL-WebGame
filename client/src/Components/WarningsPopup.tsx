@@ -133,11 +133,13 @@ const styles = {
   buttonText: {
     fontSize: 14,
     fontWeight: 600,
+    lineHeight: 0,
   } as Style,
   warningNum: {
     fontSize: 14,
     fontWeight: 800,
     color: "red",
+    lineHeight: 0,
   } as Style,
   titleText: {
     fontSize: 24,

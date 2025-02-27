@@ -83,8 +83,6 @@ db.connect()
   .then(() => console.log("successfully connected to the db"))
   .catch((err) => console.error("db connection failed: ", err.stack));
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-
 // local db connection
 // const db = new pg.Client({
 //   user: "postgres",

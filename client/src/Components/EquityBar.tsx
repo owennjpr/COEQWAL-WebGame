@@ -21,11 +21,11 @@ function EquityBar(props: EquityBarProps) {
 
   useEffect(() => {
     if (data > compare && compare !== 0) {
-      setCompareColor("rgb(255, 160, 160)");
+      setCompareColor("rgb(254, 182, 182)");
       setTitleColor("red");
       setArrowComponent(<DownArrowSVG style={{ color: "red" }} />);
     } else if (data < compare && compare !== 0) {
-      setCompareColor("rgb(160, 255, 160)");
+      setCompareColor("rgb(119, 219, 119)");
       setTitleColor("green");
       setArrowComponent(<UpArrowSVG style={{ color: "green" }} />);
     } else {
@@ -91,7 +91,7 @@ const styles = {
   equityBar: {
     display: "flex",
     flexDirection: "row",
-    height: 50,
+    height: 35,
     width: 200,
     border: "2px solid black",
     marginLeft: "1rem",
