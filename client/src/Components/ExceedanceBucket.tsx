@@ -5,84 +5,152 @@ import EmptyCircle from "../svgs/EmptyCircle";
 
 interface ExceedanceBucketProps {
   title: string;
-  data: { val: number; prob: string }[];
-  compare: number;
+  data_wet: { val: number; prob: string }[];
+  data_dry: { val: number; prob: string }[];
+  compare_wet: number;
+  compare_dry: number;
   w: string;
   h: string;
 }
 
 function ExceedanceBucket(props: ExceedanceBucketProps) {
-  const { title, data, compare, w, h } = props;
-  const [barHeights, setBarHeights] = useState("1fr");
-  const [titleColor, setTitleColor] = useState("black");
-  const [arrowComponent, setArrowComponent] = useState(<div></div>);
+  const { title, data_wet, data_dry, compare_wet, compare_dry, w, h } = props;
+  const [wetBarHeights, setWetBarHeights] = useState("1fr");
+  const [dryBarHeights, setDryBarHeights] = useState("1fr");
+
+  const [dryArrowComponent, setDryArrowComponent] = useState(<div></div>);
+  const [wetArrowComponent, setWetArrowComponent] = useState(<div></div>);
 
   useEffect(() => {
     let heights = "";
     for (let i = 4; i >= -1; i--) {
       if (i === 4) {
-        heights += String(1 - data[i].val) + "fr ";
+        heights += String(1 - data_wet[i].val) + "fr ";
       } else if (i === -1) {
-        heights += String(data[0].val) + "fr ";
+        heights += String(data_wet[0].val) + "fr ";
       } else {
-        heights += String(data[i].val - data[i + 1].val) + "fr ";
+        heights += String(data_wet[i].val - data_wet[i + 1].val) + "fr ";
       }
     }
 
-    setBarHeights(heights);
+    setWetBarHeights(heights);
 
-    if (compare === 1) {
-      setTitleColor("green");
-      setArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
-    } else if (compare === -1) {
-      setTitleColor("red");
-      setArrowComponent(<DownArrowSVG style={styles.downArrow}></DownArrowSVG>);
-    } else {
-      setTitleColor("black");
-      setArrowComponent(<EmptyCircle></EmptyCircle>);
+    heights = "";
+    for (let i = 4; i >= -1; i--) {
+      if (i === 4) {
+        heights += String(1 - data_dry[i].val) + "fr ";
+      } else if (i === -1) {
+        heights += String(data_dry[0].val) + "fr ";
+      } else {
+        heights += String(data_dry[i].val - data_dry[i + 1].val) + "fr ";
+      }
     }
-  }, [data, compare]);
+
+    setDryBarHeights(heights);
+
+    if (compare_wet === 1) {
+      setWetArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
+    } else if (compare_wet === -1) {
+      setWetArrowComponent(
+        <DownArrowSVG style={styles.downArrow}></DownArrowSVG>
+      );
+    } else {
+      setWetArrowComponent(
+        <EmptyCircle style={{ color: "white" }}></EmptyCircle>
+      );
+    }
+
+    if (compare_dry === 1) {
+      setDryArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
+    } else if (compare_dry === -1) {
+      setDryArrowComponent(
+        <DownArrowSVG style={styles.downArrow}></DownArrowSVG>
+      );
+    } else {
+      setDryArrowComponent(
+        <EmptyCircle style={{ color: "white" }}></EmptyCircle>
+      );
+    }
+  }, [data_wet, data_dry, compare_wet, compare_dry]);
 
   return (
     <div style={styles.percentExceedanceBucket}>
-      <div
+      <p
         style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 5,
+          color: "black",
+          fontWeight: "bold",
+          fontSize: 12,
+          // lineHeight: "6px",
+          marginTop: "1rem",
+          marginBottom: 0,
         }}
       >
-        {arrowComponent}
-        <p
-          style={{
-            color: titleColor,
-            fontWeight: "bold",
-            fontSize: 12,
-          }}
-        >
-          {title}
-        </p>
-      </div>
+        {title}
+      </p>
 
       <div style={styles.bucketContainer}>
         <div style={styles.barContainer}>
           <div
             style={{
-              display: "grid",
               height: h,
               width: w,
               border: "2px solid black",
-              gridTemplateColumns: "1fr",
-              gridTemplateRows: barHeights,
+              display: "flex",
+              flexDirection: "row",
+              position: "relative",
             }}
           >
-            <div style={styles.p0bucket}></div>
-            <div style={styles.p10bucket}></div>
-            <div style={styles.p30bucket}></div>
-            <div style={styles.p50bucket}></div>
-            <div style={styles.p70bucket}></div>
-            <div style={styles.p90bucket}></div>
+            <div
+              style={{
+                height: "100%",
+                width: "50%",
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gridTemplateRows: wetBarHeights,
+              }}
+            >
+              <div style={styles.p0bucketWet} />
+              <div style={styles.p10bucketWet} />
+              <div style={styles.p30bucketWet} />
+              <div style={styles.p50bucketWet} />
+              <div style={styles.p70bucketWet} />
+              <div style={styles.p90bucketWet} />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "0.25rem",
+                left: "1vmin",
+              }}
+            >
+              {wetArrowComponent}
+            </div>
+
+            <div
+              style={{
+                height: "100%",
+                width: "50%",
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gridTemplateRows: dryBarHeights,
+              }}
+            >
+              <div style={styles.p0bucketDry} />
+              <div style={styles.p10bucketDry} />
+              <div style={styles.p30bucketDry} />
+              <div style={styles.p50bucketDry} />
+              <div style={styles.p70bucketDry} />
+              <div style={styles.p90bucketDry} />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "0.25rem",
+                right: "1vmin",
+              }}
+            >
+              {dryArrowComponent}
+            </div>
           </div>
         </div>
         <div style={styles.measureBar}> </div>
@@ -122,29 +190,56 @@ const styles = {
     gridRow: "1 / -1",
     marginTop: "5px",
   },
-  p0bucket: {
-    backgroundColor: "white",
+  p0bucketWet: {
+    backgroundColor: "rgb(240, 255, 255)",
   },
-  p10bucket: {
-    backgroundColor: "rgb(170, 170, 255)",
+  p0bucketDry: {
+    backgroundColor: "rgb(255, 245, 240)",
   },
-  p30bucket: {
-    backgroundColor: "rgb(130, 130, 255)",
+
+  p10bucketWet: {
+    backgroundColor: "rgb(170, 200, 255)",
   },
-  p50bucket: {
-    backgroundColor: "rgb(90, 90, 255)",
+  p30bucketWet: {
+    backgroundColor: "rgb(130, 160, 255)",
   },
-  p70bucket: {
-    backgroundColor: "rgb(50, 50, 255)",
+  p50bucketWet: {
+    backgroundColor: "rgb(90, 120, 255)",
   },
-  p90bucket: {
-    backgroundColor: "rgb(0, 0, 255)",
+  p70bucketWet: {
+    backgroundColor: "rgb(50, 90, 255)",
+  },
+  p90bucketWet: {
+    backgroundColor: "rgb(0, 50, 255)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "end",
+    paddingBottom: "0.2rem",
+  },
+  p10bucketDry: {
+    backgroundColor: "rgb(190, 175, 255)",
+  },
+  p30bucketDry: {
+    backgroundColor: "rgb(150, 140, 255)",
+  },
+  p50bucketDry: {
+    backgroundColor: "rgb(110, 100, 255)",
+  },
+  p70bucketDry: {
+    backgroundColor: "rgb(70, 60, 255)",
+  },
+  p90bucketDry: {
+    backgroundColor: "rgb(40, 20, 255)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "end",
+    paddingBottom: "0.2rem",
   },
   downArrow: {
-    color: "red",
+    color: "rgb(255, 150, 150)",
   },
   upArrow: {
-    color: "green",
+    color: "rgb(150, 255, 150)",
   },
 };
 export default ExceedanceBucket;

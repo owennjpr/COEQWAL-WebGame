@@ -2,19 +2,25 @@ import React, { useState, useEffect } from "react";
 import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 interface DeltaSalinityProps {
   title: string;
-  data: { val: number; prob: string }[];
-  compare: number;
+  data_wet: { val: number; prob: string }[];
+  data_dry: { val: number; prob: string }[];
+  compare_wet: number;
+  compare_dry: number;
   w: string;
   h: string;
 }
 
 function DeltaSalinityVisual(props: DeltaSalinityProps) {
-  const { title, data, compare, w, h } = props;
-  const [barHeights, setBarHeights] = useState("1fr");
-  const [tiers, setTiers] = useState("white");
+  const { title, data_wet, data_dry, compare_wet, compare_dry, w, h } = props;
+  const [dryBarHeights, setDryBarHeights] = useState("1fr");
+  const [dryTiers, setDryTiers] = useState("white");
+  const [wetBarHeights, setWetBarHeights] = useState("1fr");
+  const [wetTiers, setWetTiers] = useState("white");
+
   const [titleColor, setTitleColor] = useState("black");
   const [arrowComponent, setArrowComponent] = useState(<div></div>);
 
@@ -22,62 +28,99 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
     let heights = "";
     for (let i = 4; i >= -1; i--) {
       if (i === 4) {
-        heights += String(100 - data[i].val) + "fr ";
+        heights += String(100 - data_wet[i].val) + "fr ";
       } else if (i === -1) {
-        heights += String(data[0].val - 60) + "fr ";
+        heights += String(data_wet[0].val - 60) + "fr ";
       } else {
-        heights += String(data[i].val - data[i + 1].val) + "fr ";
+        heights += String(data_wet[i].val - data_wet[i + 1].val) + "fr ";
       }
     }
 
-    setBarHeights(heights);
-
-    console.log(data[0].val);
-    console.log(data[1].val);
-    console.log(data[2].val);
-    console.log(data[3].val);
-    console.log(data[4].val);
+    setWetBarHeights(heights);
 
     const scalar = 0.6;
     const adj = 21;
-    const scaledValues = [
-      data[4].val * scalar + adj,
-      data[3].val * scalar + adj,
-      data[2].val * scalar + adj,
-      data[1].val * scalar + adj,
+    let scaledValues = [
+      data_wet[4].val * scalar + adj,
+      data_wet[3].val * scalar + adj,
+      data_wet[2].val * scalar + adj,
+      data_wet[1].val * scalar + adj,
     ];
 
-    // 70: 64.46
-    // 80: 80.10
-    //~89: 91.37
+    // console.log(scaledValues);
 
-    console.log(scaledValues);
+    let tier = "linear-gradient(90deg, #ff6676 0%, ";
+    tier += `#ff6676 ${String(scaledValues[0])}%,
+           #ffad86 ${String(scaledValues[0])}%, `;
+    tier += `#ffad86, ${String(scaledValues[1])}%,
+           #ffdc86 ${String(scaledValues[1])}%, `;
+    tier += `#ffdc86 ${String(scaledValues[2])}%, 
+           #e8eb86 ${String(scaledValues[2])}%, `;
+    tier += `#e8eb86 ${String(scaledValues[3])}%, 
+           #88c9A8 ${String(scaledValues[3])}%,
+           #88c9A8 100%)`;
 
-    let tier = "linear-gradient(90deg, #ff0000 0%, ";
-    tier += `#ff4600 ${String(scaledValues[0])}%,
-           #ff7900 ${String(scaledValues[0])}%, `;
-    tier += `#ff9c00, ${String(scaledValues[1])}%,
-           #ffc200 ${String(scaledValues[1])}%, `;
-    tier += `#ffdc00 ${String(scaledValues[2])}%, 
-           #fffe00 ${String(scaledValues[2])}%, `;
-    tier += `#e8eb00 ${String(scaledValues[3])}%, 
-           #17db03 ${String(scaledValues[3])}%,
-           #00c900 100%)`;
+    // console.log(tier);
+    setWetTiers(tier);
 
-    console.log(tier);
-    setTiers(tier);
-
-    if (compare === -1) {
+    if (compare_wet === -1) {
       setTitleColor("red");
       setArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
-    } else if (compare === 1) {
+    } else if (compare_wet === 1) {
       setTitleColor("green");
       setArrowComponent(<DownArrowSVG style={styles.downArrow}></DownArrowSVG>);
     } else {
       setTitleColor("black");
       setArrowComponent(<EmptyCircle></EmptyCircle>);
     }
-  }, [data, compare]);
+
+    heights = "";
+    for (let i = 4; i >= -1; i--) {
+      if (i === 4) {
+        heights += String(100 - data_dry[i].val) + "fr ";
+      } else if (i === -1) {
+        heights += String(data_dry[0].val - 60) + "fr ";
+      } else {
+        heights += String(data_dry[i].val - data_dry[i + 1].val) + "fr ";
+      }
+    }
+
+    setDryBarHeights(heights);
+
+    scaledValues = [
+      data_dry[4].val * scalar + adj,
+      data_dry[3].val * scalar + adj,
+      data_dry[2].val * scalar + adj,
+      data_dry[1].val * scalar + adj,
+    ];
+
+    // console.log(scaledValues);
+
+    tier = "linear-gradient(90deg, #ff6656 0%, ";
+    tier += `#ff6656 ${String(scaledValues[0])}%,
+           #ffad56 ${String(scaledValues[0])}%, `;
+    tier += `#ffad56, ${String(scaledValues[1])}%,
+           #ffdc56 ${String(scaledValues[1])}%, `;
+    tier += `#ffdc56 ${String(scaledValues[2])}%, 
+           #e8eb56 ${String(scaledValues[2])}%, `;
+    tier += `#e8eb56 ${String(scaledValues[3])}%, 
+           #88c978 ${String(scaledValues[3])}%,
+           #88c978 100%)`;
+
+    // console.log(tier);
+    setDryTiers(tier);
+
+    if (compare_dry === -1) {
+      setTitleColor("red");
+      setArrowComponent(<UpArrowSVG style={styles.upArrow}></UpArrowSVG>);
+    } else if (compare_dry === 1) {
+      setTitleColor("green");
+      setArrowComponent(<DownArrowSVG style={styles.downArrow}></DownArrowSVG>);
+    } else {
+      setTitleColor("black");
+      setArrowComponent(<EmptyCircle></EmptyCircle>);
+    }
+  }, [data_wet, data_dry, compare_wet, compare_dry]);
 
   return (
     <div
@@ -103,13 +146,22 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
         <div
           style={{
             ...styles.gradientBox,
-            background: tiers,
+            // background: wetTiers,
             marginTop: "5px",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
+          <div
+            style={{ width: "100%", height: "42%", background: wetTiers }}
+          ></div>
+          <div
+            style={{ width: "100%", height: "58%", background: dryTiers }}
+          ></div>
           <img
             src="/NumberedDeltaOutline.png"
-            style={styles.image}
+            style={{ ...styles.image, position: "absolute" }}
             alt="map of california delta"
           />
         </div>
@@ -118,20 +170,45 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
             <div style={styles.barContainer}>
               <div
                 style={{
-                  display: "grid",
                   height: h,
                   width: w,
                   border: "2px solid black",
-                  gridTemplateColumns: "1fr",
-                  gridTemplateRows: barHeights,
+                  display: "flex",
+                  flexDirection: "row",
                 }}
               >
-                <div style={styles.p0delta}></div>
-                <div style={styles.p10delta}></div>
-                <div style={styles.p30delta}></div>
-                <div style={styles.p50delta}></div>
-                <div style={styles.p70delta}></div>
-                <div style={styles.p90delta}></div>
+                <div
+                  style={{
+                    width: "50%",
+                    height: "100%",
+                    display: "grid",
+                    gridTemplateColumns: "1fr",
+                    gridTemplateRows: wetBarHeights,
+                  }}
+                >
+                  <div style={styles.p0deltaWet}></div>
+                  <div style={styles.p10deltaWet}></div>
+                  <div style={styles.p30deltaWet}></div>
+                  <div style={styles.p50deltaWet}></div>
+                  <div style={styles.p70deltaWet}></div>
+                  <div style={styles.p90deltaWet}></div>
+                </div>
+                <div
+                  style={{
+                    width: "50%",
+                    height: "100%",
+                    display: "grid",
+                    gridTemplateColumns: "1fr",
+                    gridTemplateRows: dryBarHeights,
+                  }}
+                >
+                  <div style={styles.p0deltaDry}></div>
+                  <div style={styles.p10deltaDry}></div>
+                  <div style={styles.p30deltaDry}></div>
+                  <div style={styles.p50deltaDry}></div>
+                  <div style={styles.p70deltaDry}></div>
+                  <div style={styles.p90deltaDry}></div>
+                </div>
               </div>
             </div>
             <div style={styles.measureBar}> </div>
@@ -174,28 +251,51 @@ const styles = {
     gridRow: "1 / -1",
     marginTop: "5px",
   },
-  p0delta: {
-    backgroundColor: "#88c988",
+  p0deltaWet: {
+    backgroundColor: "#88c9A8",
   },
 
-  p10delta: {
-    backgroundColor: "#88c988",
+  p10deltaWet: {
+    backgroundColor: "#88c9A8",
   },
 
-  p30delta: {
-    backgroundColor: "#e8eb66",
+  p30deltaWet: {
+    backgroundColor: "#e8eb86",
   },
 
-  p50delta: {
-    backgroundColor: "#ffdc66",
+  p50deltaWet: {
+    backgroundColor: "#ffdc86",
   },
 
-  p70delta: {
-    backgroundColor: "#ffad66",
+  p70deltaWet: {
+    backgroundColor: "#ffad86",
   },
 
-  p90delta: {
-    backgroundColor: "#ff6666",
+  p90deltaWet: {
+    backgroundColor: "#ff6676",
+  },
+  p0deltaDry: {
+    backgroundColor: "#88c978",
+  },
+
+  p10deltaDry: {
+    backgroundColor: "#88c978",
+  },
+
+  p30deltaDry: {
+    backgroundColor: "#e8eb56",
+  },
+
+  p50deltaDry: {
+    backgroundColor: "#ffdc56",
+  },
+
+  p70deltaDry: {
+    backgroundColor: "#ffad56",
+  },
+
+  p90deltaDry: {
+    backgroundColor: "#ff6656",
   },
   downArrow: {
     color: "green",
@@ -207,12 +307,11 @@ const styles = {
     width: "60vmin",
     height: "40vmin",
     border: "2px solid black",
-    background: "rgb(255,0,0)",
   },
   image: {
     width: "60vmin",
     height: "40vmin",
-    opacity: 0.98,
+    opacity: 0.93,
   },
 };
 

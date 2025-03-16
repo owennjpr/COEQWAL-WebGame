@@ -26,7 +26,7 @@ import cors from "cors";
 
 dotenv.config();
 const app = express();
-// const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 // Debugging: Log incoming request origins
 app.use((req, res, next) => {
@@ -34,65 +34,65 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = [
-  "https://coeqwal-web-game.vercel.app",
-  "http://localhost:8081",
-  "http://localhost:3000",
-];
+// const allowedOrigins = [
+//   "https://coeqwal-web-game.vercel.app",
+//   "http://localhost:8081",
+//   "http://localhost:3000",
+// ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: "GET, POST, OPTIONS",
-    allowedHeaders: "Content-Type, Authorization",
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, origin);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     methods: "GET, POST, OPTIONS",
+//     allowedHeaders: "Content-Type, Authorization",
+//   })
+// );
 
-// Ensure OPTIONS requests return proper CORS headers
-app.options("*", (req, res) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.sendStatus(204);
-  } else {
-    res.sendStatus(403);
-  }
-});
+// // Ensure OPTIONS requests return proper CORS headers
+// app.options("*", (req, res) => {
+//   const origin = req.headers.origin;
+//   if (origin && allowedOrigins.includes(origin)) {
+//     res.header("Access-Control-Allow-Origin", origin);
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     res.header("Access-Control-Allow-Credentials", "true");
+//     res.sendStatus(204);
+//   } else {
+//     res.sendStatus(403);
+//   }
+// });
 
 app.use(express.json());
 
-const db = new pg.Client({
-  user: process.env.POSTGRES_USER,
-  host: process.env.POSTGRES_HOST,
-  database: process.env.POSTGRES_DATABASE,
-  password: process.env.POSTGRES_PASSWORD,
-  // port: process.env.PG_PORT,
-  ssl: true,
-});
-
-db.connect()
-  .then(() => console.log("successfully connected to the db"))
-  .catch((err) => console.error("db connection failed: ", err.stack));
-
-// local db connection
 // const db = new pg.Client({
-//   user: "postgres",
-//   host: "localhost",
-//   database: "COEQWAL",
-//   password: "gr3pw()rd!",
-//   port: 5432,
+//   user: process.env.POSTGRES_USER,
+//   host: process.env.POSTGRES_HOST,
+//   database: process.env.POSTGRES_DATABASE,
+//   password: process.env.POSTGRES_PASSWORD,
+//   // port: process.env.PG_PORT,
+//   ssl: true,
 // });
 
-// db.connect();
+// db.connect()
+//   .then(() => console.log("successfully connected to the db"))
+//   .catch((err) => console.error("db connection failed: ", err.stack));
+
+// local db connection
+const db = new pg.Client({
+  user: "postgres",
+  host: "localhost",
+  database: "COEQWAL",
+  password: "gr3pw()rd!",
+  port: 5432,
+});
+
+db.connect();
 
 const prev_runs: DataState[] = [];
 var curr_run = 0;
@@ -636,8 +636,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend is working!" });
 });
 
-// app.listen(port, () => {
-//   console.log("server started on port " + port);
-// });
+app.listen(port, () => {
+  console.log("server started on port " + port);
+});
 
 export default app;

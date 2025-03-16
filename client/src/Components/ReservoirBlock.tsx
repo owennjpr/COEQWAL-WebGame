@@ -18,191 +18,119 @@ function ReservoirBlock(props: ReservoirBlockProps) {
   if (ds === undefined || compare === undefined) {
     return <div style={styles.coreblock} />;
   } else {
-    if (wyt === "dry") {
-      return (
-        <div style={styles.coreblock}>
-          <img
-            src="/Map_of_California_outline_small.png"
-            style={styles.map}
-            alt="map of california"
-          />
-          <div style={styles.reservoirGrid}>
-            <ExceedanceBucket
-              title="Trinity Level"
-              data={ds.dry_s_trinity}
-              compare={compare.dry_s_trinity}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="Shasta"
-              data={ds.dry_s_shasta}
-              compare={compare.dry_s_shasta}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
+    return (
+      <div style={styles.coreblock}>
+        <img
+          src="/Map_of_California_outline_small.png"
+          style={styles.map}
+          alt="map of california"
+        />
+        <div style={styles.reservoirGrid}>
+          <ExceedanceBucket
+            title="Trinity Level"
+            data_wet={ds.wet_s_trinity}
+            data_dry={ds.dry_s_trinity}
+            compare_wet={compare.wet_s_trinity}
+            compare_dry={compare.dry_s_trinity}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
+          <ExceedanceBucket
+            title="Shasta"
+            data_wet={ds.wet_s_shasta}
+            data_dry={ds.dry_s_shasta}
+            compare_wet={compare.wet_s_shasta}
+            compare_dry={compare.dry_s_shasta}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
 
-            <ExceedanceBucket
-              title="Oroville"
-              data={ds.dry_s_oroville}
-              compare={compare.dry_s_oroville}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
+          <ExceedanceBucket
+            title="Oroville"
+            data_wet={ds.wet_s_oroville}
+            data_dry={ds.dry_s_oroville}
+            compare_wet={compare.wet_s_oroville}
+            compare_dry={compare.dry_s_oroville}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
 
-            <ExceedanceBucket
-              title="Folsom"
-              data={ds.dry_s_folsom}
-              compare={compare.dry_s_folsom}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
+          <ExceedanceBucket
+            title="Folsom"
+            data_wet={ds.wet_s_folsom}
+            data_dry={ds.dry_s_folsom}
+            compare_wet={compare.wet_s_folsom}
+            compare_dry={compare.dry_s_folsom}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
 
-            <ExceedanceBucket
-              title="New Melones"
-              data={ds.dry_s_newmelones}
-              compare={compare.dry_s_newmelones}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
+          <ExceedanceBucket
+            title="New Melones"
+            data_wet={ds.wet_s_newmelones}
+            data_dry={ds.dry_s_newmelones}
+            compare_wet={compare.wet_s_newmelones}
+            compare_dry={compare.dry_s_newmelones}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
 
-            <ExceedanceBucket
-              title="Millerton"
-              data={ds.dry_s_millerton}
-              compare={compare.dry_s_millerton}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "2%", left: "10%" }}>
-            <ExceedanceBucket
-              title="Agriculture Deliveries N"
-              data={ds.dry_del_ag_n}
-              compare={compare.dry_del_ag_n}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "20%", left: "15%" }}>
-            <ExceedanceBucket
-              title="City Deliveries N"
-              data={ds.dry_del_mi_n}
-              compare={compare.dry_del_mi_n}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "40%", left: "25%" }}>
-            <ExceedanceBucket
-              title="Agriculture Deliveries S"
-              data={ds.dry_del_ag_s}
-              compare={compare.dry_del_ag_s}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "60%", left: "40%" }}>
-            <ExceedanceBucket
-              title="City Deliveries S"
-              data={ds.dry_del_mi_s}
-              compare={compare.dry_del_mi_s}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
+          <ExceedanceBucket
+            title="Millerton"
+            data_wet={ds.wet_s_millerton}
+            data_dry={ds.dry_s_millerton}
+            compare_wet={compare.wet_s_millerton}
+            compare_dry={compare.dry_s_millerton}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
         </div>
-      );
-    } else {
-      return (
-        <div style={styles.coreblock}>
-          <img
-            src="/Map_of_California_outline_small.png"
-            style={styles.map}
-            alt="map of california"
-          />
-          <div style={styles.reservoirGrid}>
-            <ExceedanceBucket
-              title="Trinity"
-              data={ds.wet_s_trinity}
-              compare={compare.wet_s_trinity}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="Shasta"
-              data={ds.wet_s_shasta}
-              compare={compare.wet_s_shasta}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="Oroville"
-              data={ds.wet_s_oroville}
-              compare={compare.wet_s_oroville}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="Folsom"
-              data={ds.wet_s_folsom}
-              compare={compare.wet_s_folsom}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="New Melones"
-              data={ds.wet_s_newmelones}
-              compare={compare.wet_s_newmelones}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-            <ExceedanceBucket
-              title="Millerton"
-              data={ds.wet_s_millerton}
-              compare={compare.wet_s_millerton}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "2%", left: "10%" }}>
-            <ExceedanceBucket
-              title="Agriculture Deliveries N"
-              data={ds.wet_del_ag_n}
-              compare={compare.wet_del_ag_n}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "20%", left: "15%" }}>
-            <ExceedanceBucket
-              title="City Deliveries N"
-              data={ds.wet_del_mi_n}
-              compare={compare.wet_del_mi_n}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "40%", left: "25%" }}>
-            <ExceedanceBucket
-              title="Agriculture Deliveries S"
-              data={ds.wet_del_ag_s}
-              compare={compare.wet_del_ag_s}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
-          <div style={{ position: "absolute", top: "60%", left: "40%" }}>
-            <ExceedanceBucket
-              title="City Deliveries S"
-              data={ds.wet_del_mi_s}
-              compare={compare.wet_del_mi_s}
-              w={resSize}
-              h={resSize}
-            ></ExceedanceBucket>
-          </div>
+        <div style={{ position: "absolute", top: "2%", left: "10%" }}>
+          <ExceedanceBucket
+            title="Agriculture Deliveries N"
+            data_wet={ds.wet_del_ag_n}
+            data_dry={ds.dry_del_ag_n}
+            compare_wet={compare.wet_del_ag_n}
+            compare_dry={compare.dry_del_ag_n}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
         </div>
-      );
-    }
+        <div style={{ position: "absolute", top: "20%", left: "15%" }}>
+          <ExceedanceBucket
+            title="City Deliveries N"
+            data_wet={ds.wet_del_mi_n}
+            data_dry={ds.dry_del_mi_n}
+            compare_wet={compare.wet_del_mi_n}
+            compare_dry={compare.dry_del_mi_n}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
+        </div>
+        <div style={{ position: "absolute", top: "40%", left: "25%" }}>
+          <ExceedanceBucket
+            title="Agriculture Deliveries S"
+            data_wet={ds.wet_del_ag_s}
+            data_dry={ds.dry_del_ag_s}
+            compare_wet={compare.wet_del_ag_s}
+            compare_dry={compare.dry_del_ag_s}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
+        </div>
+        <div style={{ position: "absolute", top: "60%", left: "40%" }}>
+          <ExceedanceBucket
+            title="City Deliveries S"
+            data_wet={ds.wet_del_mi_s}
+            data_dry={ds.dry_del_mi_s}
+            compare_wet={compare.wet_del_mi_s}
+            compare_dry={compare.dry_del_mi_s}
+            w={resSize}
+            h={resSize}
+          ></ExceedanceBucket>
+        </div>
+      </div>
+    );
   }
 }
 

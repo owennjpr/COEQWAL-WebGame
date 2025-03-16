@@ -34,35 +34,21 @@ function MetricsBlock(props: MetricsBlockProps) {
   if (ds === undefined || compare === undefined) {
     return <div style={styles.coreblock} />;
   } else {
-    if (wyt === "dry") {
-      return (
-        <div style={styles.coreblock}>
-          <EquityBar data={ds.dry_equity} compare={compare.dry_equity_value} />
+    return (
+      <div style={styles.coreblock}>
+        <EquityBar data={ds.dry_equity} compare={compare.dry_equity_value} />
 
-          <DeltaSalinityVisual
-            title="Delta Salinity"
-            data={ds.dry_x2_prv}
-            compare={compare.dry_x2_prv}
-            w={"5vmin%"}
-            h={"40vmin"}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div style={styles.coreblock}>
-          <EquityBar data={ds.wet_equity} compare={compare.wet_equity_value} />
-
-          <DeltaSalinityVisual
-            title="Delta Salinity"
-            data={ds.wet_x2_prv}
-            compare={compare.wet_x2_prv}
-            w={"5vmin"}
-            h={"40vmin"}
-          />
-        </div>
-      );
-    }
+        <DeltaSalinityVisual
+          title="Delta Salinity"
+          data_dry={ds.dry_x2_prv}
+          data_wet={ds.wet_x2_prv}
+          compare_dry={compare.dry_x2_prv}
+          compare_wet={compare.wet_x2_prv}
+          w={"5vmin%"}
+          h={"40vmin"}
+        />
+      </div>
+    );
   }
 }
 

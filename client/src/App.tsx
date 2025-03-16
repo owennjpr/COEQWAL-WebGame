@@ -67,32 +67,33 @@ const App = () => {
   return (
     <div>
       <TutorialPopUp />
-      <LeverForm handleSubmit={handleSubmit}></LeverForm>
-
-      {!dataState.scenario ? (
-        <p>No data to display</p>
-      ) : (
-        <div style={styles.container}>
-          <ControlBar
-            scenario={dataState.scenario}
-            compareType={compareType}
-            setCompareType={setCompareType}
-            handleWYT={handleWYT}
-            handleCompareType={handleCompareType}
-            warnings={warnings}
-          />
-          <ReservoirBlock
-            wyt={waterYearType}
-            ds={dataState}
-            compare={compareState}
-          />
-          <MetricsBlock
-            wyt={waterYearType}
-            ds={dataState}
-            compare={compareState}
-          />
-        </div>
-      )}
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <LeverForm handleSubmit={handleSubmit}></LeverForm>
+        {!dataState.scenario ? (
+          <p>No data to display</p>
+        ) : (
+          <div style={styles.container}>
+            <ControlBar
+              scenario={dataState.scenario}
+              compareType={compareType}
+              setCompareType={setCompareType}
+              handleWYT={handleWYT}
+              handleCompareType={handleCompareType}
+              warnings={warnings}
+            />
+            <ReservoirBlock
+              wyt={waterYearType}
+              ds={dataState}
+              compare={compareState}
+            />
+            <MetricsBlock
+              wyt={waterYearType}
+              ds={dataState}
+              compare={compareState}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

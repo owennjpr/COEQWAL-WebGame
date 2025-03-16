@@ -86,26 +86,6 @@ function ControlBar(props: ControlBarProps) {
             bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
           />
         </div>
-        <div style={styles.buttonContainer}>
-          <button
-            type="button"
-            onClick={toggleWYT}
-            style={wyt === "dry" ? styles.buttonActive : styles.buttonInactive}
-          >
-            <p style={styles.buttonText}>Dry Years</p>
-          </button>
-          <button
-            type="button"
-            onClick={toggleWYT}
-            style={wyt === "wet" ? styles.buttonActive : styles.buttonInactive}
-          >
-            <p style={styles.buttonText}>Wet Years</p>
-          </button>
-          <QButton
-            headerText="Water Year Type:"
-            bodyText="We can classify years into dry or wet, depending on how much rainfall occurs. Toggle between them to understand the year over year variation that will occur in your scenario."
-          />
-        </div>
         <WarningsPopup warnings={warnings} />
       </div>
     );
