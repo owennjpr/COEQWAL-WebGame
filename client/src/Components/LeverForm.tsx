@@ -6,17 +6,17 @@ type Style = CSSProperties;
 
 interface LeverFormProps {
   handleSubmit: (arg0: Levers) => void;
+  minimized: boolean;
+  setMinimized: (arg0: boolean) => void;
 }
 
 function LeverForm(props: LeverFormProps) {
-  const { handleSubmit } = props;
+  const { handleSubmit, minimized, setMinimized } = props;
   const [demands, setDemands] = useState<number>(100);
   const [carryover, setCarryover] = useState<string>("0");
   const [priority, setPriority] = useState<string>("0");
   const [delta, setDelta] = useState<string>("1");
   const [minflow, setMinflow] = useState<number>(0);
-
-  const [minimized, setMinimized] = useState<boolean>(false);
 
   const submission = () => {
     let adjustedMinflow = "0";
@@ -98,21 +98,12 @@ function LeverForm(props: LeverFormProps) {
   };
 
   if (minimized) {
-    return (
-      <div style={styles.coreblockMin}>
-        <p style={styles.miniHeader}>Agriculture Demands: {demands}</p>
-        <p style={styles.miniHeader}>Carryover: {carryover}</p>
-        <p style={styles.miniHeader}>Distribution Priority: {priority}</p>
-        <p style={styles.miniHeader}>Delta Regulations: {delta}</p>
-        <p style={styles.miniHeader}>
-          Minimum Flow Requirements: {minflowSwitch()}
-        </p>
-        <button onClick={toggleMinimized}>minimize</button>
-      </div>
-    );
+    return null;
   } else {
     return (
       <div style={styles.coreblock}>
+        <button onClick={toggleMinimized}>minimize</button>
+
         <div>
           <div style={styles.titleQPair}>
             <p style={styles.miniHeader}>Agriculture Demands</p>
@@ -264,7 +255,6 @@ function LeverForm(props: LeverFormProps) {
         </div>
 
         <button onClick={submission}>Submit</button>
-        <button onClick={toggleMinimized}>minimize</button>
       </div>
     );
   }
@@ -274,11 +264,15 @@ export default LeverForm;
 
 const styles = {
   coreblock: {
-    backgroundColor: "rgb(240, 240, 250)",
-    height: "98vh",
+    backgroundColor: "#FFFFFFA0",
+    backdropFilter: "blur(8px)",
+    border: "black 2px solid",
+    borderRadius: "0.5rem",
+    boxShadow: "3px 4px 10px rgb(180, 180, 180)",
     width: "25vmin",
-    margin: "5px",
-    padding: "5px",
+    height: "full",
+    margin: "10px",
+    padding: "10px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "start",

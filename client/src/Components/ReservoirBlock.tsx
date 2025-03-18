@@ -5,7 +5,6 @@ import { CompareState, DataState } from "../types";
 type Style = CSSProperties;
 
 interface ReservoirBlockProps {
-  wyt: string;
   ds: DataState;
   compare: CompareState;
 }
@@ -13,7 +12,7 @@ interface ReservoirBlockProps {
 const resSize = "9vmin";
 
 function ReservoirBlock(props: ReservoirBlockProps) {
-  const { wyt, ds, compare } = props;
+  const { ds, compare } = props;
 
   if (ds === undefined || compare === undefined) {
     return <div style={styles.coreblock} />;
@@ -137,9 +136,8 @@ function ReservoirBlock(props: ReservoirBlockProps) {
 export default ReservoirBlock;
 const styles = {
   coreblock: {
-    backgroundColor: "rgb(240, 240, 250)",
-    marginTop: "5px",
-    marginBottom: "5px",
+    width: "100%",
+    margin: "5px",
     padding: "10px",
     display: "block",
     position: "relative",
@@ -147,6 +145,7 @@ const styles = {
   map: {
     maxWidth: "70min",
     height: "70vmin",
+    opacity: 0.6,
   } as Style,
   reservoirGrid: {
     display: "grid",

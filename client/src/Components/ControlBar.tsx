@@ -7,9 +7,10 @@ type Style = CSSProperties;
 
 interface ControlBarProps {
   scenario: string;
+  minimized: boolean;
+  setMinimized: (arg0: boolean) => void;
   compareType: string;
   setCompareType: (arg0: string) => void;
-  handleWYT: (arg0: string) => void;
   handleCompareType: (arg0: string) => void;
   warnings: Warnings;
 }
@@ -17,21 +18,13 @@ interface ControlBarProps {
 function ControlBar(props: ControlBarProps) {
   const {
     scenario,
+    minimized,
+    setMinimized,
     compareType,
     setCompareType,
-    handleWYT,
     handleCompareType,
     warnings,
   } = props;
-  const [wyt, setWyt] = useState<string>("dry");
-
-  const toggleWYT = () => {
-    if (wyt === "dry") {
-      setWyt("wet");
-    } else {
-      setWyt("dry");
-    }
-  };
 
   const toggleCompare = () => {
     let comp = "";
@@ -44,10 +37,6 @@ function ControlBar(props: ControlBarProps) {
     handleCompareType(comp);
   };
 
-  useEffect(() => {
-    handleWYT(wyt);
-  }, [handleWYT, wyt]);
-
   if (scenario === undefined) {
     return (
       <div style={styles.outerBlock}>
@@ -57,11 +46,46 @@ function ControlBar(props: ControlBarProps) {
   } else {
     return (
       <div style={styles.outerBlock}>
-        <p>Displaying results from scenario {scenario}</p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "1rem",
+            paddingLeft: "0.5rem",
+          }}
+        >
+          {minimized ? (
+            <div onClick={() => setMinimized(false)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                className="bi bi-arrow-bar-right"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5"
+                />
+              </svg>
+            </div>
+          ) : null}
+          {scenario ? (
+            <p>Displaying results from scenario {scenario}</p>
+          ) : (
+            <p>
+              Press <span style={{ fontWeight: "bold" }}>Submit</span> to
+              display results
+            </p>
+          )}
+        </div>
+
         <div style={styles.buttonContainer}>
           <button
             type="button"
-            onClick={toggleCompare}
+            onClick={scenario ? toggleCompare : () => null}
             style={
               compareType === "previous"
                 ? styles.buttonActive
@@ -72,7 +96,7 @@ function ControlBar(props: ControlBarProps) {
           </button>
           <button
             type="button"
-            onClick={toggleCompare}
+            onClick={scenario ? toggleCompare : () => null}
             style={
               compareType === "baseline"
                 ? styles.buttonActive
@@ -86,7 +110,7 @@ function ControlBar(props: ControlBarProps) {
             bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
           />
         </div>
-        <WarningsPopup warnings={warnings} />
+        <WarningsPopup warnings={scenario ? warnings : null} />
       </div>
     );
   }
@@ -96,8 +120,13 @@ export default ControlBar;
 
 const styles = {
   outerBlock: {
-    backgroundColor: "rgb(240, 240, 250)",
+    backgroundColor: "#FFFFFFA0",
+    backdropFilter: "blur(8px)",
+    border: "black 2px solid",
+    borderRadius: "0.5rem",
+    boxShadow: "0px 4px 10px rgb(180, 180, 180)",
     margin: "5px",
+    marginTop: "10px",
     padding: "10px",
     gridColumn: "1 / -1",
     display: "flex",
@@ -114,11 +143,13 @@ const styles = {
   buttonActive: {
     padding: "5px",
     border: "2px solid black",
+    borderRadius: "0.5rem",
     backgroundColor: "rgb(180, 255, 180)",
   } as Style,
   buttonInactive: {
     padding: "5px",
     border: "2px solid black",
+    borderRadius: "0.5rem",
     backgroundColor: "white",
   } as Style,
   buttonText: {

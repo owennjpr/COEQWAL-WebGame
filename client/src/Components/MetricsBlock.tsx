@@ -4,13 +4,12 @@ import EquityBar from "./EquityBar";
 import { CompareState, DataState } from "../types";
 
 interface MetricsBlockProps {
-  wyt: string;
   ds: DataState;
   compare: CompareState;
 }
 
 function MetricsBlock(props: MetricsBlockProps) {
-  const { wyt, ds, compare } = props;
+  const { ds, compare } = props;
   const styles = {
     deliverybox: {
       display: "grid",
@@ -18,9 +17,8 @@ function MetricsBlock(props: MetricsBlockProps) {
       gridTemplateRows: "1fr",
     },
     coreblock: {
-      backgroundColor: "rgb(240, 240, 250)",
-      marginTop: "5px",
-      marginBottom: "5px",
+      width: "100%",
+      margin: "5px",
       padding: "10px",
       display: "block",
     },

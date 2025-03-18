@@ -102,7 +102,13 @@ const TutorialPopUp = () => {
     <ReactModal
       isOpen={visible}
       style={{
-        overlay: { background: "rgba(0, 0, 40, 0.15)" },
+        overlay: {
+          // background: "rgba(255, 255, 255, 0.6)",
+          background:
+            "linear-gradient(-45deg,rgba(199, 223, 251, 0.3),rgba(177, 198, 253, 0.3),rgba(175, 222, 237, 0.5),rgba(85, 191, 248, 0.2))",
+          backgroundSize: "400% 400%",
+          animation: "gradient 15s ease infinite",
+        },
         content: {
           top: "50%",
           left: "50%",
@@ -115,6 +121,11 @@ const TutorialPopUp = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          border: "2px solid black",
+          borderRadius: "0.5rem",
+          boxShadow: "2px 3px 15px rgb(90, 90, 90)",
+          backgroundColor: "#FFFFFFB0",
+          backdropFilter: "blur(8px)",
         },
       }}
       shouldCloseOnOverlayClick={false}

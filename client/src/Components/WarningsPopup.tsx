@@ -7,7 +7,7 @@ import { Warnings } from "../types";
 type Style = CSSProperties;
 
 interface WarningsPopupProps {
-  warnings: Warnings;
+  warnings: Warnings | null;
 }
 
 function WarningsPopup(props: WarningsPopupProps) {
@@ -16,67 +16,75 @@ function WarningsPopup(props: WarningsPopupProps) {
   const [warningList, setWarningList] = useState<string[]>([]);
 
   useEffect(() => {
-    let warn_iter: string[] = [];
-    if (warnings.deliveriesNODDry) {
-      warn_iter.push("warning dry year deliveries north");
-    }
-    if (warnings.deliveriesNODWet) {
-      warn_iter.push("warning wet year deliveries north");
-    }
+    if (warnings) {
+      let warn_iter: string[] = [];
+      if (warnings.deliveriesNODDry) {
+        warn_iter.push("warning dry year deliveries north");
+      }
+      if (warnings.deliveriesNODWet) {
+        warn_iter.push("warning wet year deliveries north");
+      }
 
-    if (warnings.deliveriesSODDry) {
-      warn_iter.push("warning dry year deliveries south");
-    }
+      if (warnings.deliveriesSODDry) {
+        warn_iter.push("warning dry year deliveries south");
+      }
 
-    if (warnings.deliveriesSODWet) {
-      warn_iter.push("warning wet year deliveries south");
-    }
+      if (warnings.deliveriesSODWet) {
+        warn_iter.push("warning wet year deliveries south");
+      }
 
-    if (warnings.deltaAlertDry) {
-      warn_iter.push("warning delta dry years");
-    }
+      if (warnings.deltaAlertDry) {
+        warn_iter.push("warning delta dry years");
+      }
 
-    if (warnings.deltaAlertWet) {
-      warn_iter.push("warning delta wet years");
-    }
+      if (warnings.deltaAlertWet) {
+        warn_iter.push("warning delta wet years");
+      }
 
-    if (warnings.deltaCriticalDry) {
-      warn_iter.push("critical delta dry years");
-    }
+      if (warnings.deltaCriticalDry) {
+        warn_iter.push("critical delta dry years");
+      }
 
-    if (warnings.deltaCriticalWet) {
-      warn_iter.push("critical delta wet years");
-    }
+      if (warnings.deltaCriticalWet) {
+        warn_iter.push("critical delta wet years");
+      }
 
-    if (warnings.equityDry) {
-      warn_iter.push("warning equity dry years");
-    }
+      if (warnings.equityDry) {
+        warn_iter.push("warning equity dry years");
+      }
 
-    if (warnings.equityWet) {
-      warn_iter.push("warning equity wet years");
-    }
+      if (warnings.equityWet) {
+        warn_iter.push("warning equity wet years");
+      }
 
-    if (warnings.reservoirsDry) {
-      warn_iter.push("warning reservoirs dry years");
-    }
+      if (warnings.reservoirsDry) {
+        warn_iter.push("warning reservoirs dry years");
+      }
 
-    if (warnings.reservoirsWet) {
-      warn_iter.push("warning reservoirs wet years");
-    }
+      if (warnings.reservoirsWet) {
+        warn_iter.push("warning reservoirs wet years");
+      }
 
-    setWarningList(warn_iter);
+      setWarningList(warn_iter);
+    }
   }, [warnings]);
 
   return (
     <div>
-      <button style={styles.buttonInactive} onClick={() => setVisible(true)}>
+      <button
+        style={styles.buttonInactive}
+        onClick={warnings ? () => setVisible(true) : () => null}
+      >
         <p style={styles.buttonText}>Show Warnings</p>
         <p style={styles.warningNum}>({warningList.length})</p>
       </button>
       <ReactModal
+        className={"overlay"}
         isOpen={visible}
         style={{
-          overlay: { background: "rgba(0, 0, 40, 0.15)" },
+          overlay: {
+            background: "rgba(255, 255, 255, 0.3)",
+          },
           content: {
             background: "white",
             position: "absolute",
@@ -85,6 +93,12 @@ function WarningsPopup(props: WarningsPopupProps) {
             top: 0,
             bottom: 0,
             width: "25%",
+            margin: "10px",
+            padding: "10px",
+            border: "black 2px solid",
+            borderRadius: "0.5rem",
+            backgroundColor: "#FFFFFFE0",
+            backdropFilter: "blur(10px)",
           },
         }}
         shouldCloseOnOverlayClick={true}
@@ -124,6 +138,7 @@ const styles = {
   buttonInactive: {
     padding: "5px",
     border: "2px solid black",
+    borderRadius: "0.5rem",
     backgroundColor: "white",
     display: "flex",
     flexDirection: "row",

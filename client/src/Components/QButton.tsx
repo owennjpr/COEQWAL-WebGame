@@ -20,7 +20,9 @@ const QButton = (props: QButtonProps) => {
       <ReactModal
         isOpen={show}
         style={{
-          overlay: { background: "rgba(0, 0, 40, 0.15)" },
+          overlay: {
+            background: "rgba(255, 255, 255, 0.4)",
+          },
           content: {
             top: "50%",
             left: "50%",
@@ -33,6 +35,11 @@ const QButton = (props: QButtonProps) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            border: "black 2px solid",
+            borderRadius: "0.5rem",
+            boxShadow: "2px 3px 15px rgb(111, 111, 111)",
+            backgroundColor: "#FFFFFFD0",
+            backdropFilter: "blur(8px)",
           },
         }}
         shouldCloseOnOverlayClick={true}

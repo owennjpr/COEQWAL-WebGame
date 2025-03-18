@@ -22,23 +22,11 @@ const App = () => {
   const [compareState, setCompareState] =
     useState<CompareState>(neutralCompare);
   const [warnings, setWarnings] = useState<Warnings>(nullWarnings);
-  const [waterYearType, setWaterYearType] = useState<string>("dry");
   const [compareType, setCompareType] = useState<string>("previous");
-
-  const styles = {
-    container: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1.4fr",
-      gridTemplateRows: "0.1fr 1fr",
-    },
-  };
+  const [minimized, setMinimized] = useState<boolean>(false);
 
   const handleSubmit = (res: Levers) => {
     setLevers(res);
-  };
-
-  const handleWYT = (wyt: string) => {
-    setWaterYearType(wyt);
   };
 
   const handleCompareType = async (compare: string) => {
@@ -68,31 +56,33 @@ const App = () => {
     <div>
       <TutorialPopUp />
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <LeverForm handleSubmit={handleSubmit}></LeverForm>
-        {!dataState.scenario ? (
-          <p>No data to display</p>
-        ) : (
-          <div style={styles.container}>
-            <ControlBar
-              scenario={dataState.scenario}
-              compareType={compareType}
-              setCompareType={setCompareType}
-              handleWYT={handleWYT}
-              handleCompareType={handleCompareType}
-              warnings={warnings}
-            />
-            <ReservoirBlock
-              wyt={waterYearType}
-              ds={dataState}
-              compare={compareState}
-            />
-            <MetricsBlock
-              wyt={waterYearType}
-              ds={dataState}
-              compare={compareState}
-            />
-          </div>
-        )}
+        <LeverForm
+          handleSubmit={handleSubmit}
+          minimized={minimized}
+          setMinimized={setMinimized}
+        ></LeverForm>
+
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <ControlBar
+            scenario={dataState.scenario}
+            minimized={minimized}
+            setMinimized={setMinimized}
+            compareType={compareType}
+            setCompareType={setCompareType}
+            handleCompareType={handleCompareType}
+            warnings={warnings}
+          />
+          {!dataState.scenario ? null : (
+            <div
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <ReservoirBlock ds={dataState} compare={compareState} />
+              <MetricsBlock ds={dataState} compare={compareState} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
