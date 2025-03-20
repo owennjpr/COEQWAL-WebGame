@@ -72,7 +72,9 @@ const App = () => {
       }
     };
 
-    fetchData();
+    if (!manualOverride) {
+      fetchData();
+    }
   }, [levers, manualOverride]);
 
   return (
