@@ -165,12 +165,14 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    backgroundColor: "rgb(230, 230, 240)",
+    // backgroundColor: "rgb(230, 230, 240)",
+    border: "black solid 1px",
+    borderRadius: "0.5rem",
     marginTop: 10,
     marginBottom: 10,
     paddingLeft: 10,
   } as Style,
   warnSymbol: {
-    color: "rgb(220, 190, 0)",
+    color: "rgb(255, 195, 15)",
   } as Style,
 };

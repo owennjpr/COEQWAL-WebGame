@@ -152,6 +152,27 @@ function LeverForm(props: LeverFormProps) {
 
         <div>
           <div style={styles.titleQPair}>
+            <p style={styles.miniHeader}>Minimum Flow Requirements</p>
+            <QButton
+              headerText="Minimum Flow Requirements"
+              bodyText="this is an explanation of minimum flow requirements"
+            />
+          </div>
+          <input
+            type="range"
+            name="minflow"
+            min={1}
+            max={5}
+            step={1}
+            value={minflow}
+            defaultValue={minflow}
+            onChange={handleChange}
+          />
+          <div>{minflowSwitch()} unimpaired flow requirement</div>
+        </div>
+
+        <div>
+          <div style={styles.titleQPair}>
             <p style={styles.miniHeader}>Distribution Priority</p>
             <QButton
               headerText="Distribution Priority"
@@ -231,27 +252,6 @@ function LeverForm(props: LeverFormProps) {
             required
           />
           <label htmlFor="4">No D1641 flow or salinity requirements</label>
-        </div>
-
-        <div>
-          <div style={styles.titleQPair}>
-            <p style={styles.miniHeader}>Minimum Flow Requirements</p>
-            <QButton
-              headerText="Minimum Flow Requirements"
-              bodyText="this is an explanation of minimum flow requirements"
-            />
-          </div>
-          <input
-            type="range"
-            name="minflow"
-            min={1}
-            max={5}
-            step={1}
-            value={minflow}
-            defaultValue={minflow}
-            onChange={handleChange}
-          />
-          <div>{minflowSwitch()} unimpaired flow requirement</div>
         </div>
 
         <button onClick={submission}>Submit</button>

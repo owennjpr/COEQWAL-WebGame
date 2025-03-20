@@ -15,6 +15,7 @@ import {
   emptyDataState,
   Levers,
 } from "./types";
+import LoadingSpinner from "./Components/LoadingSpinner";
 
 const App = () => {
   const [levers, setLevers] = useState<Levers>(null);
@@ -24,21 +25,24 @@ const App = () => {
   const [warnings, setWarnings] = useState<Warnings>(nullWarnings);
   const [compareType, setCompareType] = useState<string>("previous");
   const [minimized, setMinimized] = useState<boolean>(false);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const handleSubmit = (res: Levers) => {
     setLevers(res);
   };
 
   const handleCompareType = async (compare: string) => {
+    setLoading(true);
     const data = await axios.post(`${process.env.REACT_APP_API_URL}/compare`, {
       compare: compare,
     });
     setCompareState(data.data.compare);
+    setLoading(false);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       if (levers) {
+        setLoading(true);
         const data = await axios.post(
           `${process.env.REACT_APP_API_URL}/submit`,
           levers
@@ -47,11 +51,13 @@ const App = () => {
         setDataState(data.data.ds);
         setCompareState(data.data.prev_compare);
         setWarnings(data.data.warnings);
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [levers]);
+
   return (
     <div>
       <TutorialPopUp />
@@ -84,6 +90,7 @@ const App = () => {
           )}
         </div>
       </div>
+      {loading ? <LoadingSpinner /> : null}
     </div>
   );
 };
