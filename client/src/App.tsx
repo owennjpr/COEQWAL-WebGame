@@ -43,14 +43,18 @@ const App = () => {
     const fetchData = async () => {
       if (levers) {
         setLoading(true);
-        const data = await axios.post(
-          `${process.env.REACT_APP_API_URL}/submit`,
-          levers
-        );
+        try {
+          const data = await axios.post(
+            `${process.env.REACT_APP_API_URL}/submit`,
+            levers
+          );
 
-        setDataState(data.data.ds);
-        setCompareState(data.data.prev_compare);
-        setWarnings(data.data.warnings);
+          setDataState(data.data.ds);
+          setCompareState(data.data.prev_compare);
+          setWarnings(data.data.warnings);
+        } catch {
+          console.error("something went wrong");
+        }
         setLoading(false);
       }
     };
