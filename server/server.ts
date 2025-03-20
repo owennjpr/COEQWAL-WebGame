@@ -66,8 +66,7 @@ app.options("*", (req, res) => {
 app.use(express.json());
 
 const db = new pg.Client({
-  // user: process.env.POSTGRES_USER,
-  user: "jim",
+  user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST,
   database: process.env.POSTGRES_DATABASE,
   password: process.env.POSTGRES_PASSWORD,
