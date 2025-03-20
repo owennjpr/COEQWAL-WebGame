@@ -1,6 +1,12 @@
 import React from "react";
 import { MutatingDots } from "react-loader-spinner";
-const LoadingSpinner = () => {
+
+interface LoadingSpinnerProps {
+  setManualOverride: (arg0: boolean) => void;
+  fetchError: boolean;
+}
+const LoadingSpinner = (props: LoadingSpinnerProps) => {
+  const { setManualOverride, fetchError } = props;
   return (
     <div
       style={{
@@ -15,6 +21,8 @@ const LoadingSpinner = () => {
         width: "100%",
         height: "100%",
         display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -30,6 +38,28 @@ const LoadingSpinner = () => {
         wrapperStyle={{}}
         wrapperClass=""
       />
+      {fetchError ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p style={{ maxWidth: "12rem" }}>
+            Something went wrong while trying to fetch the requested resource.
+            Trying again.
+          </p>
+          <p
+            onClick={() => setManualOverride(true)}
+            style={{ fontWeight: "bold" }}
+          >
+            Stop Fetching
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };

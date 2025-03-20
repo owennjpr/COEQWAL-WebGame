@@ -26,6 +26,9 @@ const App = () => {
   const [compareType, setCompareType] = useState<string>("previous");
   const [minimized, setMinimized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [manualOverride, setManualOverride] = useState<boolean>(false);
+  const [fetchFailed, setFetchFailed] = useState<boolean>(false);
+
   const handleSubmit = (res: Levers) => {
     setLevers(res);
   };
@@ -52,15 +55,25 @@ const App = () => {
           setDataState(data.data.ds);
           setCompareState(data.data.prev_compare);
           setWarnings(data.data.warnings);
+          setLoading(false);
+          setFetchFailed(false);
+          setManualOverride(false);
         } catch {
-          console.error("something went wrong");
+          console.error("something went wrong, trying again");
+          if (!manualOverride) {
+            setFetchFailed(true);
+            fetchData();
+          } else {
+            setLoading(false);
+            setFetchFailed(false);
+            setManualOverride(false);
+          }
         }
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, [levers]);
+  }, [levers, manualOverride]);
 
   return (
     <div>
@@ -94,7 +107,12 @@ const App = () => {
           )}
         </div>
       </div>
-      {loading ? <LoadingSpinner /> : null}
+      {loading ? (
+        <LoadingSpinner
+          setManualOverride={setManualOverride}
+          fetchError={fetchFailed}
+        />
+      ) : null}
     </div>
   );
 };
