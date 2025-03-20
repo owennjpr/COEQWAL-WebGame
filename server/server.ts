@@ -33,7 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = ["https://coeqwal-web-game.vercel.app"];
+const allowedOrigins = ["https://coeqwal-webame.vercel.app"];
 
 app.use(
   cors({
