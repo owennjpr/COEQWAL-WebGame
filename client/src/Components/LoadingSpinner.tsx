@@ -48,16 +48,13 @@ const LoadingSpinner = (props: LoadingSpinnerProps) => {
             alignItems: "center",
           }}
         >
-          <p style={{ maxWidth: "12rem" }}>
+          <p style={{ maxWidth: "20rem", textAlign: "center" }}>
             Something went wrong while trying to fetch the requested resource.
             Trying again.
           </p>
-          <p
-            onClick={() => setManualOverride(true)}
-            style={{ fontWeight: "bold" }}
-          >
-            Stop Fetching
-          </p>
+          <button onClick={() => setManualOverride(true)}>
+            <p style={{ fontWeight: "bold" }}>Stop Fetching</p>
+          </button>
         </div>
       ) : null}
     </div>

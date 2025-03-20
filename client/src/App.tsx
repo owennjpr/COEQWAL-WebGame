@@ -48,7 +48,7 @@ const App = () => {
         setLoading(true);
         try {
           const data = await axios.post(
-            `${process.env.REACT_APP_API_URL}/submi`,
+            `${process.env.REACT_APP_API_URL}/submit`,
             levers
           );
 
