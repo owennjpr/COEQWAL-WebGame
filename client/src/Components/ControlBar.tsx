@@ -100,7 +100,43 @@ function ControlBar(props: ControlBarProps) {
               </p>
             )}
           </div>
-
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <p>Wet Years</p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                border: "2px black solid",
+                marginLeft: "0.5rem",
+                marginRight: "0.5rem",
+                borderRadius: "0.5rem",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: 50,
+                  height: 38,
+                  background: "rgb(210, 255, 228)",
+                }}
+              />
+              <div
+                style={{
+                  width: 50,
+                  height: 38,
+                  background: "rgb(255, 247, 212)",
+                }}
+              />
+            </div>
+            <p>Dry Years</p>
+          </div>
           <div style={styles.buttonContainer}>
             <button
               type="button"

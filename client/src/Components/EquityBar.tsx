@@ -6,40 +6,74 @@ import EmptyCircle from "../svgs/EmptyCircle";
 type Style = CSSProperties;
 
 interface EquityBarProps {
-  data: number;
-  compare: number;
+  data_dry: number;
+  data_wet: number;
+  compare_dry: number;
+  compare_wet: number;
 }
 
 function EquityBar(props: EquityBarProps) {
-  const { data, compare } = props;
-  const [compareColor, setCompareColor] =
+  const { data_dry, data_wet, compare_dry, compare_wet } = props;
+  const [compareDryColor, setCompareDryColor] =
     useState<string>("rgb(240, 240, 250)");
-  const [titleColor, setTitleColor] = useState<string>("black");
-  const [currPos, setCurrPos] = useState<string>("0px");
-  const [compPos, setCompPos] = useState<string>("0px");
-  const [arrowComponent, setArrowComponent] = useState(<div></div>);
+  const [compareWetColor, setCompareWetColor] =
+    useState<string>("rgb(240, 240, 250)");
+
+  const [currDryPos, setCurrDryPos] = useState<string>("0px");
+  const [currWetPos, setCurrWetPos] = useState<string>("0px");
+  const [compDryPos, setCompDryPos] = useState<string>("0px");
+  const [compWetPos, setCompWetPos] = useState<string>("0px");
+  const [arrowComponentDry, setArrowComponentDry] = useState(<div></div>);
+  const [arrowComponentWet, setArrowComponentWet] = useState(<div></div>);
 
   useEffect(() => {
-    if (data > compare && compare !== 0) {
-      setCompareColor("rgb(254, 182, 182)");
-      setTitleColor("red");
-      setArrowComponent(<DownArrowSVG style={{ color: "red" }} />);
-    } else if (data < compare && compare !== 0) {
-      setCompareColor("rgb(119, 219, 119)");
-      setTitleColor("green");
-      setArrowComponent(<UpArrowSVG style={{ color: "green" }} />);
+    if (data_dry > compare_dry && compare_dry !== 0) {
+      setCompareDryColor("rgb(254, 182, 182)");
+      setArrowComponentDry(
+        <DownArrowSVG style={{ ...styles.arrow, right: 5, color: "red" }} />
+      );
+    } else if (data_dry < compare_dry && compare_dry !== 0) {
+      setCompareDryColor("rgb(119, 219, 119)");
+      setArrowComponentDry(
+        <UpArrowSVG style={{ ...styles.arrow, right: 5, color: "green" }} />
+      );
     } else {
-      setTitleColor("black");
-      setArrowComponent(<EmptyCircle />);
+      setArrowComponentDry(
+        <EmptyCircle style={{ ...styles.arrow, right: 5 }} />
+      );
     }
 
-    if (compare !== 0) {
-      const comp = String(((compare - 0.41) / (0.88 - 0.41)) * 200) + "px";
-      setCompPos(comp);
+    if (compare_dry !== 0) {
+      const comp = String(((compare_dry - 0.41) / (0.88 - 0.41)) * 300) + "px";
+      setCompDryPos(comp);
     }
-    const curr = String(((data - 0.41) / (0.88 - 0.41)) * 200) + "px";
-    setCurrPos(curr);
-  }, [data, compare]);
+    let curr = String(((data_dry - 0.41) / (0.88 - 0.41)) * 300) + "px";
+    setCurrDryPos(curr);
+
+    if (data_wet > compare_wet && compare_wet !== 0) {
+      setCompareWetColor("rgb(254, 182, 182)");
+      setArrowComponentWet(
+        <DownArrowSVG style={{ ...styles.arrow, left: 5, color: "red" }} />
+      );
+    } else if (data_wet < compare_wet && compare_wet !== 0) {
+      setCompareWetColor("rgb(119, 219, 119)");
+      setArrowComponentWet(
+        <UpArrowSVG style={{ ...styles.arrow, left: 5, color: "green" }} />
+      );
+    } else {
+      setArrowComponentWet(
+        <EmptyCircle style={{ ...styles.arrow, left: 5 }} />
+      );
+    }
+
+    if (compare_wet !== 0) {
+      const comp = String(((compare_wet - 0.41) / (0.88 - 0.41)) * 300) + "px";
+      setCompWetPos(comp);
+    }
+    curr = String(((data_wet - 0.41) / (0.88 - 0.41)) * 300) + "px";
+    setCurrWetPos(curr);
+  }, [data_dry, compare_dry, data_wet, compare_wet]);
+
   return (
     <div style={styles.container}>
       <div
@@ -50,30 +84,62 @@ function EquityBar(props: EquityBarProps) {
           gap: 5,
         }}
       >
-        {arrowComponent}
-        <p style={{ color: titleColor, fontWeight: "bold", fontSize: 16 }}>
+        <p style={{ color: "black", fontWeight: "bold", fontSize: 16 }}>
           Equity
         </p>
       </div>
       <div style={styles.barContainer}>
-        <p style={{ fontSize: 10 }}>less equitable</p>
+        <p style={{ fontSize: 10 }}>more equitable</p>
         <div style={styles.equityBar}>
           <div
             style={{
-              ...styles.equityMark,
-              backgroundColor: compareColor,
-              left: compPos,
+              width: "100%",
+              height: "100%",
+              background: "rgb(210, 255, 228)",
             }}
-          ></div>
+          />
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "rgb(255, 247, 212)",
+            }}
+          />
+
+          <div
+            style={{
+              ...styles.equityMark,
+              backgroundColor: compareDryColor,
+              bottom: compDryPos,
+              right: 0,
+            }}
+          />
           <div
             style={{
               ...styles.equityMark,
               backgroundColor: "black",
-              left: currPos,
+              bottom: currDryPos,
+              right: 0,
             }}
-          ></div>
+          />
+          <div
+            style={{
+              ...styles.equityMark,
+              backgroundColor: compareWetColor,
+              bottom: compWetPos,
+            }}
+          />
+          <div
+            style={{
+              ...styles.equityMark,
+              backgroundColor: "black",
+              bottom: currWetPos,
+            }}
+          />
+          {arrowComponentDry}
+          {arrowComponentWet}
         </div>
-        <p style={{ fontSize: 10 }}>more equitable</p>
+        <p style={{ fontSize: 10 }}>less equitable</p>
       </div>
     </div>
   );
@@ -89,23 +155,29 @@ const styles = {
     alignItems: "center",
   } as Style,
   equityBar: {
-    display: "flex",
-    flexDirection: "row",
-    height: 35,
-    width: 200,
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    height: 300,
+    width: 50,
     border: "2px solid black",
+    borderRadius: "0.5rem",
     marginLeft: "1rem",
     marginRight: "1rem",
     position: "relative",
+    overflow: "hidden",
   } as Style,
   barContainer: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
   } as Style,
   equityMark: {
-    height: "100%",
-    width: 5,
+    height: "5px",
+    width: "50%",
     position: "absolute",
+  } as Style,
+  arrow: {
+    position: "absolute",
+    bottom: 10,
   } as Style,
 };

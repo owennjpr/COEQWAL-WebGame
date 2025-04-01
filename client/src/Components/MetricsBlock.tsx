@@ -2,6 +2,7 @@ import React from "react";
 import DeltaSalinityVisual from "./DeltaSalinityVisual";
 import EquityBar from "./EquityBar";
 import { CompareState, DataState } from "../types";
+import DeltaPopup from "./DeltaPopup";
 
 interface MetricsBlockProps {
   ds: DataState;
@@ -34,16 +35,24 @@ function MetricsBlock(props: MetricsBlockProps) {
   } else {
     return (
       <div style={styles.coreblock}>
-        <EquityBar data={ds.dry_equity} compare={compare.dry_equity_value} />
-
-        <DeltaSalinityVisual
-          title="Delta Salinity"
-          data_dry={ds.dry_x2_prv}
-          data_wet={ds.wet_x2_prv}
-          compare_dry={compare.dry_x2_prv}
-          compare_wet={compare.wet_x2_prv}
-          w={"5vmin%"}
-          h={"40vmin"}
+        <EquityBar
+          data_dry={ds.dry_equity}
+          data_wet={ds.wet_equity}
+          compare_dry={compare.dry_equity_value}
+          compare_wet={compare.wet_equity_value}
+        />
+        <DeltaPopup
+          deltaVis={
+            <DeltaSalinityVisual
+              title="Delta Salinity"
+              data_dry={ds.dry_x2_prv}
+              data_wet={ds.wet_x2_prv}
+              compare_dry={compare.dry_x2_prv}
+              compare_wet={compare.wet_x2_prv}
+              w={"50px"}
+              h={"100%"}
+            />
+          }
         />
       </div>
     );

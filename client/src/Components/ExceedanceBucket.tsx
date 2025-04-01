@@ -109,12 +109,12 @@ function ExceedanceBucket(props: ExceedanceBucketProps) {
                 gridTemplateRows: wetBarHeights,
               }}
             >
-              <div style={styles.p0bucketWet} />
-              <div style={styles.p10bucketWet} />
-              <div style={styles.p30bucketWet} />
-              <div style={styles.p50bucketWet} />
-              <div style={styles.p70bucketWet} />
-              <div style={styles.p90bucketWet} />
+              <div style={styles.p0bucket} />
+              <div style={styles.p10bucket} />
+              <div style={styles.p30bucket} />
+              <div style={styles.p50bucket} />
+              <div style={styles.p70bucket} />
+              <div style={styles.p90bucket} />
             </div>
             <div
               style={{
@@ -136,11 +136,11 @@ function ExceedanceBucket(props: ExceedanceBucketProps) {
               }}
             >
               <div style={styles.p0bucketDry} />
-              <div style={styles.p10bucketDry} />
-              <div style={styles.p30bucketDry} />
-              <div style={styles.p50bucketDry} />
-              <div style={styles.p70bucketDry} />
-              <div style={styles.p90bucketDry} />
+              <div style={styles.p10bucket} />
+              <div style={styles.p30bucket} />
+              <div style={styles.p50bucket} />
+              <div style={styles.p70bucket} />
+              <div style={styles.p90bucket} />
             </div>
             <div
               style={{
@@ -190,46 +190,27 @@ const styles = {
     gridRow: "1 / -1",
     marginTop: "5px",
   },
-  p0bucketWet: {
-    backgroundColor: "rgb(240, 255, 255)",
+  p0bucket: {
+    backgroundColor: "rgb(210, 255, 228)",
   },
   p0bucketDry: {
-    backgroundColor: "rgb(255, 245, 240)",
+    backgroundColor: "rgb(255, 247, 212)",
   },
 
-  p10bucketWet: {
+  p10bucket: {
     backgroundColor: "rgb(170, 200, 255)",
   },
-  p30bucketWet: {
+  p30bucket: {
     backgroundColor: "rgb(130, 160, 255)",
   },
-  p50bucketWet: {
+  p50bucket: {
     backgroundColor: "rgb(90, 120, 255)",
   },
-  p70bucketWet: {
+  p70bucket: {
     backgroundColor: "rgb(50, 90, 255)",
   },
-  p90bucketWet: {
+  p90bucket: {
     backgroundColor: "rgb(0, 50, 255)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "end",
-    paddingBottom: "0.2rem",
-  },
-  p10bucketDry: {
-    backgroundColor: "rgb(190, 175, 255)",
-  },
-  p30bucketDry: {
-    backgroundColor: "rgb(150, 140, 255)",
-  },
-  p50bucketDry: {
-    backgroundColor: "rgb(110, 100, 255)",
-  },
-  p70bucketDry: {
-    backgroundColor: "rgb(70, 60, 255)",
-  },
-  p90bucketDry: {
-    backgroundColor: "rgb(40, 20, 255)",
     display: "flex",
     justifyContent: "center",
     alignItems: "end",

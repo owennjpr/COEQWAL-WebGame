@@ -124,9 +124,15 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
 
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      }}
     >
-      <div
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -136,11 +142,13 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
       >
         {arrowComponent}
         <p style={{ color: titleColor, fontWeight: "bold" }}>{title}</p>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
+          width: "100%",
+          height: "100%",
         }}
       >
         <div
@@ -154,7 +162,12 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
           }}
         >
           <div
-            style={{ width: "100%", height: "42%", background: wetTiers }}
+            style={{
+              width: "100%",
+              height: "42%",
+              background: wetTiers,
+              borderBottom: "black 2px solid",
+            }}
           ></div>
           <div
             style={{ width: "100%", height: "58%", background: dryTiers }}
@@ -231,12 +244,14 @@ const styles = {
     display: "flex",
     flexFlow: "column",
     alignItems: "center",
+    height: "100%",
   },
 
   salinityContainer: {
     display: "grid",
     gridTemplateColumns: "0.9fr 0.55fr 0.5fr",
     gridTemplateRows: "1fr 1fr 1fr 1fr",
+    height: "100%",
   },
   measureBar: {
     backgroundColor: "black",
@@ -304,13 +319,13 @@ const styles = {
     color: "red",
   },
   gradientBox: {
-    width: "60vmin",
-    height: "40vmin",
+    width: "100%",
+    height: "100%",
     border: "2px solid black",
   },
   image: {
-    width: "60vmin",
-    height: "40vmin",
+    width: "100%",
+    height: "100%",
     opacity: 0.93,
   },
 };
