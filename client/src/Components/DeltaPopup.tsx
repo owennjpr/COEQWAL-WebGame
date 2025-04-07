@@ -1,5 +1,4 @@
 import React, { ReactNode, useState } from "react";
-import QuestionSVG from "../svgs/QuestionSVG";
 import ReactModal from "react-modal";
 
 interface DeltaPopupProps {
@@ -12,7 +11,39 @@ const DeltaPopup = (props: DeltaPopupProps) => {
   return (
     <div>
       <div onClick={() => setShow(true)}>
-        <QuestionSVG />
+        {/* <QuestionSVG /> */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: "white",
+            padding: 10,
+            border: "2px black solid",
+            borderRadius: "0.5rem",
+            cursor: "pointer",
+          }}
+        >
+          <p
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: 16,
+              lineHeight: 0,
+            }}
+          >
+            Delta Salinity
+          </p>
+          <img
+            src="/NumberedDeltaOutline.png"
+            style={{
+              width: "15vmin",
+              background: "red",
+              border: "2px black solid",
+            }}
+            alt="map of california delta"
+          />
+        </div>
       </div>
       <ReactModal
         isOpen={show}

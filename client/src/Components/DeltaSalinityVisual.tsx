@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 interface DeltaSalinityProps {
   title: string;

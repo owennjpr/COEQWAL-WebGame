@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LeverForm from "./Components/LeverForm";
 import axios from "axios";
-import MetricsBlock from "./Components/MetricsBlock";
-import ReservoirBlock from "./Components/ReservoirBlock";
 import ControlBar from "./Components/ControlBar";
 import TutorialPopUp from "./Components/TutorialPopUp";
 
@@ -16,6 +14,7 @@ import {
   Levers,
 } from "./types";
 import LoadingSpinner from "./Components/LoadingSpinner";
+import DataBlock from "./Components/DataBlock";
 
 const App = () => {
   const [levers, setLevers] = useState<Levers>(null);
@@ -78,17 +77,27 @@ const App = () => {
   }, [levers, manualOverride]);
 
   return (
-    <div>
+    <div style={{ width: "100%", height: "100%" }}>
       <TutorialPopUp />
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <LeverForm
           handleSubmit={handleSubmit}
           minimized={minimized}
           setMinimized={setMinimized}
-        ></LeverForm>
+        />
 
         <div
-          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
         >
           <ControlBar
             scenario={dataState.scenario}
@@ -101,10 +110,14 @@ const App = () => {
           />
           {!dataState.scenario ? null : (
             <div
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                height: "100%",
+              }}
             >
-              <ReservoirBlock ds={dataState} compare={compareState} />
-              <MetricsBlock ds={dataState} compare={compareState} />
+              <DataBlock ds={dataState} compare={compareState} />
             </div>
           )}
         </div>

@@ -179,7 +179,7 @@ const styles = {
   },
   measureBar: {
     backgroundColor: "black",
-    height: "10%",
+    height: "15%",
     marginTop: "5px",
     marginRight: "2px",
   },
