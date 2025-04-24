@@ -92,7 +92,7 @@ function WarningsPopup(props: WarningsPopupProps) {
             left: "auto",
             top: 0,
             bottom: 0,
-            width: "25%",
+            width: "35%",
             margin: "10px",
             padding: "10px",
             paddingLeft: "20px",
