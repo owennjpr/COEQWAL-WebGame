@@ -184,7 +184,6 @@ const styles = {
     width: "100%",
     backgroundColor: "#FFFFFFA0",
     backdropFilter: "blur(8px)",
-    // border: "black 2px solid",
     borderRadius: "0.5rem",
     boxShadow: "0px 1px 10px rgb(213, 213, 213)",
     margin: "5px",
@@ -206,11 +205,13 @@ const styles = {
   buttonActive: {
     padding: "5px",
     borderRadius: "0.5rem",
+    border: "0px",
     backgroundColor: "rgb(209, 249, 255)",
   } as Style,
   buttonInactive: {
     padding: "5px",
     borderRadius: "0.5rem",
+    border: "0px",
     backgroundColor: "white",
   } as Style,
   buttonText: {
