@@ -51,7 +51,7 @@ function ControlBar(props: ControlBarProps) {
         {minimized ? (
           <div
             style={{
-              backgroundColor: "#FFFFFFA0",
+              backgroundColor: "#FFFFFF70",
               backdropFilter: "blur(8px)",
               // border: "black 2px solid",
               borderRadius: "0.5rem",
@@ -205,13 +205,11 @@ const styles = {
   } as Style,
   buttonActive: {
     padding: "5px",
-    border: "1px solid black",
     borderRadius: "0.5rem",
-    backgroundColor: "rgb(180, 255, 180)",
+    backgroundColor: "rgb(209, 249, 255)",
   } as Style,
   buttonInactive: {
     padding: "5px",
-    border: "1px solid black",
     borderRadius: "0.5rem",
     backgroundColor: "white",
   } as Style,

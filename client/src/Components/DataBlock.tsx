@@ -26,7 +26,7 @@ function DataBlock(props: DataBlockProps) {
           position: "relative",
           width: "fit-content",
           height: "fit-content",
-          background: "#FFFFFFA0",
+          background: "#FFFFFF70",
           margin: 10,
           padding: 10,
           marginLeft: 5,

@@ -287,7 +287,7 @@ export default LeverForm;
 
 const styles = {
   coreblock: {
-    backgroundColor: "#FFFFFF80",
+    backgroundColor: "#FFFFFF70",
     backdropFilter: "blur(8px)",
     // border: "black 1px solid",
     borderRadius: "0.5rem",

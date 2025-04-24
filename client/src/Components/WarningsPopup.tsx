@@ -138,7 +138,7 @@ export default WarningsPopup;
 const styles = {
   buttonInactive: {
     padding: "5px",
-    border: "1px solid black",
+    // border: "1px solid black",
     borderRadius: "0.5rem",
     backgroundColor: "white",
     display: "flex",
