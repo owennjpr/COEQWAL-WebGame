@@ -1,8 +1,6 @@
-import React, { useState, useEffect, CSSProperties } from "react";
-import ReactModal from "react-modal";
-import XIcon from "../svgs/XSVG";
-import WarningSymbol from "../svgs/WarningSymbol";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { Warnings } from "../types";
+import WarningSymbol from "../svgs/WarningSymbol";
 
 type Style = CSSProperties;
 
@@ -10,10 +8,39 @@ interface WarningsPopupProps {
   warnings: Warnings | null;
 }
 
-function WarningsPopup(props: WarningsPopupProps) {
+const WarningsPane = (props: WarningsPopupProps) => {
   const { warnings } = props;
-  const [visible, setVisible] = useState<boolean>(false);
   const [warningList, setWarningList] = useState<string[]>([]);
+  const box = useRef<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState<number>(0);
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (box.current) {
+        setWidth(box.current.getBoundingClientRect().width);
+        console.log(box.current.getBoundingClientRect().width);
+      }
+    };
+
+    setTimeout(() => {
+      updateWidth();
+    }, 0);
+
+    const handleResize = () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        updateWidth();
+      }, 100);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (warnings) {
@@ -70,55 +97,26 @@ function WarningsPopup(props: WarningsPopupProps) {
   }, [warnings]);
 
   return (
-    <div>
-      <button
-        style={styles.buttonInactive}
-        onClick={warnings ? () => setVisible(true) : () => null}
-      >
-        <p style={styles.buttonText}>Show Warnings</p>
-        <p style={styles.warningNum}>({warningList.length})</p>
-      </button>
-      <ReactModal
-        className={"overlay"}
-        isOpen={visible}
-        style={{
-          overlay: {
-            background: "rgba(255, 255, 255, 0.3)",
-          },
-          content: {
-            background: "#FFFFFF50",
-            position: "absolute",
-            right: 0,
-            left: "auto",
-            top: 0,
-            bottom: 0,
-            width: "25%",
-            margin: "10px",
-            padding: "10px",
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            borderRadius: "0.5rem",
-            backdropFilter: "blur(10px)",
-            boxShadow: "-1px 0px 8px rgb(213, 213, 213)",
-          },
-        }}
-        shouldCloseOnOverlayClick={true}
-        onRequestClose={() => setVisible(false)}
-      >
+    <div
+      ref={box}
+      style={{
+        width: "100%",
+        height: "fit-content",
+        margin: 10,
+      }}
+    >
+      {width < 300 ? null : (
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            backgroundColor: "#FFFFFF70",
+            boxShadow: "0px 0px 10px rgb(213, 213, 213)",
+            borderRadius: "0.5rem",
+            padding: 10,
+            paddingLeft: 30,
+            paddingRight: 30,
           }}
         >
           <p style={styles.titleText}>Warnings</p>
-          <div onClick={() => setVisible(false)}>
-            <XIcon />
-          </div>
-        </div>
-        <div>
           {warningList.map((item) => {
             return (
               <div style={styles.warningBox}>
@@ -128,39 +126,14 @@ function WarningsPopup(props: WarningsPopupProps) {
             );
           })}
         </div>
-      </ReactModal>
+      )}
     </div>
   );
-}
+};
 
-export default WarningsPopup;
+export default WarningsPane;
 
 const styles = {
-  buttonInactive: {
-    padding: "5px",
-    border: "1px solid black",
-    borderRadius: "0.5rem",
-    backgroundColor: "white",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  } as Style,
-  buttonText: {
-    fontSize: 14,
-    fontWeight: 600,
-    lineHeight: 0,
-  } as Style,
-  warningNum: {
-    fontSize: 14,
-    fontWeight: 800,
-    color: "red",
-    lineHeight: 0,
-  } as Style,
-  titleText: {
-    fontSize: 24,
-    fontWeight: 600,
-  } as Style,
   warningBox: {
     backgroundColor: "#FFFFFF",
     // boxShadow: "0px 0px 6px rgb(180, 180, 180)",
@@ -176,5 +149,9 @@ const styles = {
   } as Style,
   warnSymbol: {
     color: "rgb(255, 195, 15)",
+  } as Style,
+  titleText: {
+    fontSize: 20,
+    fontWeight: 600,
   } as Style,
 };

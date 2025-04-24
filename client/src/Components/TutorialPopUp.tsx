@@ -105,7 +105,7 @@ const TutorialPopUp = () => {
         overlay: {
           // background: "rgba(255, 255, 255, 0.6)",
           background:
-            "linear-gradient(-45deg,rgba(199, 223, 251, 0.3),rgba(177, 198, 253, 0.3),rgba(175, 222, 237, 0.5),rgba(85, 191, 248, 0.2))",
+            "linear-gradient(-45deg,rgba(199, 223, 251, 0.3),rgba(177, 198, 253, 0.3),rgba(191, 224, 236, 0.5),rgba(132, 203, 241, 0.2))",
           backgroundSize: "400% 400%",
           animation: "gradient 15s ease infinite",
         },
@@ -121,10 +121,10 @@ const TutorialPopUp = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          border: "2px solid black",
-          borderRadius: "0.5rem",
-          boxShadow: "2px 3px 15px rgb(90, 90, 90)",
-          backgroundColor: "#FFFFFFB0",
+          border: "0px solid black",
+          borderRadius: "1rem",
+          boxShadow: "0px 0px 5px rgb(213,213,213)",
+          backgroundColor: "#FFFFFF80",
           backdropFilter: "blur(8px)",
         },
       }}
@@ -140,7 +140,17 @@ const TutorialPopUp = () => {
           justifyContent: "space-between",
         }}
       >
-        <button onClick={() => setVisible(false)}>
+        <button
+          onClick={() => setVisible(false)}
+          style={{
+            background: "white",
+            border: "0px",
+            borderRadius: "0.5rem",
+            padding: "5px",
+            paddingLeft: "20px",
+            paddingRight: "20px",
+          }}
+        >
           <p>Skip</p>
         </button>
         <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
@@ -149,6 +159,14 @@ const TutorialPopUp = () => {
               if (page !== 0) {
                 setPage(page - 1);
               }
+            }}
+            style={{
+              background: "white",
+              border: "0px",
+              borderRadius: "0.5rem",
+              padding: "5px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
             }}
           >
             <p style={page === 0 ? { opacity: 0 } : { opacity: 1 }}>Previous</p>
@@ -160,6 +178,14 @@ const TutorialPopUp = () => {
               } else {
                 setPage(page + 1);
               }
+            }}
+            style={{
+              background: "white",
+              border: "0px",
+              borderRadius: "0.5rem",
+              padding: "5px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
             }}
           >
             <p>{page === 4 ? "End" : "Next"}</p>

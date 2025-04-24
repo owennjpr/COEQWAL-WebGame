@@ -26,12 +26,19 @@ function DataBlock(props: DataBlockProps) {
           position: "relative",
           width: "fit-content",
           height: "fit-content",
+          background: "#FFFFFFA0",
+          margin: 10,
+          padding: 10,
+          marginLeft: 5,
+          marginRight: 5,
+          borderRadius: "0.5rem",
+          boxShadow: "0px 0px 8px rgb(213, 213, 213)",
         }}
       >
         <img
           src="/Map_of_California_outline_small.png"
           style={{
-            width: "65vmin",
+            width: "fit-content",
             height: "80vmin",
             marginLeft: "5vmin",
             marginRight: "15vmin",
@@ -186,6 +193,7 @@ function DataBlock(props: DataBlockProps) {
               height: "100%",
               // background: "aqua",
               // opacity: 0.75,
+              paddingLeft: "2rem",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -211,8 +219,9 @@ function DataBlock(props: DataBlockProps) {
               height: "100%",
               // background: "purple",
               // opacity: 0.75,
+              paddingLeft: "2rem",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "end",
               alignItems: "center",
             }}
           >
@@ -236,9 +245,10 @@ function DataBlock(props: DataBlockProps) {
               height: "100%",
               // background: "beige",
               // opacity: 0.75,
+              paddingLeft: "2rem",
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "start",
             }}
           >
             <ExceedanceBucket

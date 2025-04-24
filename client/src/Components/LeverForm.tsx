@@ -102,7 +102,17 @@ function LeverForm(props: LeverFormProps) {
   } else {
     return (
       <div style={styles.coreblock}>
-        <button onClick={toggleMinimized}>minimize</button>
+        <button
+          onClick={toggleMinimized}
+          style={{
+            background: "white",
+            border: "0px",
+            borderRadius: "0.5rem",
+            padding: "10px",
+          }}
+        >
+          minimize
+        </button>
 
         <div>
           <div style={styles.titleQPair}>
@@ -254,7 +264,20 @@ function LeverForm(props: LeverFormProps) {
           <label htmlFor="4">No D1641 flow or salinity requirements</label>
         </div>
 
-        <button onClick={submission}>Submit</button>
+        <button
+          onClick={() => {
+            submission();
+            setMinimized(true);
+          }}
+          style={{
+            background: "white",
+            border: "0px",
+            borderRadius: "0.5rem",
+            padding: "10px",
+          }}
+        >
+          Submit
+        </button>
       </div>
     );
   }
@@ -264,11 +287,11 @@ export default LeverForm;
 
 const styles = {
   coreblock: {
-    backgroundColor: "#FFFFFFA0",
+    backgroundColor: "#FFFFFF80",
     backdropFilter: "blur(8px)",
-    border: "black 2px solid",
+    // border: "black 1px solid",
     borderRadius: "0.5rem",
-    boxShadow: "3px 4px 10px rgb(180, 180, 180)",
+    boxShadow: "0px 0px 10px rgb(213, 213, 213)",
     width: "25vmin",
     height: "full",
     margin: "10px",

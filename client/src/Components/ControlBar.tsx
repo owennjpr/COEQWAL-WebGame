@@ -53,9 +53,9 @@ function ControlBar(props: ControlBarProps) {
             style={{
               backgroundColor: "#FFFFFFA0",
               backdropFilter: "blur(8px)",
-              border: "black 2px solid",
+              // border: "black 2px solid",
               borderRadius: "0.5rem",
-              boxShadow: "0px 4px 10px rgb(180, 180, 180)",
+              boxShadow: "0px 1px 10px rgb(213, 213, 213)",
               height: 70,
               width: 70,
               margin: "5px",
@@ -92,80 +92,85 @@ function ControlBar(props: ControlBarProps) {
             }}
           >
             {scenario ? (
-              <p>Displaying results from scenario {scenario}</p>
+              <p>Displaying results</p>
             ) : (
               <p>
-                Press <span style={{ fontWeight: "bold" }}>Submit</span> to
-                display results
+                Press the <span style={{ fontWeight: "bold" }}>Submit</span> to
+                button to display results for a particular scenario
               </p>
             )}
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <p>Wet Years</p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                border: "2px black solid",
-                marginLeft: "0.5rem",
-                marginRight: "0.5rem",
-                borderRadius: "0.5rem",
-                overflow: "hidden",
-              }}
-            >
+          {scenario ? (
+            <>
+              {" "}
               <div
                 style={{
-                  width: 50,
-                  height: 38,
-                  background: "rgb(210, 255, 228)",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
-              />
-              <div
-                style={{
-                  width: 50,
-                  height: 38,
-                  background: "rgb(255, 247, 212)",
-                }}
-              />
-            </div>
-            <p>Dry Years</p>
-          </div>
-          <div style={styles.buttonContainer}>
-            <button
-              type="button"
-              onClick={scenario ? toggleCompare : () => null}
-              style={
-                compareType === "previous"
-                  ? styles.buttonActive
-                  : styles.buttonInactive
-              }
-            >
-              <p style={styles.buttonText}>Previous</p>
-            </button>
-            <button
-              type="button"
-              onClick={scenario ? toggleCompare : () => null}
-              style={
-                compareType === "baseline"
-                  ? styles.buttonActive
-                  : styles.buttonInactive
-              }
-            >
-              <p style={styles.buttonText}>Baseline</p>
-            </button>
-            <QButton
-              headerText="Changing Comparison Type:"
-              bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
-            />
-          </div>
-          <WarningsPopup warnings={scenario ? warnings : null} />
+              >
+                <p>Wet Years</p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    border: "1px black solid",
+                    marginLeft: "0.5rem",
+                    marginRight: "0.5rem",
+                    borderRadius: "0.5rem",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 50,
+                      height: 38,
+                      background: "rgb(210, 255, 228)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: 50,
+                      height: 38,
+                      background: "rgb(255, 247, 212)",
+                    }}
+                  />
+                </div>
+                <p>Dry Years</p>
+              </div>
+              <div style={styles.buttonContainer}>
+                <button
+                  type="button"
+                  onClick={scenario ? toggleCompare : () => null}
+                  style={
+                    compareType === "previous"
+                      ? styles.buttonActive
+                      : styles.buttonInactive
+                  }
+                >
+                  <p style={styles.buttonText}>Previous</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={scenario ? toggleCompare : () => null}
+                  style={
+                    compareType === "baseline"
+                      ? styles.buttonActive
+                      : styles.buttonInactive
+                  }
+                >
+                  <p style={styles.buttonText}>Baseline</p>
+                </button>
+                <QButton
+                  headerText="Changing Comparison Type:"
+                  bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
+                />
+              </div>
+              <WarningsPopup warnings={scenario ? warnings : null} />
+            </>
+          ) : null}
         </div>
       </div>
     );
@@ -179,9 +184,9 @@ const styles = {
     width: "100%",
     backgroundColor: "#FFFFFFA0",
     backdropFilter: "blur(8px)",
-    border: "black 2px solid",
+    // border: "black 2px solid",
     borderRadius: "0.5rem",
-    boxShadow: "0px 4px 10px rgb(180, 180, 180)",
+    boxShadow: "0px 1px 10px rgb(213, 213, 213)",
     margin: "5px",
     marginTop: "10px",
     marginRight: "10px",
@@ -200,13 +205,13 @@ const styles = {
   } as Style,
   buttonActive: {
     padding: "5px",
-    border: "2px solid black",
+    border: "1px solid black",
     borderRadius: "0.5rem",
     backgroundColor: "rgb(180, 255, 180)",
   } as Style,
   buttonInactive: {
     padding: "5px",
-    border: "2px solid black",
+    border: "1px solid black",
     borderRadius: "0.5rem",
     backgroundColor: "white",
   } as Style,

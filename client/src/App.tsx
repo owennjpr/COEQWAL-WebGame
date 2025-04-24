@@ -15,6 +15,7 @@ import {
 } from "./types";
 import LoadingSpinner from "./Components/LoadingSpinner";
 import DataBlock from "./Components/DataBlock";
+import WarningsPane from "./Components/WarningsPane";
 
 const App = () => {
   const [levers, setLevers] = useState<Levers>(null);
@@ -118,6 +119,7 @@ const App = () => {
               }}
             >
               <DataBlock ds={dataState} compare={compareState} />
+              <WarningsPane warnings={warnings} />
             </div>
           )}
         </div>
