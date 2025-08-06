@@ -102,24 +102,43 @@ function LeverForm(props: LeverFormProps) {
   } else {
     return (
       <div style={styles.coreblock}>
-        <button
-          onClick={toggleMinimized}
-          style={{
-            background: "white",
-            border: "0px",
-            borderRadius: "0.5rem",
-            padding: "10px",
-          }}
-        >
-          minimize
-        </button>
+        <div className="buttonBorder">
+          <button onClick={toggleMinimized} className="buttonInner">
+            minimize
+          </button>
+        </div>
 
         <div>
           <div style={styles.titleQPair}>
             <p style={styles.miniHeader}>Agriculture Demands</p>
             <QButton
               headerText="Agriculture Demands"
-              bodyText="this is an explanation of agriculture demands"
+              bodyText={
+                <div>
+                  Changing agriculture demands modifies the model's assumptions
+                  about crop water requirements, which can reflect shifts in
+                  cropping patterns, irrigation efficiency improvements, climate
+                  change impacts, or land use conversions. These demand changes
+                  directly affect the model's water allocation calculations, as
+                  agricultural users represent the largest category of water
+                  consumption in California's Central Valley. <br />
+                  <br /> When agricultural demands are reduced in - such as
+                  through improved irrigation efficiency or fallowing of
+                  farmland - it generally results in increased water
+                  availability for other uses, higher reservoir storage levels,
+                  and improved ability to meet environmental flow requirements
+                  during dry periods. Conversely, increasing agricultural
+                  demands typically leads to greater competition for limited
+                  water supplies, reduced deliveries to junior water rights
+                  holders during shortages, and increased pressure on
+                  reservoirs. <br />
+                  <br /> These scenarios are crucial for water planners to
+                  evaluate how changes in farming practices, drought response
+                  policies, or long-term agricultural trends might affect the
+                  overall reliability and sustainability of California's water
+                  system.
+                </div>
+              }
             />
           </div>
           <input
@@ -139,7 +158,23 @@ function LeverForm(props: LeverFormProps) {
             <p style={styles.miniHeader}>Carryover</p>
             <QButton
               headerText="Carryover"
-              bodyText="this is an explanation of carryover"
+              bodyText={
+                <div>
+                  Carryover reservoir storage refers to the water held in
+                  reservoirs at the end of a water year that is intentionally
+                  retained to provide supply security for the following year.
+                  This stored water serves as a critical buffer against
+                  hydrologic uncertainty, ensuring that water managers have
+                  supplies available even if the next year brings below-normal
+                  precipitation or extended drought conditions. <br /> <br />
+                  Carryover storage decisions require balancing current water
+                  demands against future risks, as releasing too much water in
+                  the present year could leave the system vulnerable to
+                  shortages, while holding too much water might mean missing
+                  opportunities to meet immediate needs or generate
+                  hydroelectric power.
+                </div>
+              }
             />
           </div>
           <input
@@ -165,7 +200,24 @@ function LeverForm(props: LeverFormProps) {
             <p style={styles.miniHeader}>Minimum Flow Requirements</p>
             <QButton
               headerText="Minimum Flow Requirements"
-              bodyText="this is an explanation of minimum flow requirements"
+              bodyText={
+                <div>
+                  Minimum flow requirements in California Central Valley rivers
+                  are legally mandated water releases designed to protect fish
+                  habitat, maintain water quality, and preserve ecosystem
+                  functions during critical periods. These flows are typically
+                  established through environmental regulations, water rights
+                  conditions, or biological opinions issued under the Endangered
+                  Species Act to protect threatened species like salmon,
+                  steelhead, and delta smelt. <br />
+                  <br />
+                  Meeting these minimum flows can create significant challenges
+                  for water managers, particularly during dry years when storage
+                  is limited and competing demands are high, often requiring
+                  difficult trade-offs between environmental protection and
+                  water deliveries to agricultural and urban users.
+                </div>
+              }
             />
           </div>
           <input
@@ -186,7 +238,17 @@ function LeverForm(props: LeverFormProps) {
             <p style={styles.miniHeader}>Distribution Priority</p>
             <QButton
               headerText="Distribution Priority"
-              bodyText="this is an explanation of distribution priority"
+              bodyText={
+                <div>
+                  The CalSim model prioritizes water deliveries based on
+                  established water right priorities, with environmental flow
+                  requirements and settlement contract obligations typically
+                  receiving high priority, followed by municipal and industrial
+                  users, and agricultural contractors receiving varying priority
+                  levels depending on their specific contract types and
+                  seniority.
+                </div>
+              }
             />
           </div>
           <input
@@ -215,7 +277,34 @@ function LeverForm(props: LeverFormProps) {
             <p style={styles.miniHeader}>Delta Regulations</p>
             <QButton
               headerText="Delta Regulations"
-              bodyText="this is an explanation of delta regulations"
+              bodyText={
+                <div>
+                  The California Delta is regulated through water quality
+                  standards that control salinity levels, most notably through
+                  the "X2" standard - the point identified by its distance from
+                  the Golden Gate Bridge where salinity at the river's bottom is
+                  about 2 parts per thousand (ppt). Salinity in the Delta is
+                  regulated to protect municipal and industrial, agricultural,
+                  and fish and wildlife uses, and if the saltwater intrudes too
+                  far into the Delta, it can make the water unusable. <br />
+                  <br />
+                  The State Water Resources Control Board sets these standards
+                  through the Bay Delta Water Quality Control Plan, which
+                  establishes minimum freshwater flow requirements and maximum
+                  salinity levels at various monitoring stations throughout the
+                  Delta.
+                  <br />
+                  <br />
+                  When these regulations are changed - such as requiring X2 to
+                  be maintained further upstream (lower km distance from the
+                  Golden Gate) - it typically requires increased freshwater
+                  releases from upstream reservoirs, which reduces water
+                  available for other uses but provides better habitat
+                  conditions for endangered fish species like delta smelt and
+                  improves water quality for agricultural and municipal users
+                  downstream.
+                </div>
+              }
             />
           </div>
           <input
@@ -263,21 +352,17 @@ function LeverForm(props: LeverFormProps) {
           />
           <label htmlFor="4">No D1641 flow or salinity requirements</label>
         </div>
-
-        <button
-          onClick={() => {
-            submission();
-            setMinimized(true);
-          }}
-          style={{
-            background: "white",
-            border: "0px",
-            borderRadius: "0.5rem",
-            padding: "10px",
-          }}
-        >
-          Submit
-        </button>
+        <div className="buttonBorder">
+          <button
+            onClick={() => {
+              submission();
+              setMinimized(true);
+            }}
+            className="buttonInner"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     );
   }

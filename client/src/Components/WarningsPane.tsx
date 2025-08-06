@@ -119,9 +119,14 @@ const WarningsPane = (props: WarningsPopupProps) => {
           <p style={styles.titleText}>Warnings</p>
           {warningList.map((item) => {
             return (
-              <div style={styles.warningBox}>
-                <WarningSymbol style={styles.warnSymbol} />
-                <p>{item}</p>
+              <div
+                className="buttonBorder"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                <div style={styles.warningBox}>
+                  <WarningSymbol style={styles.warnSymbol} />
+                  <p>{item}</p>
+                </div>
               </div>
             );
           })}
@@ -143,8 +148,6 @@ const styles = {
     gap: 10,
     border: "white solid 1px",
     borderRadius: "0.5rem",
-    marginTop: 10,
-    marginBottom: 10,
     paddingLeft: 10,
   } as Style,
   warnSymbol: {

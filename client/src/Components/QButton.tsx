@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import QuestionSVG from "../svgs/QuestionSVG";
 import ReactModal from "react-modal";
 
 interface QButtonProps {
   headerText: string;
-  bodyText: string;
+  bodyText: ReactNode;
   imageRef?: string;
   imageAlt?: string;
 }
@@ -14,7 +14,7 @@ const QButton = (props: QButtonProps) => {
   const [show, setShow] = useState<boolean>(false);
   return (
     <div>
-      <div onClick={() => setShow(true)}>
+      <div onClick={() => setShow(true)} style={{ marginTop: 4 }}>
         <QuestionSVG />
       </div>
       <ReactModal
@@ -39,7 +39,7 @@ const QButton = (props: QButtonProps) => {
             borderRadius: "0.5rem",
             boxShadow: "2px 3px 15px rgb(213, 213, 213)",
             backgroundColor: "#FFFFFFD0",
-            backdropFilter: "blur(8px)",
+            backdropFilter: "blur(12px)",
           },
         }}
         shouldCloseOnOverlayClick={true}
@@ -50,7 +50,7 @@ const QButton = (props: QButtonProps) => {
           {imageRef ? (
             <img src={imageRef} alt={imageAlt ?? "missing alt text"} />
           ) : null}
-          <p>{bodyText}</p>
+          {bodyText}
         </div>
       </ReactModal>
     </div>

@@ -140,56 +140,58 @@ const TutorialPopUp = () => {
           justifyContent: "space-between",
         }}
       >
-        <button
-          onClick={() => setVisible(false)}
-          style={{
-            background: "white",
-            border: "0px",
-            borderRadius: "0.5rem",
-            padding: "5px",
-            paddingLeft: "20px",
-            paddingRight: "20px",
-          }}
-        >
-          <p>Skip</p>
-        </button>
+        <div className="buttonBorder">
+          <button
+            onClick={() => setVisible(false)}
+            className="buttonInner"
+            style={{
+              padding: "5px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+            }}
+          >
+            <p>Skip</p>
+          </button>
+        </div>
         <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <button
-            onClick={() => {
-              if (page !== 0) {
-                setPage(page - 1);
-              }
-            }}
-            style={{
-              background: "white",
-              border: "0px",
-              borderRadius: "0.5rem",
-              padding: "5px",
-              paddingLeft: "20px",
-              paddingRight: "20px",
-            }}
-          >
-            <p style={page === 0 ? { opacity: 0 } : { opacity: 1 }}>Previous</p>
-          </button>
-          <button
-            onClick={() => {
-              if (page === 4) {
-                setVisible(false);
-              } else {
-                setPage(page + 1);
-              }
-            }}
-            style={{
-              background: "white",
-              border: "0px",
-              borderRadius: "0.5rem",
-              padding: "5px",
-              paddingLeft: "20px",
-              paddingRight: "20px",
-            }}
-          >
-            <p>{page === 4 ? "End" : "Next"}</p>
-          </button>
+          <div className="buttonBorder">
+            <button
+              onClick={() => {
+                if (page !== 0) {
+                  setPage(page - 1);
+                }
+              }}
+              className="buttonInner"
+              style={{
+                padding: "5px",
+                paddingLeft: "20px",
+                paddingRight: "20px",
+              }}
+            >
+              <p style={page === 0 ? { opacity: 0 } : { opacity: 1 }}>
+                Previous
+              </p>
+            </button>
+          </div>
+          <div className="buttonBorder">
+            <button
+              onClick={() => {
+                if (page === 4) {
+                  setVisible(false);
+                } else {
+                  setPage(page + 1);
+                }
+              }}
+              className="buttonInner"
+              style={{
+                padding: "5px",
+                paddingLeft: "20px",
+                paddingRight: "20px",
+              }}
+            >
+              <p>{page === 4 ? "End" : "Next"}</p>
+            </button>
+          </div>
         </div>
       </div>
     </ReactModal>

@@ -29,3 +29,44 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.buttonBorder {
+    background: linear-gradient(-45deg, #f1fbff, #dadaf0, #d2ecf6, #ecf2ff);
+    border-radius: 0.5rem;
+    padding: 2px;
+}
+
+.buttonBorder:hover {
+	background:linear-gradient(-45deg, #dadaf0,#f1fbff, #ecf2ff, #d2ecf6);
+}
+
+.buttonInner {
+    width: 100%;
+    border: 0px;
+    background: white;
+    border-radius: 0.35rem;
+    padding: 8px;
+	transition: all;  
+	transition-duration: 300ms;   
+
+}
+.buttonInnerInactive {
+    width: 100%;
+    border: 0px;
+    background: white;
+	opacity: 0.5;
+    border-radius: 0.35rem;
+    padding: 8px;
+	transition: all;  
+	transition-duration: 300ms;   
+
+}
+
+.buttonInner:hover {
+	opacity: 1;
+	background: transparent;
+}
+.buttonInnerInactive:hover {
+	opacity: 1;
+	background: transparent;
+}

@@ -139,33 +139,80 @@ function ControlBar(props: ControlBarProps) {
                   />
                 </div>
                 <p>Dry Years</p>
+                <div style={{ paddingLeft: 8 }}>
+                  <QButton
+                    headerText="Changing Comparison Type:"
+                    bodyText={
+                      <div>
+                        Wet and dry years create dramatically different water
+                        management challenges, requiring flexible operational
+                        strategies and long-term planning. During wet years,
+                        water managers must balance flood control with water
+                        storage, making critical decisions about reservoir
+                        releases to prevent downstream flooding while capturing
+                        as much water as possible for future dry periods.
+                        <br />
+                        <br />
+                        Conversely, dry years force difficult allocation
+                        decisions among competing water users, requiring careful
+                        rationing of stored supplies and sometimes triggering
+                        emergency conservation measures. The cyclical nature of
+                        California's hydrology, with multi-year droughts
+                        followed by periods of abundant rainfall, makes it
+                        essential for water systems to be designed with
+                        sufficient storage capacity and operational flexibility
+                        to smooth out these natural variations.
+                        <br />
+                        <br /> Understanding wet versus dry year patterns is
+                        fundamental to developing resilient water management
+                        policies that can maintain reliable supplies for all
+                        needs across the full range of climatic conditions.
+                      </div>
+                    }
+                  />
+                </div>
               </div>
               <div style={styles.buttonContainer}>
-                <button
-                  type="button"
-                  onClick={scenario ? toggleCompare : () => null}
-                  style={
-                    compareType === "previous"
-                      ? styles.buttonActive
-                      : styles.buttonInactive
-                  }
-                >
-                  <p style={styles.buttonText}>Previous</p>
-                </button>
-                <button
-                  type="button"
-                  onClick={scenario ? toggleCompare : () => null}
-                  style={
-                    compareType === "baseline"
-                      ? styles.buttonActive
-                      : styles.buttonInactive
-                  }
-                >
-                  <p style={styles.buttonText}>Baseline</p>
-                </button>
+                <div className="buttonBorder">
+                  <button
+                    type="button"
+                    onClick={scenario ? toggleCompare : () => null}
+                    className={
+                      compareType === "previous"
+                        ? "buttonInner"
+                        : "buttonInnerInactive"
+                    }
+                  >
+                    <p style={styles.buttonText}>Previous</p>
+                  </button>
+                </div>
+                <div className="buttonBorder">
+                  <button
+                    type="button"
+                    onClick={scenario ? toggleCompare : () => null}
+                    className={
+                      compareType === "baseline"
+                        ? "buttonInner"
+                        : "buttonInnerInactive"
+                    }
+                  >
+                    <p style={styles.buttonText}>Baseline</p>
+                  </button>
+                </div>
                 <QButton
                   headerText="Changing Comparison Type:"
-                  bodyText="Select between comparing the current scenario with either the operational baseline or the previously selected scenario."
+                  bodyText={
+                    <div>
+                      Allows you to decide whether to compare with your previous
+                      submission or the operational baseline. <br />
+                      <br />
+                      The baseline serves as the benchmark against which
+                      proposed water infrastructure projects and operational
+                      changes are compared, allowing water managers to assess
+                      the impacts of different alternatives on water deliveries,
+                      reservoir operations, and environmental conditions.
+                    </div>
+                  }
                 />
               </div>
               <WarningsPopup warnings={scenario ? warnings : null} />
@@ -204,15 +251,13 @@ const styles = {
   } as Style,
   buttonActive: {
     padding: "5px",
-    borderRadius: "0.5rem",
     border: "0px",
-    backgroundColor: "rgb(209, 249, 255)",
+    // backgroundColor: "rgb(209, 249, 255)",
   } as Style,
   buttonInactive: {
     padding: "5px",
-    borderRadius: "0.5rem",
     border: "0px",
-    backgroundColor: "white",
+    // backgroundColor: "white",
   } as Style,
   buttonText: {
     fontSize: 14,

@@ -71,13 +71,17 @@ function WarningsPopup(props: WarningsPopupProps) {
 
   return (
     <div>
-      <button
-        style={styles.buttonInactive}
-        onClick={warnings ? () => setVisible(true) : () => null}
-      >
-        <p style={styles.buttonText}>Show Warnings</p>
-        <p style={styles.warningNum}>({warningList.length})</p>
-      </button>
+      <div className="buttonBorder">
+        <button
+          // style={styles.buttonInactive}
+          className="buttonInner"
+          style={{ display: "flex", gap: 4 }}
+          onClick={warnings ? () => setVisible(true) : () => null}
+        >
+          <p style={styles.buttonText}>Show Warnings</p>
+          <p style={styles.warningNum}>({warningList.length})</p>
+        </button>
+      </div>
       <ReactModal
         className={"overlay"}
         isOpen={visible}
@@ -121,9 +125,14 @@ function WarningsPopup(props: WarningsPopupProps) {
         <div>
           {warningList.map((item) => {
             return (
-              <div style={styles.warningBox}>
-                <WarningSymbol style={styles.warnSymbol} />
-                <p>{item}</p>
+              <div
+                className="buttonBorder"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                <div style={styles.warningBox}>
+                  <WarningSymbol style={styles.warnSymbol} />
+                  <p>{item}</p>
+                </div>
               </div>
             );
           })}
@@ -170,8 +179,6 @@ const styles = {
     gap: 10,
     border: "white solid 1px",
     borderRadius: "0.5rem",
-    marginTop: 10,
-    marginBottom: 10,
     paddingLeft: 10,
   } as Style,
   warnSymbol: {
