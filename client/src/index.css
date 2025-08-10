@@ -38,6 +38,7 @@ code {
 
 .buttonBorder:hover {
 	background:linear-gradient(-45deg, #dadaf0,#f1fbff, #ecf2ff, #d2ecf6);
+	/* background: linear-gradient(-45deg, #c1c1ea,#cceefb, #aec2ee, #a4d1e2); */
 }
 
 .buttonInner {
@@ -69,4 +70,14 @@ code {
 .buttonInnerInactive:hover {
 	opacity: 1;
 	background: transparent;
+}
+
+
+.clickable {
+	transition: opacity;
+	transition-duration: 200ms;
+	opacity: 1;
+}
+.clickable:hover {
+	opacity: 0.6;
 }

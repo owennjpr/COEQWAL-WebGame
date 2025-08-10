@@ -154,7 +154,6 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
           style={{
             ...styles.gradientBox,
             // background: wetTiers,
-            marginTop: "5px",
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -173,7 +172,18 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
           ></div>
           <img
             src="/NumberedDeltaOutline.png"
-            style={{ ...styles.image, position: "absolute" }}
+            style={{
+              ...styles.image,
+              position: "absolute",
+              transition: "opacity 0.2s ease",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.3";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "0.93";
+            }}
             alt="map of california delta"
           />
         </div>
@@ -185,6 +195,8 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
                   height: h,
                   width: w,
                   border: "2px solid black",
+                  borderBottomRightRadius: "2rem",
+                  overflow: "hidden",
                   display: "flex",
                   flexDirection: "row",
                 }}
@@ -263,7 +275,6 @@ const styles = {
   },
   barContainer: {
     gridRow: "1 / -1",
-    marginTop: "5px",
   },
   p0deltaWet: {
     backgroundColor: "#88c9A8",
@@ -321,6 +332,9 @@ const styles = {
     width: "100%",
     height: "100%",
     border: "2px solid black",
+    borderTopLeftRadius: "2rem",
+    borderBottomLeftRadius: "2rem",
+    overflow: "hidden",
   },
   image: {
     width: "100%",

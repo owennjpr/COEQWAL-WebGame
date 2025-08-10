@@ -149,6 +149,8 @@ function DataBlock(props: DataBlockProps) {
               data_wet={ds.wet_equity}
               compare_dry={compare.dry_equity_value}
               compare_wet={compare.wet_equity_value}
+              w={"6vmin"}
+              h="30vmin"
             />
           </div>
 

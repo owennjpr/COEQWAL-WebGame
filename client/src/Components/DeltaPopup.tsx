@@ -11,16 +11,17 @@ const DeltaPopup = (props: DeltaPopupProps) => {
   return (
     <div>
       <div onClick={() => setShow(true)}>
-        {/* <QuestionSVG /> */}
         <div
+          className="clickable"
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            background: "white",
+            background: "#FFFFFF88",
+            backdropFilter: "blur(2px)",
             padding: 10,
-            border: "2px black solid",
             borderRadius: "0.5rem",
+            boxShadow: "0px 1px 10px rgb(213, 213, 213)",
             cursor: "pointer",
           }}
         >
@@ -34,15 +35,27 @@ const DeltaPopup = (props: DeltaPopupProps) => {
           >
             Delta Salinity
           </p>
-          <img
-            src="/NumberedDeltaOutline.png"
+          <div
             style={{
-              width: "15vmin",
-              background: "red",
-              border: "2px black solid",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background:
+                "linear-gradient(-45deg, #c1c1ea,#cceefb, #aec2ee, #a4d1e2)",
+              padding: 3,
             }}
-            alt="map of california delta"
-          />
+          >
+            <img
+              src="/NumberedDeltaOutline.png"
+              style={{
+                width: "15vmin",
+                height: "auto",
+                background:
+                  "linear-gradient(-45deg, #c1c1ea,#cceefb, #aec2ee, #a4d1e2)",
+              }}
+              alt="map of california delta"
+            />
+          </div>
         </div>
       </div>
       <ReactModal
@@ -57,17 +70,20 @@ const DeltaPopup = (props: DeltaPopupProps) => {
             right: "auto",
             bottom: "auto",
             transform: "translate(-50%, -50%)",
-            width: "55%",
+            width: "60%",
             minWidth: 450,
+            maxWidth: "90vw",
             height: "65%",
+            maxHeight: "90vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            border: "black 2px solid",
             borderRadius: "0.5rem",
             boxShadow: "2px 3px 15px rgb(111, 111, 111)",
             backgroundColor: "#FFFFFFD0",
             backdropFilter: "blur(8px)",
+            overflow: "hidden",
+            boxSizing: "border-box",
           },
         }}
         shouldCloseOnOverlayClick={true}
@@ -80,9 +96,40 @@ const DeltaPopup = (props: DeltaPopupProps) => {
             padding: "1rem",
             width: "100%",
             height: "100%",
+            overflow: "hidden",
+            boxSizing: "border-box",
           }}
         >
-          {deltaVis}
+          <div
+            style={{
+              textAlign: "left",
+              marginBottom: "1rem",
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 0.5rem 0",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+            >
+              California Delta Salinity
+            </h1>
+            <p
+              style={{
+                margin: "0",
+                fontSize: "0.9rem",
+                color: "#666",
+                fontStyle: "italic",
+              }}
+            >
+              The x2 levels, etc
+            </p>
+          </div>
+          <div style={{ flex: 1, overflow: "hidden", paddingBottom: "1rem" }}>
+            {deltaVis}
+          </div>
         </div>
       </ReactModal>
     </div>

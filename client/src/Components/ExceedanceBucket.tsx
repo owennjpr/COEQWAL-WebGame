@@ -95,9 +95,12 @@ function ExceedanceBucket(props: ExceedanceBucketProps) {
               height: h,
               width: w,
               border: "2px solid black",
+              borderRadius: "1rem 0px 1rem 1rem",
               display: "flex",
               flexDirection: "row",
               position: "relative",
+              overflow: "hidden", // Prevent internal content from overflowing the rounded border
+              background: "rgb(0, 50, 255)", // Optional: ensures no transparency at corners
             }}
           >
             <div

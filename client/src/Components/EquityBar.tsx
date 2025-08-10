@@ -10,19 +10,28 @@ interface EquityBarProps {
   data_wet: number;
   compare_dry: number;
   compare_wet: number;
+  w?: string;
+  h?: string;
 }
 
 function EquityBar(props: EquityBarProps) {
-  const { data_dry, data_wet, compare_dry, compare_wet } = props;
+  const {
+    data_dry,
+    data_wet,
+    compare_dry,
+    compare_wet,
+    w = "50px",
+    h = "300px",
+  } = props;
   const [compareDryColor, setCompareDryColor] =
     useState<string>("rgb(240, 240, 250)");
   const [compareWetColor, setCompareWetColor] =
     useState<string>("rgb(240, 240, 250)");
 
-  const [currDryPos, setCurrDryPos] = useState<string>("0px");
-  const [currWetPos, setCurrWetPos] = useState<string>("0px");
-  const [compDryPos, setCompDryPos] = useState<string>("0px");
-  const [compWetPos, setCompWetPos] = useState<string>("0px");
+  const [currDryPos, setCurrDryPos] = useState<string>("0%");
+  const [currWetPos, setCurrWetPos] = useState<string>("0%");
+  const [compDryPos, setCompDryPos] = useState<string>("0%");
+  const [compWetPos, setCompWetPos] = useState<string>("0%");
   const [arrowComponentDry, setArrowComponentDry] = useState(<div></div>);
   const [arrowComponentWet, setArrowComponentWet] = useState(<div></div>);
 
@@ -44,10 +53,10 @@ function EquityBar(props: EquityBarProps) {
     }
 
     if (compare_dry !== 0) {
-      const comp = String(((compare_dry - 0.41) / (0.88 - 0.41)) * 300) + "px";
+      const comp = String(((compare_dry - 0.41) / (0.88 - 0.41)) * 100) + "%";
       setCompDryPos(comp);
     }
-    let curr = String(((data_dry - 0.41) / (0.88 - 0.41)) * 300) + "px";
+    let curr = String(((data_dry - 0.41) / (0.88 - 0.41)) * 100) + "%";
     setCurrDryPos(curr);
 
     if (data_wet > compare_wet && compare_wet !== 0) {
@@ -67,10 +76,10 @@ function EquityBar(props: EquityBarProps) {
     }
 
     if (compare_wet !== 0) {
-      const comp = String(((compare_wet - 0.41) / (0.88 - 0.41)) * 300) + "px";
+      const comp = String(((compare_wet - 0.41) / (0.88 - 0.41)) * 100) + "%";
       setCompWetPos(comp);
     }
-    curr = String(((data_wet - 0.41) / (0.88 - 0.41)) * 300) + "px";
+    curr = String(((data_wet - 0.41) / (0.88 - 0.41)) * 100) + "%";
     setCurrWetPos(curr);
   }, [data_dry, compare_dry, data_wet, compare_wet]);
 
@@ -90,7 +99,7 @@ function EquityBar(props: EquityBarProps) {
       </div>
       <div style={styles.barContainer}>
         <p style={{ fontSize: 10 }}>more equitable</p>
-        <div style={styles.equityBar}>
+        <div style={{ ...styles.equityBar, height: h, width: w }}>
           <div
             style={{
               width: "100%",
@@ -157,8 +166,6 @@ const styles = {
   equityBar: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
-    height: 300,
-    width: 50,
     border: "2px solid black",
     borderRadius: "0.5rem",
     marginLeft: "1rem",

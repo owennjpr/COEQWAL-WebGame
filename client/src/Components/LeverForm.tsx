@@ -57,7 +57,9 @@ function LeverForm(props: LeverFormProps) {
     console.log(minflow);
   }, [minflow]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     // console.log(typeof(event.target.value));
     const { name, value } = event.target;
 
@@ -102,8 +104,38 @@ function LeverForm(props: LeverFormProps) {
   } else {
     return (
       <div style={styles.coreblock}>
+        <style>
+          {`
+            input[type="range"]::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              background: #333;
+              cursor: pointer;
+            }
+            input[type="range"]::-moz-range-thumb {
+              width: 16px;
+              height: 16px;
+              border-radius: 4px;
+              background: #333;
+              cursor: pointer;
+              border: none;
+            }
+          `}
+        </style>
         <div className="buttonBorder">
-          <button onClick={toggleMinimized} className="buttonInner">
+          <button
+            onClick={toggleMinimized}
+            className="buttonInner"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: "500",
+              letterSpacing: "0.5px",
+              textTransform: "capitalize",
+            }}
+          >
             minimize
           </button>
         </div>
@@ -149,8 +181,15 @@ function LeverForm(props: LeverFormProps) {
             step={10}
             defaultValue={demands}
             onChange={handleChange}
+            style={styles.rangeSlider}
           />
-          <label htmlFor="demands">{demands}% of Baseline</label> <br />
+          <label
+            htmlFor="demands"
+            style={{ fontSize: "0.8rem", color: "#666" }}
+          >
+            {demands}% of Baseline
+          </label>{" "}
+          <br />
         </div>
 
         <div>
@@ -186,11 +225,22 @@ function LeverForm(props: LeverFormProps) {
             value={carryover}
             defaultValue={carryover}
             onChange={handleChange}
+            style={styles.rangeSlider}
           />
           {carryover === "0" ? (
-            <label htmlFor="carryover">Baseline</label>
+            <label
+              htmlFor="carryover"
+              style={{ fontSize: "0.8rem", color: "#666" }}
+            >
+              Baseline
+            </label>
           ) : (
-            <label htmlFor="carryover">{carryover}% Increase</label>
+            <label
+              htmlFor="carryover"
+              style={{ fontSize: "0.8rem", color: "#666" }}
+            >
+              {carryover}% Increase
+            </label>
           )}
           <br />
         </div>
@@ -229,8 +279,11 @@ function LeverForm(props: LeverFormProps) {
             value={minflow}
             defaultValue={minflow}
             onChange={handleChange}
+            style={styles.rangeSlider}
           />
-          <div>{minflowSwitch()} unimpaired flow requirement</div>
+          <div style={{ fontSize: "0.8rem", color: "#666" }}>
+            {minflowSwitch()} unimpaired flow requirement
+          </div>
         </div>
 
         <div>
@@ -251,25 +304,24 @@ function LeverForm(props: LeverFormProps) {
               }
             />
           </div>
-          <input
-            type="radio"
-            id="priority-0"
-            name="priority"
-            value="0"
-            onChange={handleChange}
-            defaultChecked
-            required
-          />
-          <label htmlFor="0">existing tiers for allocation cuts</label> <br />
-          <input
-            type="radio"
-            id="priority-1"
-            name="priority"
-            value="1"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="1">shortages shared equally</label>
+          <div className="buttonBorder">
+            <select
+              name="priority"
+              value={priority}
+              onChange={handleChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: "none",
+                outline: "none",
+                borderRadius: "0.5rem",
+                backgroundColor: "#FFFFFFAA",
+              }}
+            >
+              <option value="0">1: existing tiers for allocation cuts</option>
+              <option value="1">2: shortages shared equally</option>
+            </select>
+          </div>
         </div>
 
         <div>
@@ -307,50 +359,36 @@ function LeverForm(props: LeverFormProps) {
               }
             />
           </div>
-          <input
-            type="radio"
-            id="delta-1"
-            name="delta"
-            value="1"
-            onChange={handleChange}
-            defaultChecked
-            required
-          />
-          <label htmlFor="1">Baseline, all D1641 regulations in place</label>{" "}
-          <br />
-          <input
-            type="radio"
-            id="delta-2"
-            name="delta"
-            value="2"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="2">
-            No flow reqt, NDO and Rio Vista flows turned off
-          </label>{" "}
-          <br />
-          <input
-            type="radio"
-            id="delta-3"
-            name="delta"
-            value="3"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="3">
-            No salinity reqt, station salinity & X2 requirements off
-          </label>{" "}
-          <br />
-          <input
-            type="radio"
-            id="delta-4"
-            name="delta"
-            value="4"
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="4">No D1641 flow or salinity requirements</label>
+          <div className="buttonBorder">
+            <select
+              name="delta"
+              value={delta}
+              onChange={handleChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: "none",
+                outline: "none",
+                backgroundColor: "#FFFFFFAA",
+                borderRadius: "0.5rem",
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+              }}
+            >
+              <option value="1">
+                1: Baseline, all D1641 regulations in place
+              </option>
+              <option value="2">
+                2: No flow reqt, NDO and Rio Vista flows turned off
+              </option>
+              <option value="3">
+                2: No salinity reqt, station salinity & X2 requirements off
+              </option>
+              <option value="4">
+                4: No D1641 flow or salinity requirements
+              </option>
+            </select>
+          </div>
         </div>
         <div className="buttonBorder">
           <button
@@ -359,6 +397,12 @@ function LeverForm(props: LeverFormProps) {
               setMinimized(true);
             }}
             className="buttonInner"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: "600",
+              letterSpacing: "0.5px",
+              textTransform: "capitalize",
+            }}
           >
             Submit
           </button>
@@ -378,7 +422,7 @@ const styles = {
     borderRadius: "0.5rem",
     boxShadow: "0px 0px 10px rgb(213, 213, 213)",
     width: "25vmin",
-    height: "full",
+    height: "fit-content",
     margin: "10px",
     padding: "10px",
     display: "flex",
@@ -407,5 +451,14 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     gap: "0.5rem",
+  } as Style,
+  rangeSlider: {
+    width: "100%",
+    height: "16px",
+    borderRadius: "4px",
+    outline: "none",
+    background: "linear-gradient(-45deg, #dadaf0, #e1ebff, #e4e2ff, #d2ecf6)",
+    WebkitAppearance: "none",
+    appearance: "none",
   } as Style,
 };
