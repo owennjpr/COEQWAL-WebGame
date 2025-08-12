@@ -69,6 +69,16 @@ function DataBlock(props: DataBlockProps) {
               // opacity: 0.75,
             }}
           >
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "10px",
+                fontWeight: "bold",
+                fontSize: "16px",
+              }}
+            >
+              Reservoirs
+            </div>
             <div style={styles.reservoirGrid}>
               <ExceedanceBucket
                 title="Trinity Level"
@@ -78,7 +88,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_trinity}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
               <ExceedanceBucket
                 title="Shasta"
                 data_wet={ds.wet_s_shasta}
@@ -87,7 +97,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_shasta}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
 
               <ExceedanceBucket
                 title="Oroville"
@@ -97,7 +107,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_oroville}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
 
               <ExceedanceBucket
                 title="Folsom"
@@ -107,7 +117,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_folsom}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
 
               <ExceedanceBucket
                 title="New Melones"
@@ -117,7 +127,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_newmelones}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
 
               <ExceedanceBucket
                 title="Millerton"
@@ -127,7 +137,7 @@ function DataBlock(props: DataBlockProps) {
                 compare_dry={compare.dry_s_millerton}
                 w={resSize}
                 h={resSize}
-              ></ExceedanceBucket>
+              />
             </div>
           </div>
 

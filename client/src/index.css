@@ -81,3 +81,25 @@ code {
 .clickable:hover {
 	opacity: 0.6;
 }
+
+/* WarningsPane responsive behavior */
+.warnings-pane {
+  display: none;
+  /* Smooth transition when appearing/disappearing */
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+@media (min-width: 1250px) {
+  .warnings-pane {
+    display: block;
+    opacity: 1;
+  }
+}
+
+/* For very large screens, allow the warnings pane to be a bit wider */
+/* @media (min-width: 1200px) {
+  .warnings-pane {
+    max-width: 450px;
+  }
+} */
