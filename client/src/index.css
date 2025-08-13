@@ -85,21 +85,22 @@ code {
 /* WarningsPane responsive behavior */
 .warnings-pane {
   display: none;
-  /* Smooth transition when appearing/disappearing */
-  transition: opacity 0.3s ease-in-out;
-  opacity: 0;
+  /* transition: opacity 0.3s ease-in-out; */
+  /* opacity: 0; */
 }
 
-@media (min-width: 1250px) {
+.warnings-button {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+
+}
+
+@media (min-width: 1400px) {
   .warnings-pane {
     display: block;
     opacity: 1;
   }
-}
-
-/* For very large screens, allow the warnings pane to be a bit wider */
-/* @media (min-width: 1200px) {
-  .warnings-pane {
-    max-width: 450px;
+  .warnings-button {
+    opacity: 0;
   }
-} */
+} 

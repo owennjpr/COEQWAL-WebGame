@@ -99,13 +99,13 @@ const WarningsList = (props: WarningsListProps) => {
   );
 
   return (
-    <div>
+    <>
       {warningList.map((item, index) =>
         renderWarningItem
           ? renderWarningItem(item, index)
           : defaultWarningItem(item, index)
       )}
-    </div>
+    </>
   );
 };
 

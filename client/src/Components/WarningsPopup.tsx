@@ -16,7 +16,7 @@ function WarningsPopup(props: WarningsPopupProps) {
 
   return (
     <div>
-      <div className="buttonBorder">
+      <div className="buttonBorder warnings-button">
         <button
           // style={styles.buttonInactive}
           className="buttonInner"

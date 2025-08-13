@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { Warnings } from "../types";
 import WarningsList from "./WarningsList";
 
@@ -22,11 +22,13 @@ const WarningsPane = (props: WarningsPopupProps) => {
         paddingLeft: 30,
         paddingRight: 30,
         margin: 10,
-        minWidth: 280,
-        maxWidth: 400,
-        flexShrink: 0,
+        marginLeft: 5,
+        marginRight: 10,
+        flex: 1,
+        minWidth: 0,
         // Ensure it doesn't take up space when hidden
         height: "fit-content",
+        boxSizing: "border-box",
       }}
     >
       <p style={styles.titleText}>Warnings</p>
