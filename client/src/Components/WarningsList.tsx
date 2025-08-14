@@ -119,8 +119,8 @@ const styles = {
     gap: 10,
     border: "white solid 1px",
     borderRadius: "0.5rem",
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   warnSymbol: {
     color: "rgb(255, 195, 15)",
