@@ -146,7 +146,7 @@ function LeverForm(props: LeverFormProps) {
             <QButton
               headerText="Agriculture Demands"
               bodyText={
-                <div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
                   Changing agriculture demands modifies the model's assumptions
                   about crop water requirements, which can reflect shifts in
                   cropping patterns, irrigation efficiency improvements, climate
@@ -198,7 +198,7 @@ function LeverForm(props: LeverFormProps) {
             <QButton
               headerText="Carryover"
               bodyText={
-                <div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
                   Carryover reservoir storage refers to the water held in
                   reservoirs at the end of a water year that is intentionally
                   retained to provide supply security for the following year.
@@ -251,7 +251,7 @@ function LeverForm(props: LeverFormProps) {
             <QButton
               headerText="Minimum Flow Requirements"
               bodyText={
-                <div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
                   Minimum flow requirements in California Central Valley rivers
                   are legally mandated water releases designed to protect fish
                   habitat, maintain water quality, and preserve ecosystem
@@ -292,7 +292,7 @@ function LeverForm(props: LeverFormProps) {
             <QButton
               headerText="Distribution Priority"
               bodyText={
-                <div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
                   The CalSim model prioritizes water deliveries based on
                   established water right priorities, with environmental flow
                   requirements and settlement contract obligations typically
@@ -330,7 +330,7 @@ function LeverForm(props: LeverFormProps) {
             <QButton
               headerText="Delta Regulations"
               bodyText={
-                <div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
                   The California Delta is regulated through water quality
                   standards that control salinity levels, most notably through
                   the "X2" standard - the point identified by its distance from

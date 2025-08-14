@@ -2,6 +2,7 @@ import React, { CSSProperties, useEffect, useState } from "react";
 import DownArrowSVG from "../svgs/DownArrowSVG";
 import UpArrowSVG from "../svgs/UpArrowSVG";
 import EmptyCircle from "../svgs/EmptyCircle";
+import QButton from "./QButton";
 
 type Style = CSSProperties;
 
@@ -88,14 +89,27 @@ function EquityBar(props: EquityBarProps) {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          width: "100%",
+          justifyContent: "center",
           alignItems: "center",
-          gap: 5,
+          gap: "0.5rem",
         }}
       >
-        <p style={{ color: "black", fontWeight: "bold", fontSize: 16 }}>
+        <div
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            fontSize: "16px",
+          }}
+        >
           Equity
-        </p>
+        </div>
+        <QButton
+          headerText="Equity"
+          bodyText={
+            <div style={{ fontSize: "0.8rem", color: "#666" }}>... </div>
+          }
+        />
       </div>
       <div style={styles.barContainer}>
         <p style={{ fontSize: 10 }}>more equitable</p>

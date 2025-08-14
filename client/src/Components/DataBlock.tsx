@@ -4,6 +4,7 @@ import { CompareState, DataState } from "../types";
 import EquityBar from "./EquityBar";
 import DeltaPopup from "./DeltaPopup";
 import DeltaSalinityVisual from "./DeltaSalinityVisual";
+import QButton from "./QButton";
 
 type Style = CSSProperties;
 
@@ -71,13 +72,35 @@ function DataBlock(props: DataBlockProps) {
           >
             <div
               style={{
-                textAlign: "center",
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
                 marginTop: "10px",
-                fontWeight: "bold",
-                fontSize: "16px",
+                gap: "0.5rem",
               }}
             >
-              Reservoirs
+              <div
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                }}
+              >
+                Reservoirs
+              </div>
+              <QButton
+                headerText="Reservoirs"
+                bodyText={
+                  <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                    Water is held in reservoirs, tanks, and other facilities for
+                    later use. Water storage allows California to capture water
+                    during wet periods and release it during dry periods,
+                    helping to balance supply and demand across seasons and
+                    years.
+                  </div>
+                }
+              />
             </div>
             <div style={styles.reservoirGrid}>
               <ExceedanceBucket

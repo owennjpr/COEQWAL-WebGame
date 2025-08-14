@@ -143,7 +143,7 @@ function ControlBar(props: ControlBarProps) {
                   <QButton
                     headerText="Changing Comparison Type:"
                     bodyText={
-                      <div>
+                      <div style={{ fontSize: "0.8rem", color: "#666" }}>
                         Wet and dry years create dramatically different water
                         management challenges, requiring flexible operational
                         strategies and long-term planning. During wet years,
@@ -202,7 +202,7 @@ function ControlBar(props: ControlBarProps) {
                 <QButton
                   headerText="Changing Comparison Type:"
                   bodyText={
-                    <div>
+                    <div style={{ fontSize: "0.8rem", color: "#666" }}>
                       Allows you to decide whether to compare with your previous
                       submission or the operational baseline. <br />
                       <br />

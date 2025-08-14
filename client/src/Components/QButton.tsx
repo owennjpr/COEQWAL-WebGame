@@ -31,7 +31,7 @@ const QButton = (props: QButtonProps) => {
             transform: "translate(-50%, -50%)",
             width: "35%",
             minWidth: 450,
-            height: "35%",
+            paddingBottom: "3rem",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
