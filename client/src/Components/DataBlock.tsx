@@ -93,11 +93,10 @@ function DataBlock(props: DataBlockProps) {
                 headerText="Reservoirs"
                 bodyText={
                   <div style={{ fontSize: "0.8rem", color: "#666" }}>
-                    Water is held in reservoirs, tanks, and other facilities for
-                    later use. Water storage allows California to capture water
-                    during wet periods and release it during dry periods,
-                    helping to balance supply and demand across seasons and
-                    years.
+                    Water is held in reservoirs and other facilities for later
+                    use. Water storage allows California to capture water during
+                    wet periods and release it during dry periods, helping to
+                    balance supply and demand across seasons and years.
                   </div>
                 }
               />

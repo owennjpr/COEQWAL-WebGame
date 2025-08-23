@@ -221,15 +221,16 @@ const TutorialPopUp = () => {
             <p style={{ color: "#666", fontSize: 18 }}>
               Once you have submitted your selections you will see some
               information and options added to the top bar. Water year type
-              (Wet/Dry) represents the differents between years with heavy
+              (Wet/Dry) represents the differences between years with heavy
               rainfall and years with light rainfall. All of the visuals on the
               dashboard will be split into these two categories via the colors
               above.
             </p>
             <p style={{ color: "#666", fontSize: 18 }}>
-              There is also the comparison type of previous/baseline. selecting
-              baseline will compare your current selections with the default,
-              and selecting previous will compare with your previous submission.
+              There is also the comparison type of previous/baseline. The
+              baseline represents the current operations. Selecting baseline
+              will compare your current selections with the default, and
+              selecting previous will compare with your previous submission.
             </p>
           </div>
         );
