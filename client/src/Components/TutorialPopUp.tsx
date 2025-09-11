@@ -1,64 +1,27 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import QButton from "./QButton";
 import WarningSymbol from "../svgs/WarningSymbol";
 type Style = CSSProperties;
 
-const TutorialPopUp = () => {
-  const [visible, setVisible] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(0);
+interface TutorialProps {
+  active: boolean;
+  setActive: (arg0: boolean) => void;
+}
+const TutorialPopUp = (props: TutorialProps) => {
+  const { active, setActive } = props;
+
+  const [visible, setVisible] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+
+  useEffect(() => {
+    console.log("active changed", active);
+    setVisible(active);
+    setPage(1);
+  }, [active]);
 
   const getRenderContent = () => {
     switch (page) {
-      case 0:
-        return (
-          <div>
-            <h1>Welcome to this California Water Management Dashboard</h1>
-            <p style={{ color: "#666", fontSize: 18 }}>
-              This project was created by{" "}
-              <a
-                style={{ color: "#829cb6" }}
-                href="https://owennjpr.github.io/portfolio/"
-              >
-                Owen Prendergast
-              </a>{" "}
-              in collaboration with UC Berkeley's{" "}
-              <a
-                style={{ color: "#829cb6" }}
-                href="https://live-coeqwal-ca.pantheon.berkeley.edu/"
-              >
-                Collaboratory for Equity in Water Allocation (COEQWAL)
-              </a>
-              . COEQWAL is a collaborative project focused on exploring
-              alternative water management decisions and supporting more
-              equitable and inclusive stewardship of California's water system.
-            </p>
-            <p style={{ color: "#666", fontSize: 18 }}>
-              This dashboard uses data from{" "}
-              <a
-                style={{ color: "#829cb6" }}
-                href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalLite"
-              >
-                CalLite
-              </a>
-              , a simplified version of{" "}
-              <a
-                style={{ color: "#829cb6" }}
-                href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3"
-              >
-                CalSim
-              </a>{" "}
-              which is used to model and predict the flow of water through
-              California. This site aggregates data from 600 CalLite scenarios
-              to create an interactive way to learn more about the challenges of
-              water management in California.
-            </p>
-            <p style={{ color: "#666", fontSize: 18 }}>
-              To get started, press next to continue through the tutorial, or
-              feel free to skip with the skip button.
-            </p>
-          </div>
-        );
       case 1:
         return (
           <div>
@@ -125,7 +88,7 @@ const TutorialPopUp = () => {
             </div>
 
             <p style={{ color: "#666", fontSize: 18 }}>
-              These controls on the left side of the screen are your way of
+              The controls on the left side of the screen are your way of
               interacting with this dashboard. There are 5 different fields you
               can adjust: Agriculture Demands, Reservoir Carryover, Minimum Flow
               Requirements, Distribution Priority, Delta Regulations.
@@ -333,9 +296,9 @@ const TutorialPopUp = () => {
           right: "auto",
           bottom: "auto",
           transform: "translate(-50%, -50%)",
-          width: "50%",
+          width: "60%",
           minWidth: 600,
-          height: "50%",
+          // height: "50%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -347,7 +310,8 @@ const TutorialPopUp = () => {
         },
       }}
       shouldCloseOnOverlayClick={false}
-      onRequestClose={() => setVisible(false)}
+      onRequestClose={() => setActive(false)}
+      shouldReturnFocusAfterClose={false}
     >
       {getRenderContent()}
 
@@ -360,7 +324,7 @@ const TutorialPopUp = () => {
       >
         <div className="buttonBorder">
           <button
-            onClick={() => setVisible(false)}
+            onClick={() => setActive(false)}
             className="buttonInner"
             style={{
               padding: "5px",
@@ -375,7 +339,7 @@ const TutorialPopUp = () => {
           <div className="buttonBorder">
             <button
               onClick={() => {
-                if (page !== 0) {
+                if (page !== 1) {
                   setPage(page - 1);
                 }
               }}
@@ -386,7 +350,7 @@ const TutorialPopUp = () => {
                 paddingRight: "20px",
               }}
             >
-              <p style={page === 0 ? { opacity: 0 } : { opacity: 1 }}>
+              <p style={page === 1 ? { opacity: 0 } : { opacity: 1 }}>
                 Previous
               </p>
             </button>
@@ -395,7 +359,7 @@ const TutorialPopUp = () => {
             <button
               onClick={() => {
                 if (page === 5) {
-                  setVisible(false);
+                  setActive(false);
                 } else {
                   setPage(page + 1);
                 }

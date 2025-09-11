@@ -53,10 +53,6 @@ function LeverForm(props: LeverFormProps) {
     setMinimized(!minimized);
   };
 
-  useEffect(() => {
-    console.log(minflow);
-  }, [minflow]);
-
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -223,7 +219,6 @@ function LeverForm(props: LeverFormProps) {
             max={20}
             step={10}
             value={carryover}
-            defaultValue={carryover}
             onChange={handleChange}
             style={styles.rangeSlider}
           />
@@ -277,7 +272,6 @@ function LeverForm(props: LeverFormProps) {
             max={5}
             step={1}
             value={minflow}
-            defaultValue={minflow}
             onChange={handleChange}
             style={styles.rangeSlider}
           />

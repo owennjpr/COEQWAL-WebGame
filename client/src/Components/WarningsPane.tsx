@@ -1,6 +1,7 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { CSSProperties } from "react";
 import { Warnings } from "../types";
 import WarningsList from "./WarningsList";
+import WarningSymbol from "../svgs/WarningSymbol";
 
 type Style = CSSProperties;
 
@@ -26,12 +27,23 @@ const WarningsPane = (props: WarningsPopupProps) => {
         marginRight: 10,
         flex: 1,
         minWidth: 0,
-        // Ensure it doesn't take up space when hidden
         height: "fit-content",
+        maxHeight: "80vh",
         boxSizing: "border-box",
+        overflowY: "scroll",
       }}
     >
-      <p style={styles.titleText}>Warnings</p>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "0.40rem",
+        }}
+      >
+        <WarningSymbol style={styles.warnSymbol} />
+        <p style={styles.titleText}>Warnings</p>
+      </div>
       <WarningsList warnings={warnings} />
     </div>
   );
@@ -44,4 +56,10 @@ const styles = {
     fontSize: 20,
     fontWeight: 600,
   } as Style,
+  warnSymbol: {
+    color: "rgb(255, 195, 15)",
+    minWidth: "16px",
+    minHeight: "16px",
+    flexShrink: 0,
+  },
 };

@@ -1,135 +1,27 @@
-import React, { useEffect, useState } from "react";
-import LeverForm from "./Components/LeverForm";
-import axios from "axios";
-import ControlBar from "./Components/ControlBar";
+import { useState } from "react";
+import Footer from "./Components/Footer";
+import GradientBG from "./Components/GradientBG";
+import NavBar from "./Components/NavBar";
 import TutorialPopUp from "./Components/TutorialPopUp";
-
-import {
-  DataState,
-  CompareState,
-  Warnings,
-  nullWarnings,
-  neutralCompare,
-  emptyDataState,
-  Levers,
-} from "./types";
-import LoadingSpinner from "./Components/LoadingSpinner";
-import DataBlock from "./Components/DataBlock";
-import WarningsPane from "./Components/WarningsPane";
+import Description from "./Pages/Description";
+import Landing from "./Pages/Landing";
+import Sim from "./Pages/Sim";
 
 const App = () => {
-  const [levers, setLevers] = useState<Levers>(null);
-  const [dataState, setDataState] = useState<DataState>(emptyDataState);
-  const [compareState, setCompareState] =
-    useState<CompareState>(neutralCompare);
-  const [warnings, setWarnings] = useState<Warnings>(nullWarnings);
-  const [compareType, setCompareType] = useState<string>("previous");
-  const [minimized, setMinimized] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [manualOverride, setManualOverride] = useState<boolean>(false);
-  const [fetchFailed, setFetchFailed] = useState<boolean>(false);
-
-  const handleSubmit = (res: Levers) => {
-    setLevers(res);
-  };
-
-  const handleCompareType = async (compare: string) => {
-    setLoading(true);
-    const data = await axios.post(`${process.env.REACT_APP_API_URL}/compare`, {
-      compare: compare,
-    });
-    setCompareState(data.data.compare);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (levers) {
-        setLoading(true);
-        try {
-          const data = await axios.post(
-            `${process.env.REACT_APP_API_URL}/submit`,
-            levers
-          );
-
-          setDataState(data.data.ds);
-          setCompareState(data.data.prev_compare);
-          setWarnings(data.data.warnings);
-          setLoading(false);
-          setFetchFailed(false);
-          setManualOverride(false);
-        } catch {
-          console.error("something went wrong, trying again");
-          if (!manualOverride) {
-            setFetchFailed(true);
-            fetchData();
-          } else {
-            setLoading(false);
-            setFetchFailed(false);
-            setManualOverride(false);
-          }
-        }
-      }
-    };
-
-    if (!manualOverride) {
-      fetchData();
-    }
-  }, [levers, manualOverride]);
-
+  const [tutorialActive, setTutorialActive] = useState<boolean>(false);
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <TutorialPopUp />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
+    <div>
+      <GradientBG />
+      {/* <NavBar /> */}
+      <Landing />
+      <Description
+        setTutorialActive={() => {
+          setTutorialActive(true);
         }}
-      >
-        <LeverForm
-          handleSubmit={handleSubmit}
-          minimized={minimized}
-          setMinimized={setMinimized}
-        />
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <ControlBar
-            scenario={dataState.scenario}
-            minimized={minimized}
-            setMinimized={setMinimized}
-            compareType={compareType}
-            setCompareType={setCompareType}
-            handleCompareType={handleCompareType}
-            warnings={warnings}
-          />
-          {!dataState.scenario ? null : (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <DataBlock ds={dataState} compare={compareState} />
-              <WarningsPane warnings={warnings} />
-            </div>
-          )}
-        </div>
-      </div>
-      {loading ? (
-        <LoadingSpinner
-          setManualOverride={setManualOverride}
-          fetchError={fetchFailed}
-        />
-      ) : null}
+      />
+      <TutorialPopUp active={tutorialActive} setActive={setTutorialActive} />
+      <Sim />
+      <Footer />
     </div>
   );
 };

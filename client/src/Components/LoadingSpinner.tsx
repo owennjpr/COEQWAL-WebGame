@@ -15,7 +15,7 @@ const LoadingSpinner = (props: LoadingSpinnerProps) => {
         //   "linear-gradient(-45deg,rgba(199, 223, 251, 0.3),rgba(177, 198, 253, 0.3),rgba(88, 211, 252, 0.5),rgba(85, 191, 248, 0.2))",
         // backgroundSize: "400% 400%",
         // animation: "gradient 10s ease infinite",
-        position: "fixed",
+        position: "absolute",
         top: 0,
         left: 0,
         width: "100%",

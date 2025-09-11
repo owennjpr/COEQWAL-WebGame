@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import WarningSymbol from "../svgs/WarningSymbol";
 import { Warnings } from "../types";
 
 interface WarningsListProps {
@@ -92,7 +91,6 @@ const WarningsList = (props: WarningsListProps) => {
       style={{ marginTop: 10, marginBottom: 10 }}
     >
       <div style={styles.warningBox}>
-        <WarningSymbol style={styles.warnSymbol} />
         <p style={{ fontSize: "0.8rem", color: "#666" }}>{warningText}</p>
       </div>
     </div>
@@ -119,8 +117,8 @@ const styles = {
     gap: 10,
     border: "white solid 1px",
     borderRadius: "0.5rem",
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   warnSymbol: {
     color: "rgb(255, 195, 15)",

@@ -15,6 +15,7 @@ interface ExceedanceBucketProps {
 
 function ExceedanceBucket(props: ExceedanceBucketProps) {
   const { title, data_wet, data_dry, compare_wet, compare_dry, w, h } = props;
+  console.log(title, data_wet, data_dry, compare_wet, compare_dry);
   const [wetBarHeights, setWetBarHeights] = useState("1fr");
   const [dryBarHeights, setDryBarHeights] = useState("1fr");
 
