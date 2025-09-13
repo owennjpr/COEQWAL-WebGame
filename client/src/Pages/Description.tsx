@@ -91,6 +91,8 @@ function Description(props: DescriptionProps) {
               <a
                 style={{ color: "#829cb6" }}
                 href="https://owennjpr.github.io/portfolio/"
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Owen Prendergast
               </a>{" "}
@@ -98,6 +100,8 @@ function Description(props: DescriptionProps) {
               <a
                 style={{ color: "#829cb6" }}
                 href="https://live-coeqwal-ca.pantheon.berkeley.edu/"
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Collaboratory for Equity in Water Allocation (COEQWAL)
               </a>
@@ -110,6 +114,8 @@ function Description(props: DescriptionProps) {
               <a
                 style={{ color: "#829cb6" }}
                 href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalLite"
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 CalLite
               </a>
@@ -117,6 +123,8 @@ function Description(props: DescriptionProps) {
               <a
                 style={{ color: "#829cb6" }}
                 href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3"
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 CalSim
               </a>{" "}
