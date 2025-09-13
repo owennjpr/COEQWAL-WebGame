@@ -27,7 +27,7 @@ function Landing() {
         <p
           style={{
             fontSize: "8vw",
-            fontWeight: "lighter",
+            fontWeight: 10,
             letterSpacing: "0.15em",
             margin: "0px",
             textAlign: "center",

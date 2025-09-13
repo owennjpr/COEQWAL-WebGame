@@ -125,7 +125,13 @@ const DeltaPopup = (props: DeltaPopupProps) => {
                 fontStyle: "italic",
               }}
             >
-              The x2 levels, etc
+              The California Delta is regulated through water quality standards
+              that control salinity levels, most notably through the "X2"
+              standard - the point identified by its distance from the Golden
+              Gate Bridge where salinity at the river's bottom is about 2 parts
+              per thousand (ppt) and is the basis for standards to protect
+              aquatic life. This map shows the x2 levels during wet (top) and
+              dry (bottom) years relative to the golden gate bridge in blue.
             </p>
           </div>
           <div style={{ flex: 1, overflow: "hidden", paddingBottom: "1rem" }}>

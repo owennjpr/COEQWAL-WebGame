@@ -38,7 +38,7 @@ const WarningsList = (props: WarningsListProps) => {
 
       if (warnings.deltaAlertDry) {
         warn_iter.push(
-          "High Delta Salinity levels during wet years. Water becomes unsuitable for agricultural irrigation and municipal use, fish habitat is degraded, and additional freshwater releases from upstream reservoirs are required to push the saltwater intrusion back toward San Francisco Bay."
+          "High Delta Salinity levels during dry years. Water becomes unsuitable for agricultural irrigation and municipal use, fish habitat is degraded, and additional freshwater releases from upstream reservoirs are required to push the saltwater intrusion back toward San Francisco Bay."
         );
       }
 
