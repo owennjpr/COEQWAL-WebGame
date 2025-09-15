@@ -15,7 +15,6 @@ const TutorialPopUp = (props: TutorialProps) => {
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    console.log("active changed", active);
     setVisible(active);
     setPage(1);
   }, [active]);

@@ -1,5 +1,8 @@
 run server with:
 cd server --> npx tsx server.ts
 
+changes to the server must be compiled to js to deploy with npx tsc 
+
+
 run app with:
 cd client --> npm run start

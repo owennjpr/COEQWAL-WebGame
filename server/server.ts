@@ -562,7 +562,7 @@ app.post("/compare", async (req, res) => {
       compare: compare,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 
@@ -604,7 +604,7 @@ app.post("/submit", async (req, res) => {
       warnings: warnings,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

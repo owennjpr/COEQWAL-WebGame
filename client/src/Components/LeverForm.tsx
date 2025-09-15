@@ -56,7 +56,6 @@ function LeverForm(props: LeverFormProps) {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    // console.log(typeof(event.target.value));
     const { name, value } = event.target;
 
     switch (name) {

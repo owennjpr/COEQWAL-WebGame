@@ -46,8 +46,6 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
       data_wet[1].val * scalar + adj,
     ];
 
-    // console.log(scaledValues);
-
     let tier = "linear-gradient(90deg, #ff6676 0%, ";
     tier += `#ff6676 ${String(scaledValues[0])}%,
            #ffad86 ${String(scaledValues[0])}%, `;
@@ -59,7 +57,6 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
            #88c9A8 ${String(scaledValues[3])}%,
            #88c9A8 100%)`;
 
-    // console.log(tier);
     setWetTiers(tier);
 
     if (compare_wet === -1) {
@@ -93,8 +90,6 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
       data_dry[1].val * scalar + adj,
     ];
 
-    // console.log(scaledValues);
-
     tier = "linear-gradient(90deg, #ff6656 0%, ";
     tier += `#ff6656 ${String(scaledValues[0])}%,
            #ffad56 ${String(scaledValues[0])}%, `;
@@ -106,7 +101,6 @@ function DeltaSalinityVisual(props: DeltaSalinityProps) {
            #88c978 ${String(scaledValues[3])}%,
            #88c978 100%)`;
 
-    // console.log(tier);
     setDryTiers(tier);
 
     if (compare_dry === -1) {
