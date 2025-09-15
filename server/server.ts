@@ -28,10 +28,10 @@ const app = express();
 // const port = process.env.PORT || 8080;
 
 // Debugging: Log incoming request origins
-app.use((req, res, next) => {
-  console.log("Request Origin:", req.headers.origin);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("Request Origin:", req.headers.origin);
+//   next();
+// });
 
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
@@ -41,10 +41,9 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
         callback(null, origin || true);
       } else {
-        console.error("cors failed: ", origin);
         callback(new Error("Not allowed: " + origin));
       }
     },
@@ -631,6 +630,10 @@ app.post("/submit", async (req, res) => {
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend is working!" });
+});
+
+app.get("/ping", (req, res) => {
+  res.json({ origin: req.headers.origin });
 });
 
 // app.listen(port, () => {
