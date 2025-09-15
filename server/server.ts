@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
-  "https://cal-water-vis.vercel.app/",
+  "https://cal-water-vis.vercel.app",
 ];
 
 app.use(
