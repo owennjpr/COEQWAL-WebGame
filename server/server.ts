@@ -27,11 +27,11 @@ dotenv.config();
 const app = express();
 // const port = process.env.PORT || 8080;
 
-// // Debugging: Log incoming request origins
-// app.use((req, res, next) => {
-//   console.log("Request Origin:", req.headers.origin);
-//   next();
-// });
+// Debugging: Log incoming request origins
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
+});
 
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
