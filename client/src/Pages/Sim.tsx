@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LeverForm from "../Components/LeverForm";
 import axios from "axios";
 import ControlBar from "../Components/ControlBar";
@@ -32,6 +32,7 @@ function Sim() {
   const [loading, setLoading] = useState<boolean>(false);
   const [manualOverride, setManualOverride] = useState<boolean>(false);
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
+  const failedFetchCount = useRef<number>(0);
 
   const handleSubmit = (res: Levers) => {
     setLevers(res);
@@ -47,9 +48,12 @@ function Sim() {
   };
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchData = async () => {
       if (!levers) return;
       setLoading(true);
+
       try {
         const data = await axios.post(
           `${process.env.REACT_APP_API_URL}/submit`,
@@ -62,17 +66,23 @@ function Sim() {
           }
         );
 
+        if (cancelled) return;
+
         setDataState(data.data.ds);
         setCompareState(data.data.prev_compare);
         setWarnings(data.data.warnings);
         setLoading(false);
         setFetchFailed(false);
         setManualOverride(false);
+        failedFetchCount.current = 0;
       } catch {
         console.error("something went wrong, trying again");
-        if (!manualOverride) {
+
+        if (!manualOverride && failedFetchCount.current < 5) {
           setFetchFailed(true);
-          fetchData();
+          failedFetchCount.current += 1;
+
+          setTimeout(fetchData, 1000);
         } else {
           setLoading(false);
           setFetchFailed(false);
@@ -80,9 +90,13 @@ function Sim() {
         }
       }
     };
-    if (!manualOverride) {
+
+    if (!manualOverride && failedFetchCount.current < 5) {
       fetchData();
     }
+    return () => {
+      cancelled = true;
+    };
   }, [levers, manualOverride]);
 
   return (
