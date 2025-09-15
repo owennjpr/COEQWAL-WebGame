@@ -27,11 +27,11 @@ dotenv.config();
 const app = express();
 // const port = process.env.PORT || 8080;
 
-// Debugging: Log incoming request origins
-app.use((req, res, next) => {
-  console.log("Request Origin:", req.headers.origin);
-  next();
-});
+// // Debugging: Log incoming request origins
+// app.use((req, res, next) => {
+//   console.log("Request Origin:", req.headers.origin);
+//   next();
+// });
 
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
@@ -42,29 +42,30 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin);
+        callback(null, origin || true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true,
     methods: "GET, POST, OPTIONS",
     allowedHeaders: "Content-Type, Authorization",
   })
 );
 
-// Ensure OPTIONS requests return proper CORS headers
-app.options("*", (req, res) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.sendStatus(204);
-  } else {
-    res.sendStatus(403);
-  }
-});
+// // Ensure OPTIONS requests return proper CORS headers
+// app.options("*", (req, res) => {
+//   const origin = req.headers.origin;
+//   if (origin && allowedOrigins.includes(origin)) {
+//     res.header("Access-Control-Allow-Origin", origin);
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     res.header("Access-Control-Allow-Credentials", "true");
+//     res.sendStatus(204);
+//   } else {
+//     res.sendStatus(403);
+//   }
+// });
 
 app.use(express.json());
 
