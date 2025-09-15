@@ -38,19 +38,19 @@ const allowedOrigins = [
   "https://cal-water-vis.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
-        callback(null, origin || true);
-      } else {
-        callback(new Error("Not allowed: " + origin));
-      }
-    },
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: "Content-Type, Authorization",
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
+//         callback(null, origin || true);
+//       } else {
+//         callback(new Error("Not allowed: " + origin));
+//       }
+//     },
+//     methods: ["GET", "POST", "OPTIONS"],
+//     allowedHeaders: "Content-Type, Authorization",
+//   })
+// );
 
 // // Ensure OPTIONS requests return proper CORS headers
 // app.options("*", (req, res) => {
