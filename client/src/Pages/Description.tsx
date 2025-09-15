@@ -49,7 +49,7 @@ function Description(props: DescriptionProps) {
           }}
         >
           <img
-            src="shasta-dam-reservoir.jpg"
+            src="/shasta-dam-reservoir.jpg"
             alt="the shasta dam"
             width={"35%"}
             style={{
@@ -135,7 +135,7 @@ function Description(props: DescriptionProps) {
             </p>
           </div>
           <img
-            src="delta_img.png"
+            src="/delta_img.png"
             alt="the shasta dam"
             width={"35%"}
             style={{
