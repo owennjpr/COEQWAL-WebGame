@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-// import bodyParser from "body-parser";
 const pg_1 = __importDefault(require("pg"));
 const constants_1 = require("./constants");
 const types_1 = require("./types");
@@ -21,7 +20,42 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
+// Debugging: Log incoming request origins
+// app.use((req, res, next) => {
+//   console.log("Request Origin:", req.headers.origin);
+//   next();
+// });
+const allowedOrigins = [
+    "https://coeqwal-web-game.vercel.app",
+    "https://cal-water-vis.vercel.app",
+];
+app.use((0, cors_1.default)({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
+            callback(null, origin || true);
+        }
+        else {
+            callback(new Error("Not allowed: " + origin));
+        }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: "Content-Type, Authorization",
+}));
+// // Ensure OPTIONS requests return proper CORS headers
+// app.options("*", (req, res) => {
+//   const origin = req.headers.origin;
+//   if (origin && allowedOrigins.includes(origin)) {
+//     res.header("Access-Control-Allow-Origin", origin);
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     res.header("Access-Control-Allow-Credentials", "true");
+//     res.sendStatus(204);
+//   } else {
+//     res.sendStatus(403);
+//   }
+// });
+app.use(express_1.default.json());
 const db = new pg_1.default.Client({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
@@ -30,27 +64,10 @@ const db = new pg_1.default.Client({
     // port: process.env.PG_PORT,
     ssl: true,
 });
-const allowedOrigins = [
-    "https://coeqwal-web-game.vercel.app",
-    "http://localhost:8081",
-];
-app.use((0, cors_1.default)({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, origin);
-        }
-        else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
-}));
 db.connect()
     .then(() => console.log("successfully connected to the db"))
     .catch((err) => console.error("db connection failed: ", err.stack));
-// app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express_1.default.json());
-// local db connection
+// // local db connection
 // const db = new pg.Client({
 //   user: "postgres",
 //   host: "localhost",
@@ -70,13 +87,11 @@ const tableExceedanceQuery = (scenario, wyt, tableName) => __awaiter(void 0, voi
     const result = yield db.query(`SELECT AVG(${scenario}) FROM ${tableName} WHERE wyt = '${wyt}' GROUP BY yr ORDER BY AVG(${scenario}) DESC`);
     const len = result.rows.length;
     const yrly_avgs = result.rows.map((row) => {
-        // console.log(row.sum);
         return row.avg;
     });
     let index = 0;
     const exceedance = yrly_avgs.map((avg) => {
         index += 1;
-        // console.log(100 * (index / parseFloat(len + 1.0)));
         return 100 * (index / len + 1.0);
     });
     const mk10 = Math.floor(len / 10);
@@ -84,11 +99,6 @@ const tableExceedanceQuery = (scenario, wyt, tableName) => __awaiter(void 0, voi
     const mk50 = Math.floor(len / 2);
     const mk70 = Math.floor((len * 7) / 10);
     const mk90 = Math.floor((len * 9) / 10);
-    // console.log(yrly_avgs[mk10].toFixed(2));
-    // console.log(yrly_avgs[mk30].toFixed(2));
-    // console.log(yrly_avgs[mk50].toFixed(2));
-    // console.log(yrly_avgs[mk70].toFixed(2));
-    // console.log(yrly_avgs[mk90].toFixed(2));
     const values = [
         { val: yrly_avgs[mk10].toFixed(2), prob: exceedance[mk10].toFixed(2) },
         { val: yrly_avgs[mk30].toFixed(2), prob: exceedance[mk30].toFixed(2) },
@@ -386,6 +396,9 @@ app.post("/submit", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 app.get("/", (req, res) => {
     res.json({ message: "Backend is working!" });
+});
+app.get("/ping", (req, res) => {
+    res.json({ origin: req.headers.origin });
 });
 // app.listen(port, () => {
 //   console.log("server started on port " + port);
