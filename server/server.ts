@@ -27,12 +27,6 @@ dotenv.config();
 const app = express();
 // const port = process.env.PORT || 8080;
 
-// Debugging: Log incoming request origins
-// app.use((req, res, next) => {
-//   console.log("Request Origin:", req.headers.origin);
-//   next();
-// });
-
 const allowedOrigins = [
   "https://coeqwal-web-game.vercel.app",
   "https://cal-water-vis.vercel.app",
@@ -51,20 +45,6 @@ app.use(
     allowedHeaders: "Content-Type, Authorization",
   })
 );
-
-// // Ensure OPTIONS requests return proper CORS headers
-// app.options("*", (req, res) => {
-//   const origin = req.headers.origin;
-//   if (origin && allowedOrigins.includes(origin)) {
-//     res.header("Access-Control-Allow-Origin", origin);
-//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     res.sendStatus(204);
-//   } else {
-//     res.sendStatus(403);
-//   }
-// });
 
 app.use(express.json());
 
@@ -629,11 +609,7 @@ app.post("/submit", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Backend is working!" });
-});
-
-app.get("/ping", (req, res) => {
-  res.json({ origin: req.headers.origin });
+  res.json({ message: "Backend online! :)" });
 });
 
 // app.listen(port, () => {
